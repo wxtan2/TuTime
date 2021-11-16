@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+*{
+    margin:0;
+    padding:0;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+body{
+    min-height:100vh;
+    color:white;
+}
+
+.navBar{
+    position:fixed;
+    top:0px;
+    left:0px;
+    bottom:0px;
+    box-sizing: initial;
+    background: linear-gradient(rgba(242,143,59,.65), rgba(242,143,59,.65)),
+    url('../image/Navigation.png');
+    transition: 0.5s;
+    width:13.54vw;
+}
+
+.navBar ul{
+    padding-top:9.11vw;
+    position:absolute;
+    top:0px;
+    left:0px;
+    transition: 0.5s;
+    width:100%;
+    padding-left:15px;
+}
+
+.navBar ul li{
+    position: relative;
+    width:100%;
+    list-style:none;
+    border-radius: 15px 0 0 15px ;
+}
+
+.navBar ul li.active{
+    background:#ffffff;
+}
+
+.navBar ul li a{
+    position: relative;
+    display: block;
+    width:100%;
+    display: flex;
+    text-decoration: none;
+    color:#ffffff;
+}
+
+.navBar ul li.active a{
+    color:#E87247;
+}
+
+.navBar ul li a .icon{
+    position: relative;
+    display: block;
+    min-width:55px;
+    text-align:center;
+    padding-top: 10px;
+
+}
+
+.navBar ul li.active a::before{
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: -15px;
+    right: 15px;
+    border-radius: 0 0 15px 0;
+    background-color: #E87247;
+    box-shadow: 7px 6px 0 5px #fff;
+}
+
+.navBar ul li.active a::after{
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 50px;
+    right: 15px;
+    border-radius: 0 15px 0 0;
+    background-color: #E87247;
+    box-shadow: 7px -6px 0 5px #fff;
+}
+
+.navBar ul li a .icon ion-icon{
+    font-size: 1.5em;
+}
+
+.navBar ul li a .title{
+    position: relative;
+    display: block;
+    line-height:50px;
+    white-space: normal;
+}
+
+.navWord{
+    font-size: 14px;
+    position: absolute;
+    left: 24px;
+    top: 7.29vw;
+    font-weight: 600;
+}
+
+.navLogo{
+    width:70%;
+    position: absolute;
+    left:50%;
+    transform:translateX(-50%);
+    top:2.08vw;
+}
