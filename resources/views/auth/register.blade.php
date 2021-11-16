@@ -15,7 +15,7 @@
     <div class="registerContent">
         <div class="welcomeBox">
             <div class="welcomeCenter">
-                <img src="../image/logo.svg" draggable="false" title="TuTime" alt="TuTime">
+                <img src="../image/logo.svg" title="TuTime12345" alt="TuTime">
 
                 <div class="welcomeWord">Welcome Back</div>
                 <div>Already have an account? Log in to keep connect between tutor and student</div>
