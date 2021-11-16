@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/nav.css') }}">
@@ -17,7 +18,7 @@
         <span class="navWord">NAVIGATION</span>
         <ul>
             <li class="list active">
-                <a href="" title="Timetable" alt="Timetable">
+                <a href="#" title="Timetable" alt="Timetable">
                     <span class="icon">
                         <ion-icon name="today-outline"></ion-icon>
                     </span>
@@ -25,7 +26,7 @@
                 </a>
             </li>
             <li class="list">
-                <a href="" title="Classes" alt="Classes">
+                <a href="#" title="Classes" alt="Classes">
                     <span class="icon">
                         <ion-icon name="book-outline"></ion-icon>
                     </span>
@@ -34,7 +35,7 @@
                 </a>
             </li>
             <li class="list">
-                <a href="" title="Students" alt="Students">
+                <a href="#" title="Students" alt="Students">
                     <span class="icon">
                         <ion-icon name="school-outline"></ion-icon>
                     </span>
@@ -43,7 +44,7 @@
                 </a>
             </li>
             <li class="list">
-                <a href="" title="Settings" alt="Settings">
+                <a href="#" title="Settings" alt="Settings">
                     <span class="icon">
                         <ion-icon name="settings-outline"></ion-icon>
                     </span>
@@ -55,23 +56,23 @@
     </nav>
     
     <script>
-    // $(document).ready(function(){
-    //     $(".list").on("click",function(){
-    //         $(".navBar").find(".list").removeClass("active");
-    //         $(this).addClass("active");
-    //     })
-    // })
+    $(document).ready(function(){
+        $(".list").on("click",function(){
+            $(".navBar").find(".list").removeClass("active");
+            $(this).addClass("active");
+        })
+    })
 
-        var list = document.querySelectorAll('.list');
-        for (var i = 0; i < list.length; i++) {
-            list[i].onclick = function() {
-                var j = 0;
-                while (j < list.length) {
-                    list[j++].className = 'list';
-                }
-                list[i].className = 'list active';
-            }
-        }
+        // let list = document.querySelectorAll('.list');
+        // for (let i = 0; i < list.length; i++) {
+        //     list[i].onclick = function() {
+        //         let j = 0;
+        //         while (j < list.length) {
+        //             list[j++].className = 'list';
+        //         }
+        //         list[i].className = 'list active';
+        //     }
+        // }
     </script>
     @yield('content')
 
