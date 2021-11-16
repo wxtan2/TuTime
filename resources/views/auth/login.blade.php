@@ -14,12 +14,9 @@
 
 <body>
     <div class="registerContent">
-
         <div class="registerBox">
-
             <div class="signCenter">
                 <img src="../image/logo-color.svg" title="TuTime" alt="TuTime">
-
                 <div class="signInWord">Sign in to TuTime</div>
                 <div class="formContainer">
                     <div class="userSelect">
