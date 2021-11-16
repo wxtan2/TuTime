@@ -21,7 +21,12 @@ Route::get('/register', [RegisterController::class,'index'])->name("register");
 // Route::get('/login', function () {
 //     return view('posts.index');
 // });
-
-Route::get('/posts', function () {
-    return view('posts.index');
+Route::get('/', function () {
+    return view('auth.login');
 })->name("login");
+
+
+
+// Route::get('/posts', function () {
+//     return view('posts.index');
+// })->name("login");

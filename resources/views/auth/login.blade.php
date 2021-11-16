@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/register.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/login.css') }}">
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <title>TuTime</title>
@@ -14,23 +14,19 @@
 
 <body>
     <div class="registerContent">
-        <div class="welcomeBox">
-            <div class="welcomeCenter">
-                <img src="../image/logo.svg" title="TuTime" alt="TuTime">
 
-                <div class="welcomeWord">Welcome Back</div>
-                <div>Already have an account? Log in to keep connect between tutor and student</div>
-                <a class="signButton" title="Sign In Now" alt="Sign In Now" href="{{ route('login') }}">SIGN IN</a>
-            </div>
-        </div>
         <div class="registerBox">
+
             <div class="signCenter">
-                <div class="signInWord">Create Account</div>
+                <img src="../image/logo-color.svg" title="TuTime" alt="TuTime">
+
+                <div class="signInWord">Sign in to TuTime</div>
                 <div class="formContainer">
                     <div class="userSelect">
                         <a class="userMenu selected" data-name="content-1" href="#" title="Tutor" alt="Tutor">Tutor</a>
                         <span style="padding:0 10px">|</span>
-                        <a href="#" class="userMenu" title="Student" data-name="content-2" alt="Student">Student</a>
+                        <a href="#" class="userMenu" title="Student" data-name="content-2"
+                            alt="Student">Student</a>
                     </div>
                     <div class="userContent" id="content-1">
                         <div class="textContainer">
@@ -41,10 +37,7 @@
                             <img src="../image/Pwd Icon.svg" draggable="false">
                             <input type="text" placeholder="Password" name="passwordTutor">
                         </div>
-                        <div class="textContainer">
-                            <img src="../image/Pwd Icon.svg" draggable="false">
-                            <input type="text" placeholder="Re-Type Password" name="2ndpasswordTutor">
-                        </div>
+
                         <a class="submitButton" title="Submit" alt="Submit" href="">SUBMIT</a>
                     </div>
                     <div class="userContent" id="content-2">
@@ -56,13 +49,19 @@
                             <img src="../image/Pwd Icon.svg" draggable="false">
                             <input type="text" placeholder="Password" name="passwordStudent">
                         </div>
-                        <div class="textContainer">
-                            <img src="../image/Pwd Icon.svg" draggable="false">
-                            <input type="text" placeholder="Re-Type Password" name="2ndpasswordStudent">
-                        </div>
-                        <a class="submitButton" title="Submit" alt="Submit" href="">SUBMIT</a>
+
+                        <a class="submitButton" title="Submit" alt="Submit" href="">SIGN IN</a>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="welcomeBox">
+            <div class="welcomeCenter">
+
+                <div class="welcomeWord">Hi, My Friend!</div>
+                <div>Sign up and start to manage your timetable in one click.</div>
+                <a class="signButton" title="Sign In Now" alt="Sign In Now" href="{{ route('register') }}">SIGN
+                    UP</a>
             </div>
         </div>
     </div>
