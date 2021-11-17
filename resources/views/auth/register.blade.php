@@ -11,7 +11,7 @@
                     <a href="#" class="userMenu" title="Student" data-name="content-2" alt="Student">Student</a>
                 </div>
                 <div class="userContent" id="content-1">
-                    <form action="{{ route('register') }}" method="post">
+                    <form id="tutorForm" action="{{ route('register') }}" method="post">
                         @csrf
 
                         <div class="textContainer @error('email') errorBorder @enderror">
@@ -44,6 +44,7 @@
                                 {{ $message }}
                             </div>
                         @enderror
+                        {{-- <a class="checkValidation submitButton">Check</a> --}}
 
                         <button class="submitButton" type="submit" title="Submit" alt="Submit">SUBMIT</button>
                     </form>
@@ -66,4 +67,39 @@
             </div>
         </div>
     </div>
+    <script>
+        // $('.checkValidation').click(function() {
+        //     $("#tutorForm").validate()({
+        //         rules: {
+        //             email: {
+        //                 required: true,
+        //                 email: true,
+        //             },
+        //             password: {
+        //                 required: true,
+        //                 minlength: 8,
+        //             },
+        //             password_confirmation: 'required',
+        //         },
+
+        //         message: {
+        //             email: {
+        //                 required: "Please enter your email",
+        //                 email: "Please enter a valid email address"
+        //             },
+        //             password: {
+        //                 required: "Please provide a password",
+        //                 minlength: "Your password must be at least 8 characters long"
+        //             },
+        //             password_confirmation: "Please re-enter your password",                   
+        //         },
+
+        //     })
+        // });
+
+
+        // $(function() {
+        //     $("#").validate();
+        // });
+    </script>
 @endsection

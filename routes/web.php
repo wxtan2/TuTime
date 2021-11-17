@@ -19,9 +19,8 @@ use App\Http\Controllers\Auth\RegisterController;
 Route::get('/register', [RegisterController::class,'index'])->name("register");
 Route::post('/register', [RegisterController::class,'storeTutor']);
 
-Route::get('/details', function () {
-        return view('auth.tutorDetails');
-    })->name("details");
+Route::get('/details', [TutorDetailsController::class,'index'])->name("details");
+// Route::get('/details', 'App\Http\Controllers\TutorDetailsController@index')->name("details");
 
 
 // Route::get('/login', function () {
@@ -32,8 +31,3 @@ Route::get('/', function () {
     return view('auth.login');
 })->name("login");
 
-
-
-// Route::get('/posts', function () {
-//     return view('posts.index');
-// })->name("login");

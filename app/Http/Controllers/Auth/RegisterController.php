@@ -16,6 +16,7 @@ class RegisterController extends Controller
 
     public function storeTutor(Request $request)
     {   
+
         $this->validate($request,[
             'email' => 'required|email|max:255',
             'password' => 'required|confirmed',
@@ -25,9 +26,14 @@ class RegisterController extends Controller
         User::create([
             'email' => $request -> email,
             'password' => Hash::make($request -> password),
+            'name' => "",
+            'username' => "",
+
         ]);
 
-        // return redirect() -> route('posts');
+
+
+        return redirect() -> route('details');
 
         // dd($request ->emailTutor);
         //store user
