@@ -17,10 +17,17 @@ use App\Http\Controllers\Auth\RegisterController;
 // });
 
 Route::get('/register', [RegisterController::class,'index'])->name("register");
+Route::post('/register', [RegisterController::class,'storeTutor']);
+
+Route::get('/details', function () {
+        return view('auth.tutorDetails');
+    })->name("details");
+
 
 // Route::get('/login', function () {
 //     return view('posts.index');
 // });
+
 Route::get('/', function () {
     return view('auth.login');
 })->name("login");

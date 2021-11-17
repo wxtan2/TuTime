@@ -169,10 +169,11 @@ html {
 .textContainer input {
     position: absolute;
     width: 289px;
-    top: 14px;
+    top: 2px;
     right: 0px;
     border: none;
     outline: transparent;
+    height: 40px;
 }
 
 @media screen and (min-width: 1400px) {
