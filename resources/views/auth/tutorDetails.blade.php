@@ -12,27 +12,27 @@
                         @csrf
 
                         <input class="textboxPlain @error('username') errorBorder @enderror" type="text" id="username"
-                            placeholder="Given Name" name="username" value="{{ old('username') }}"
-                            style="margin-bottom:20px">
+                            placeholder="Given Name" name="username" value="{{ old('username') }}">
                         @error('username')
                             <div class="errorMessage">
                                 {{ $message }}
                             </div>
                         @enderror
 
-                        <label for="DOB" style="font-size:16px">Date of Birth</label><br>
-                        <input class="textboxPlain @error('DOB') errorBorder @enderror" type="date" id="DOB"
-                            placeholder="DD / MM /YYYY" name="DOB" value="{{ old('DOB') }}"
-                            style="margin-top:0px;width:48%;padding-right:10px">
+                        <div style="margin-top:10px">
+                            <label for="DOB" style="font-size:16px">Date of Birth</label><br>
+                            <input class="textboxPlain @error('DOB') errorBorder @enderror" type="date" id="DOB"
+                                placeholder="DD / MM /YYYY" name="DOB" value="{{ old('DOB') }}"
+                                style="margin-top:0px;padding-right:10px">
+                        </div>
                         @error('DOB')
                             <div class="errorMessage">
                                 {{ $message }}
                             </div>
                         @enderror
 
-                        <input class="textboxPlain @error('phone') errorBorder @enderror" type="text" id="phone"
-                            placeholder="Mobile Phone" name="phone" value="{{ old('phone') }}"
-                            style="margin-top:0px;width:48%;float:right">
+                        <input class="textboxPlain @error('phone') errorBorder @enderror" type="tel" id="phone"
+                            placeholder="Mobile Phone" name="phone" value="{{ old('phone') }}" style="margin-top:20px;">
                         @error('phone')
                             <div class="errorMessage">
                                 {{ $message }}
@@ -63,15 +63,8 @@
                                     </td>
                                 </tr>
                             </table>
-                            {{-- <input class="radioButton" type="radio" id="male"
-                            name="gender" value="{{ old('gender') }}">
-                        <input class="radioButton" type="radio" id="female"
-                            name="gender" value="{{ old('gender') }}"> --}}
                         </div>
-
-
-
-                        <button class="submitButton" type="submit" title="Submit" alt="Submit">Next</button>
+                        <button class="submitButton" type="submit" title="Submit" alt="Submit">SIGN UP</button>
                     </form>
                 </div>
 
