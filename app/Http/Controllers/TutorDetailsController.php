@@ -25,7 +25,7 @@ class TutorDetailsController extends Controller
 
 
         // auth() -> attempt($request->only('email','password'));
-        // return redirect() -> route('details');
+        return redirect() -> route('dashboard');
 
     }
 }
