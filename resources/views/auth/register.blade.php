@@ -3,7 +3,7 @@
 @section('content')
     <div class="registerBox">
         <div class="signCenter">
-            <div class="signInWord">Create Account</div>
+            <div class="signInWord">Create Account Account</div>
             <div class="formContainer">
                 <div class="userSelect">
                     <a class="userMenu selected" data-name="content-1" href="#" title="Tutor" alt="Tutor">Tutor</a>
