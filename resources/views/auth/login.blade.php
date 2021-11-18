@@ -35,7 +35,7 @@
                             <input type="text" placeholder="Password" name="passwordTutor">
                         </div>
 
-                        <a class="submitButton" title="Submit" alt="Submit" href="">SUBMIT</a>
+                        <a class="submitButton" title="Submit" alt="Submit" href="{{'dashboard'}}">SUBMIT</a>
                     </div>
                     <div class="userContent" id="content-2">
                         <div class="textContainer">

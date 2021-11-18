@@ -23,10 +23,9 @@ Route::post('/register', [RegisterController::class,'storeTutor']);
 Route::get('/details', 'App\Http\Controllers\TutorDetailsController@index')->name("details");
 Route::post('/details', 'App\Http\Controllers\TutorDetailsController@storeTutorDetails');
 
-
-// Route::get('/login', function () {
-//     return view('posts.index');
-// });
+ Route::get('/dashboard', function () {
+   return view('layout.nav');
+})->name("dashboard");
 
 Route::get('/', function () {
     return view('auth.login');
