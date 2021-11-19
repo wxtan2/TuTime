@@ -16,7 +16,7 @@
     <div class="registerContent">
         <div class="registerBox">
             <div class="signCenter">
-                <img src="../image/logo-color.svg" title="TuTime" alt="TuTime">
+                <a href="{{'/'}}"><img src="{{URL::asset('/image/logo-color.svg')}}" title="TuTime" alt="TuTime"></a>
                 <div class="signInWord">Sign in to TuTime</div>
                 <div class="formContainer">
                     <div class="userSelect">
@@ -27,11 +27,11 @@
                     </div>
                     <div class="userContent" id="content-1">
                         <div class="textContainer">
-                            <img src="../image/mail.svg" draggable="false">
+                            <img src="{{URL::asset('/image/mail.svg')}}" draggable="false">
                             <input type="text" placeholder="Email" name="emailTutor">
                         </div>
                         <div class="textContainer">
-                            <img src="../image/Pwd Icon.svg" draggable="false">
+                            <img src="{{URL::asset('/image/Pwd Icon.svg')}}" draggable="false">
                             <input type="text" placeholder="Password" name="passwordTutor">
                         </div>
 
@@ -39,11 +39,11 @@
                     </div>
                     <div class="userContent" id="content-2">
                         <div class="textContainer">
-                            <img src="../image/mail.svg" draggable="false">
+                            <img src="{{URL::asset('/image/mail.svg')}}" draggable="false">
                             <input type="text" placeholder="Email" name="emailStudent">
                         </div>
                         <div class="textContainer">
-                            <img src="../image/Pwd Icon.svg" draggable="false">
+                            <img src="{{URL::asset('/image/Pwd Icon.svg')}}" draggable="false">
                             <input type="text" placeholder="Password" name="passwordStudent">
                         </div>
 
@@ -57,7 +57,7 @@
 
                 <div class="welcomeWord">Hi, My Friend!</div>
                 <div>Sign up and start to manage your timetable in one click.</div>
-                <a class="signButton" title="Sign In Now" alt="Sign In Now" href="{{ route('register') }}">SIGN
+                <a class="signButton" title="Sign In Now" alt="Sign In Now" href="{{ route('registerTutor') }}">SIGN
                     UP</a>
             </div>
         </div>

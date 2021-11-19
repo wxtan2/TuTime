@@ -14,7 +14,7 @@
 
 <body>
     <nav class="navBar">
-        <img class="navLogo" src="image/logo.svg"> 
+        <img class="navLogo" src="{{URL::asset('/image/logo.svg')}}">
         <span class="navWord">NAVIGATION</span>
         <ul>
             <li class="list active">
@@ -54,25 +54,38 @@
             </li>
         </ul>
     </nav>
-    
-    <script>
-    $(document).ready(function(){
-        $(".list").on("click",function(){
-            $(".navBar").find(".list").removeClass("active");
-            $(this).addClass("active");
-        })
-    })
+    @php
+        $username = auth()->user()->username;
+    @endphp
+    <div class="topMenu">
+        <div class="profileContainer" tabindex="1">
+            <div class="topMenuItem">
+                <div class="nameContainer">
+                    {{ $username }}
+                </div>
+                <div class="imgContainer">
+                    <img src="{{URL::asset('/image/profileIcon.svg')}}">
+                </div>
+            </div>
 
-        // let list = document.querySelectorAll('.list');
-        // for (let i = 0; i < list.length; i++) {
-        //     list[i].onclick = function() {
-        //         let j = 0;
-        //         while (j < list.length) {
-        //             list[j++].className = 'list';
-        //         }
-        //         list[i].className = 'list active';
-        //     }
-        // }
+            <div class="logoutContainer">
+
+                <a href="#" title="Logout" alt="Logout">
+                    <img src="{{URL::asset('/image/logout.svg')}}" alt="Logout" title="Logout" style="display: flex; float: left; padding-right: 12px; ">
+                    <span style="display: flex; float: right; padding-top: 4px;">Logout</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).ready(function() {
+            $(".list").on("click", function() {
+                $(".navBar").find(".list").removeClass("active");
+                $(this).addClass("active");
+            })
+        })
     </script>
     @yield('content')
 

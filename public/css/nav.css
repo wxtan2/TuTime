@@ -1,73 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
-*{
-    margin:0;
-    padding:0;
+* {
+    margin: 0;
+    padding: 0;
     font-family: 'Lato', sans-serif;
     font-size: 18px;
     font-weight: 300;
 }
 
-body{
-    min-height:100vh;
-    color:white;
+body {
+    min-height: 100vh;
+    color: white;
 }
 
-.navBar{
-    position:fixed;
-    top:0px;
-    left:0px;
-    bottom:0px;
+.navBar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
     box-sizing: initial;
-    background: linear-gradient(rgba(242,143,59,.65), rgba(242,143,59,.65)),
-    url('../image/Navigation.png');
+    background: linear-gradient(rgba(242, 143, 59, .65), rgba(242, 143, 59, .65)), url('../image/Navigation.png');
     transition: 0.5s;
-    width:13.54vw;
+    width: 13.54vw;
+    z-index: 101;
 }
 
-.navBar ul{
-    padding-top:9.11vw;
-    position:absolute;
-    top:0px;
-    left:0px;
+.navBar ul {
+    padding-top: 9.11vw;
+    position: absolute;
+    top: 0px;
+    left: 0px;
     transition: 0.5s;
-    width:100%;
-    padding-left:15px;
+    width: 100%;
+    padding-left: 15px;
 }
 
-.navBar ul li{
+.navBar ul li {
     position: relative;
-    width:100%;
-    list-style:none;
-    border-radius: 15px 0 0 15px ;
+    width: 100%;
+    list-style: none;
+    border-radius: 15px 0 0 15px;
 }
 
-.navBar ul li.active{
-    background:#ffffff;
+.navBar ul li.active {
+    background: #ffffff;
 }
 
-.navBar ul li a{
+.navBar ul li a {
     position: relative;
     display: block;
-    width:100%;
+    width: 100%;
     display: flex;
     text-decoration: none;
-    color:#ffffff;
+    color: #ffffff;
 }
 
-.navBar ul li.active a{
-    color:#E87247;
+.navBar ul li.active a {
+    color: #E87247;
 }
 
-.navBar ul li a .icon{
+.navBar ul li a .icon {
     position: relative;
     display: block;
-    min-width:55px;
-    text-align:center;
+    min-width: 55px;
+    text-align: center;
     padding-top: 10px;
-
 }
 
-.navBar ul li.active a::before{
+.navBar ul li.active a::before {
     content: '';
     position: absolute;
     width: 15px;
@@ -79,7 +78,7 @@ body{
     box-shadow: 7px 6px 0 5px #fff;
 }
 
-.navBar ul li.active a::after{
+.navBar ul li.active a::after {
     content: '';
     position: absolute;
     width: 15px;
@@ -91,18 +90,18 @@ body{
     box-shadow: 7px -6px 0 5px #fff;
 }
 
-.navBar ul li a .icon ion-icon{
+.navBar ul li a .icon ion-icon {
     font-size: 1.5em;
 }
 
-.navBar ul li a .title{
+.navBar ul li a .title {
     position: relative;
     display: block;
-    line-height:50px;
+    line-height: 50px;
     white-space: normal;
 }
 
-.navWord{
+.navWord {
     font-size: 14px;
     position: absolute;
     left: 24px;
@@ -110,10 +109,97 @@ body{
     font-weight: 600;
 }
 
-.navLogo{
-    width:70%;
+.navLogo {
+    width: 70%;
     position: absolute;
-    left:50%;
-    transform:translateX(-50%);
-    top:2.08vw;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 2.08vw;
+}
+
+.topMenu {
+    background-color: #ffffff;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    height: 45px;
+    z-index: 100;
+    margin-bottom: 15px;
+}
+
+.profileContainer {
+    position: relative;
+    margin-right: 15px;
+    margin-top: 5px;
+    float: right;
+}
+
+.topMenuItem {
+    height: 35px;
+    background: linear-gradient( 90deg, #FF6600 11.34%, #F0A769 87.65%, #F28F3B 100%);
+    border-radius: 100px;
+    width: fit-content;
+    min-width: 180px;
+    z-index: 10;
+    position: relative;
+    cursor: pointer;
+}
+
+.nameContainer {
+    padding: 0 7px 0 10px;
+    top: 9px;
+    position: relative;
+    float: left;
+    font-size: 16px;
+    text-align: center;
+    margin: auto;
+    width: calc(100% - 32px);
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    max-width: calc(180px - 32px);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.imgContainer {
+    padding: 0px 5px 0 0;
+    top: 4px;
+    position: relative;
+    width: 27px;
+    height: 27px;
+    display: flex;
+    float: right;
+}
+
+.logoutContainer {
+    position: absolute;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.15);
+    width: 180px;
+    height: 75px;
+    display: none;
+    border-radius: 20px;
+    right: 0px;
+    top: 5px;
+    z-index: 0;
+    transition: 0.3s;
+}
+
+.profileContainer:focus {
+    outline: 0;
+}
+
+.profileContainer:focus .logoutContainer {
+    display: block;
+    transition: 0.3s;
+}
+
+.logoutContainer a {
+    color: #808080;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
 }

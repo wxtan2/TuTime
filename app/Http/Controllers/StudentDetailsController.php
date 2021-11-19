@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class TutorDetailsController extends Controller
+class StudentDetailsController extends Controller
 {
     public function index()
     {
         //dd(auth() -> user());
-        return view('auth.tutorDetails');
+
+       
+        return view('auth.studentDetails');
     }
 
-    public function storeTutorDetails(Request $request)
+    public function storeStudentDetails(Request $request)
     {   
+        // dd(auth() -> student());
 
         $this->validate($request,[
             'username' => 'required',
@@ -25,7 +28,7 @@ class TutorDetailsController extends Controller
             'gender' => 'required',
         ]);
 
-        User::where('email', auth() -> user() -> email)
+        Student::where('email', auth() -> guard('students') -> user()-> email)
                 ->update(['username' => $request -> username,
                 'gender' => $request -> gender,
                 'phone' => $request -> phone,

@@ -4,11 +4,11 @@
     <div class="registerBox">
         <div class="signCenter">
             <div class="signInWord" style="margin-bottom: -20px;">Create Account</div>
-            <span style="font-size:20px;color:#F28F3B"><b>Tutor</b></span>
+            <span style="font-size:20px;color:#F28F3B"><b>Student</b></span>
             <div class="formContainer">
 
                 <div>
-                    <form action="{{ route('detailsTutor') }}" method="post">
+                    <form action="{{ route('detailsStudent') }}" method="post">
                         @csrf
 
                         <input class="textboxPlain @error('username') errorBorder @enderror" type="text" id="username"

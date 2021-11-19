@@ -17,27 +17,17 @@
     <div class="registerContent">
         <div class="welcomeBox">
             <div class="welcomeCenter">
-                <img src="../image/logo.svg" title="TuTime" alt="TuTime">
+                <a href="{{'/'}}"><img src="{{URL::asset('/image/logo.svg')}}" title="TuTime" alt="TuTime"></a>
 
                 <div class="welcomeWord">Welcome Back</div>
                 <div>Already have an account? Log in to keep connect between tutor and student</div>
                 <a class="signButton" title="Sign In Now" alt="Sign In Now" href="{{ route('login') }}">SIGN IN</a>
             </div>
         </div>
+
         @yield('content')
+
     </div>
 </body>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $(".userContent:not(#content-1)").hide();
-        $(".userMenu").on("click", function() {
-            $(".userSelect").find(".userMenu").removeClass("selected");
-            $(this).addClass("selected");
-            var obj = $(this).attr("data-name");
-            $(".userContent").hide();
-            $("#" + obj).fadeIn(300);
-        });
-    });
-</script>
 
 </html>
