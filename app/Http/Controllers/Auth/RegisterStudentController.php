@@ -54,7 +54,8 @@ class RegisterStudentController extends Controller
         } 
     
         else {        
-            return redirect() -> route('registerStudent');
+            return back() -> with('status','This email already taken, please check again');
+
         }
     }
 }

@@ -48,9 +48,7 @@ class RegisterTutorController extends Controller
         } 
     
         else {        
-            
-            return redirect() -> route('registerTutor');
-
+            return back() -> with('status','This email already taken, please check again');
         }
         
     }

@@ -189,6 +189,7 @@ body {
     outline: 0;
 }
 
+.profileContainer:hover .logoutContainer,
 .profileContainer:focus .logoutContainer {
     display: block;
     transition: 0.3s;

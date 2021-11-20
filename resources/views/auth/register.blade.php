@@ -15,7 +15,7 @@
                         @csrf
 
                         <div class="textContainer @error('email') errorBorder @enderror">
-                            <img src="../image/mail.svg" draggable="false">
+                            <img src="{{URL::asset('/image/mail.svg')}}" draggable="false">
                             <input type="text" id="email" placeholder="Email" name="email" value="{{ old('email') }}">
                         </div>
                         @error('email')
@@ -25,7 +25,7 @@
                         @enderror
 
                         <div class="textContainer @error('password') errorBorder @enderror">
-                            <img src="../image/Pwd Icon.svg" draggable="false">
+                            <img src="{{URL::asset('/image/Pwd Icon.svg')}}" draggable="false">
                             <input type="password" id="password" placeholder="Password" name="password">
                         </div>
                         @error('password')
@@ -35,7 +35,7 @@
                         @enderror
 
                         <div class="textContainer @error('password_confirmation') errorBorder @enderror">
-                            <img src="../image/Pwd Icon.svg" draggable="false">
+                            <img src="{{URL::asset('/image/Pwd Icon.svg')}}" draggable="false">
                             <input type="password" id="password_confirmation" placeholder="Re-Type Password"
                                 name="password_confirmation">
                         </div>
