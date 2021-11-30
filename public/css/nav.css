@@ -195,7 +195,7 @@ body {
     transition: 0.3s;
 }
 
-.logoutContainer a {
+.logoutContainer button {
     color: #808080;
     box-sizing: border-box;
     position: absolute;
@@ -203,4 +203,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     width: fit-content;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }

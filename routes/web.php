@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterTutorController;
 use App\Http\Controllers\Auth\RegisterStudentController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 
 use App\Http\Controllers\TutorDetailsController;
 use App\Http\Controllers\StudentDetailsController;
@@ -27,6 +28,8 @@ Route::post('/register', [RegisterTutorController::class,'storeTutor']);
 Route::get('/login', [LoginController::class,'index'])->name('login');
 Route::post('/login', [LoginController::class,'store']);
 
+Route::post('/logout', [LogoutController::class,'store'])->name('logout');
+
 Route::get('/register/student', [RegisterStudentController::class,'index'])->name("registerStudent");
 Route::post('/register/student', [RegisterStudentController::class,'storeStudent']);
 
@@ -39,9 +42,18 @@ Route::post('/register/details', [TutorDetailsController::class,'storeTutorDetai
 Route::get('/register/student/details', [StudentDetailsController::class,'index'])->name("detailsStudent");
 Route::post('/register/student/details', [StudentDetailsController::class,'storeStudentDetails']);
 
+Route::get('/timetable', function () {
+  return view('tutor.tutorTB');
+});
+
+Route::get('/settings', function () {
+  return view('setting');
+})->name("settings");
+
+
 
  Route::get('/dashboard', function () {
-   return view('layout.nav');
+   return view('tutor.tutorTB');
 })->name("dashboard");
 
 Route::get('/', function () {
