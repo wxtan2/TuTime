@@ -2,30 +2,21 @@
 
 @section('content')
     @php
-    $username = 'Guest';
-    $userEmail = 'null';
     if (Auth::guard('students')->check()) {
-        $username = Auth::guard('students')->user()->username;
-        $userEmail = Auth::guard('students')->user()->email;
-        $userPhone = Auth::guard('students')->user()->phone;
-        $userGender = Auth::guard('students')->user()->gender;
-        $userDOB = Auth::guard('students')->user()->dob;
+        $userCurrent = Auth::guard('students');
     } elseif (Auth::guard('web')->check()) {
-        $username = Auth::guard('web')->user()->username;
-        $userEmail = Auth::guard('web')->user()->email;
-        $userPhone = Auth::guard('web')->user()->phone;
-        $userGender = Auth::guard('web')->user()->gender;
-        $userDOB = Auth::guard('web')->user()->dob;
+        $userCurrent = Auth::guard('web');
     }
     @endphp
+
     <div class="containerSetting">
         <div class="sideMenu">
-            <div class="program-menu active" data-name="content-1" id="Content-1">
+            <div class="program-menu active" data-name="details" id="Details">
                 Details
                 <div></div>
             </div>
 
-            <div class="program-menu" data-name="content-2" id="Content-2">
+            <div class="program-menu" data-name="account" id="Account">
                 Account
                 <div></div>
 
@@ -33,84 +24,166 @@
 
         </div>
         <div class="mainContent">
-            <div class="program-content" id="content-1">
-                <table class="contentTable" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="height: 100px; vertical-align: top;">
-                            <img src="{{ URL::asset('/image/Persona.svg') }}" draggable="false" style="width:130px;">
-                        </td>
-                        <td>
-                            <input type="text" name="username" value="{{ $username }}">
-                            <textarea placeholder="Self Description" rows="5"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Gender</td>
-                        <td>
-                            <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
-                                <tr>
+            <div class="program-content" id="details">
+                <form action="{{ route('settings') }}" method="post">
+                    @csrf
 
-                                    <td>
-                                        <label class="container">Male
-                                            <input type="radio" checked="checked" value="male" name="gender">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="container">Female
-                                            <input type="radio" value="female" name="gender">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </td>
+                    <table class="contentTable" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="height: 100px; vertical-align: top;">
+                                <img src="{{ URL::asset('/image/Persona.svg') }}" draggable="false" style="width:130px;">
+                            </td>
+                            <td>
+                                <input class="@error('username') errorBorder @enderror" type="text" name="username"
+                                    value="{{ $userCurrent->user()->username }}">
+                                @error('username')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <textarea placeholder="Self Description" rows="5"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
+                                    <tr>
 
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Mobile</td>
-                        <td><input type="text" name="phone" value="{{ $userPhone }}" style="margin-top: 10px;"></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td><input type="text" name="email" value="{{ $userEmail }}"></td>
-                    </tr>
-                    <tr>
-                        <td>Date of Birth</td>
-                        <td><input type="date" name="dob" value="{{ $userDOB }}"></td>
-                    </tr>
+                                        <td>
+                                            <label class="container">Male
+                                                <input type="radio" <?php if ($userCurrent->user()->gender == 'male') {
+    echo 'checked';
+} ?> value="male" name="gender">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="container">Female
+                                                <input type="radio" <?php if ($userCurrent->user()->gender == 'female') {
+    echo 'checked';
+} ?> value="female" name="gender">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
 
-                </table>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mobile</td>
+                            <td><input type="text" class="@error('phone') errorBorder @enderror" name="phone"
+                                    value="{{ $userCurrent->user()->phone }}" style="margin-top: 10px;">
+                                @error('phone')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        {{-- <tr>
+                            <td>Email</td>
+                            <td><input type="text" class="@error('email') errorBorder @enderror" name="email" value="{{ $userEmail }}">@error('email')
+                                <div class="errorMessage">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </td>
+                        </tr> --}}
+                        <tr>
+                            <td>Date of Birth</td>
+                            <td><input type="date" class="@error('dob') errorBorder @enderror" name="dob"
+                                    value="{{ $userCurrent->user()->dob }}">
+                                @error('dob')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="text-align:right">
+                                <button type="submit" name="changeDetails" title="Save" alt="Save">Save</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
-            <div class="program-content" id="content-2">
-                <table class="contentTable" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td colspan="2" style="text-align:left">
-                           <h2 style="margin-bottom:0px; font-weight:700">Change Password</h2>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Current Password</td>
-                        <td><input type="password" name="password" style="margin-top: 10px;"></td>
-                    </tr>
-                    <tr>
-                        <td>New Password</td>
-                        <td><input type="password" name="newPassword"></td>
-                    </tr>
-                    <tr>
-                        <td>Confirm Password</td>
-                        <td><input type="password"></td>
-                    </tr>
+            <div class="program-content" id="account">
+                <form action="{{ route('settings') }}" method="post">
+                    @csrf
 
-                </table>
+                    <table class="contentTable" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td colspan="2" style="text-align:left">
+                                <h2 style="margin-bottom:0px; font-weight:700">Change Password</h2>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Current Password</td>
+                            <td><input class="@error('password') errorBorder @enderror @if (session('status')) errorBorder @endif" type="password" name="password"
+                                    style="margin-top: 10px;">
+                                @if (session('status'))
+                                    <div class="errorMessage">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
+                                @error('password')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>New Password</td>
+                            <td><input class="@error('newPassword') errorBorder @enderror" type="password"
+                                    name="newPassword">
+                                @error('newPassword')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Password</td>
+                            <td><input class="@error('newPassword_confirmation') errorBorder @enderror" type="password"
+                                    name="newPassword_confirmation">
+                                @error('newPassword_confirmation')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="text-align:right"><button type="submit" name="changePassword"
+                                    title="Save">Save</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
     </div>
     <script>
         $(document).ready(function() {
             var nowurl = window.location.hash;
-            $(".program-content:not(#content-1)").hide();
+            if (window.location.hash) {
+                $(".sideMenu").find(".program-menu").removeClass("active");
+                $(".program-content:not(window.location.hash)").hide();
+                var obj2 = $(location.hash).attr("data-name");
+                $("#" + obj2).fadeIn(500);
+                $(location.hash).addClass("active");
+            } else {
+                $(".program-content:not(#details)").hide();
+            }
             $(".program-menu").on("click", function() {
                 $(".sideMenu").find(".program-menu").removeClass("active");
                 $(this).addClass("active");
@@ -123,6 +196,14 @@
 
 
     <style>
+        .errorMessage {
+            font-size: 14px;
+            margin-bottom: 15px;
+            margin-top: -7px;
+            color: #ff0000;
+            width: 100%;
+        }
+
         .program-menu {
             color: #888888;
             width: 100%;
@@ -134,10 +215,10 @@
         }
 
         .program-menu.active {
-            color: #666666!important;
+            color: #666666 !important;
         }
 
-        .program-menu div{
+        .program-menu div {
             position: absolute;
             right: 0px;
             top: -8px;
@@ -148,7 +229,7 @@
             transition: 0.3s;
         }
 
-        .program-menu.active div{
+        .program-menu.active div {
             background: #F28F3B;
             transition: 0.3s;
         }
@@ -157,7 +238,6 @@
             width: calc(100% - 13.54vw);
             float: right;
             display: flex;
-
             margin-top: 55px;
             height: 90vh;
             padding: 15px;
@@ -168,12 +248,11 @@
             width: 129px;
             border-right: 1px solid #cccccc;
             float: left;
-            padding-top:10px;
+            padding-top: 10px;
         }
 
         .mainContent {
             width: 100%;
-            display: flex;
             float: right;
             height: 90vh;
             padding: 0 0 0 24px;
@@ -183,6 +262,8 @@
         .contentTable {
             color: #888888;
             height: fit-content;
+            width: 60%;
+            min-width: 700px;
         }
 
         .contentTable td:first-of-type {
@@ -201,7 +282,42 @@
             padding: 10px;
             color: #6C757D;
             margin-bottom: 10px;
+            box-sizing: border-box;
         }
+
+        .contentTable input.errorBorder,
+        textarea.errorBorder {
+
+            border: 1px solid #ff0000;
+
+        }
+
+
+
+        .contentTable button {
+            background-color: transparent;
+            width: 160px;
+            height: 40px;
+            border-radius: 5px;
+            outline: 0;
+            border: 1px solid #F28F3B;
+            padding: 0 10px;
+            color: #F28F3B;
+            margin-top: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: 0.3s;
+
+        }
+
+        .contentTable button:hover {
+            background-color: #F28F3B;
+            border: 1px solid #F28F3B;
+            color: #ffffff;
+            transition: 0.3s;
+        }
+
+
 
 
         .container {

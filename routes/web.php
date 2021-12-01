@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterTutorController;
 use App\Http\Controllers\Auth\RegisterStudentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\SettingController;
 
 use App\Http\Controllers\TutorDetailsController;
 use App\Http\Controllers\StudentDetailsController;
@@ -42,14 +43,16 @@ Route::post('/register/details', [TutorDetailsController::class,'storeTutorDetai
 Route::get('/register/student/details', [StudentDetailsController::class,'index'])->name("detailsStudent");
 Route::post('/register/student/details', [StudentDetailsController::class,'storeStudentDetails']);
 
+Route::get('/settings', [SettingController::class,'index'])->name("settings");
+Route::post('/settings', [SettingController::class,'editDetails']);
+
 Route::get('/timetable', function () {
   return view('tutor.tutorTB');
 });
 
-Route::get('/settings', function () {
+Route::get('/settings#Account', function () {
   return view('setting');
-})->name("settings");
-
+})->name("settingsAcc");
 
 
  Route::get('/dashboard', function () {
