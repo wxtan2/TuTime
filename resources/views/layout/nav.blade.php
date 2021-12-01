@@ -27,12 +27,25 @@
 </head>
 
 <body>
+
     <nav class="navBar">
+        @php
+            if (Auth::guard('students')->check()) {
+                $userCurrent = Auth::guard('students');
+                $userType = 'Student';
+            } elseif (Auth::guard('web')->check()) {
+                $userCurrent = Auth::guard('web');
+                $userType = 'Tutor';
+            }
+            
+        @endphp
+
+
         <img class="navLogo" src="{{ URL::asset('/image/logo.svg') }}">
         <span class="navWord">NAVIGATION</span>
         <ul>
             <li class="list" data-menu="dashboard">
-                <a href="{{route ('dashboard')}}" title="Timetable" alt="Timetable">
+                <a href="{{ route('dashboard') }}" title="Timetable" alt="Timetable">
                     <span class="icon">
                         <ion-icon name="today-outline"></ion-icon>
                     </span>
@@ -58,7 +71,7 @@
                 </a>
             </li>
             <li class="list" data-menu="settings">
-                <a href="{{route('settings')}}" data="Settings" alt="Settings">
+                <a href="{{ route('settings') }}" data="Settings" alt="Settings">
                     <span class="icon">
                         <ion-icon name="settings-outline"></ion-icon>
                     </span>
@@ -68,23 +81,30 @@
             </li>
         </ul>
     </nav>
-    @php
-        $username = 'Guest';
-        $userEmail = 'null';
-        if (Auth::guard('students')->check()) {
-            $username = Auth::guard('students')->user()->username;
-            $userEmail = Auth::guard('students')->user()->email;
-        } elseif (Auth::guard('web')->check()) {
-            $username = Auth::guard('web')->user()->username;
-            $userEmail = Auth::guard('web')->user()->email;
-        }
-    @endphp
+
 
     <div class="topMenu">
+        <div style="
+        position: absolute;
+        color: #ffffff;
+        right: 200px;
+        top: 5px;
+        text-align: right;
+        border: 1px solid #fb761a;
+        padding: 0px 20px;
+        align-items: center;
+        border-radius: 109px;
+        height: 35px;
+        background:linear-gradient(90deg, #FF6600 11.34%, #F0A769 87.65%, #F28F3B 100%);
+        display: flex;
+        box-sizing: border-box;">
+            {{ $userType }}
+
+        </div>
         <div class="profileContainer" tabindex="1">
             <div class="topMenuItem">
                 <div class="nameContainer">
-                    {{ $username }}
+                    {{ $userCurrent->user()->username }}
                 </div>
                 <div class="imgContainer">
                     <img src="{{ URL::asset('/image/profileIcon.svg') }}">
@@ -116,9 +136,9 @@
 
     <script>
         $(document).ready(function() {
-                var path = window.location.pathname.split("/").pop();
-                $(".navBar").find('[data-menu='+path+']').addClass("active");
-                
+            var path = window.location.pathname.split("/").pop();
+            $(".navBar").find('[data-menu=' + path + ']').addClass("active");
+
         })
     </script>
     @yield('content')
