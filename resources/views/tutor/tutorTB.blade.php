@@ -2,6 +2,18 @@
 
 @section('content')
 
+    {{-- @php
+    $username = 'Guest';
+    $userEmail = 'null';
+    if (Auth::guard('students')->check()) {
+        $username = Auth::guard('students')->user()->username;
+        $userEmail = Auth::guard('students')->user()->email;
+    } elseif (Auth::guard('web')->check()) {
+        $username = Auth::guard('web')->user()->username;
+        $userEmail = Auth::guard('web')->user()->email;
+    }
+    @endphp --}}
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -35,6 +47,7 @@
 
             // });
 
+
             new Draggable(containerEl, {
                 itemSelector: '.fc-event',
                 eventData: function(eventEl) {
@@ -44,13 +57,18 @@
                 }
             });
 
-            {!!$events = DB::table('events')->get();$userEmail !!}
+
+
+
+            // @php $events = DB::table('events')->get(); @endphp
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
 
                 initialView: 'timeGridWeek',
                 editable: true,
                 droppable: true,
+                selectable: true,
+
                 drop: function(info) {
                     // is the "remove after drop" checkbox checked?
                     if (checkbox.checked) {
@@ -76,6 +94,23 @@
                 //     }
                 // },
 
+                @php $events = DB::table('events')
+                    ->whereNotNull('dayOfWeek')
+                    ->where(function ($query) {
+                        if (Auth::guard('students')->check()) {
+                            $username = Auth::guard('students')->user()->username;
+                            $userEmail = Auth::guard('students')->user()->email;
+                        } elseif (Auth::guard('web')->check()) {
+                            $username = Auth::guard('web')->user()->username;
+                            $userEmail = Auth::guard('web')->user()->email;
+                        }
+                        $query->where('emailStudent', $userEmail)->orWhere('emailTutor', $userEmail);
+                    })
+                    // ->where('emailStudent', $userEmail)
+                    // ->orWhere('emailTutor', $userEmail)
+                    ->get();
+                @endphp
+
                 events: [
 
                     @foreach ($events as $event)
@@ -91,6 +126,7 @@
                         },
                     @endforeach
 
+
                     //this object will be "parsed" into an Event Object
                     // title: 'The Title', // a property!
                     // daysOfWeek: ['0'],
@@ -99,17 +135,23 @@
                     // backgroundColor: '#dc7543',
                     // borderColor: '#dc7543',
                     // ajax: true,
-                    
-                ],
 
-                dayClick: function(date, jsEvent, view) {
-                    //Change background color of day when it is clicked
-                    $(this).css('background-color', '#bed7f3');
-                    //Get the date that was clicked
-                    var date_clicked = date.format();
-                    //Redirect to the new event entry form
-                    window.location.href = "{{ URL::to('events') }}" + "/" + date_clicked;
+                ],
+                // dateClick: function(info) {
+                //     alert('clicked ' + info.dateStr.date());
+                // },
+
+                select: function(info) {
+                    alert('selected ' + info.startStr + ' to ' + info.endStr);
                 },
+                // dayClick: function(date, jsEvent, view) {
+                //     //Change background color of day when it is clicked
+                //     $(this).css('background-color', '#bed7f3');
+                //     //Get the date that was clicked
+                //     var date_clicked = date.format();
+                //     //Redirect to the new event entry form
+                //     window.location.href = "{{ URL::to('events') }}" + "/" + date_clicked;
+                // },
 
                 eventClick: function(event, jsEvent, view) {
                     $(this).css('background-color', '#ff0000');
@@ -118,8 +160,6 @@
                 eventDragStart: function(event, jsEvent, view) {
                     $(this).css('background-color', '#dc7543');
                 },
-
-
             });
 
             calendar.render();
@@ -148,17 +188,17 @@
 
 
     <div style="width:calc(80% - 13.54vw); 
-                    height: 91vh; 
-                    margin-top:65px; 
-                    margin-left: calc(13.54vw + 15px); 
-                    display:flex;
-                    float:left;
-                    color:#666666!important; 
-                    box-sizing: border-box;
-                    padding:10px;
-                    background:#ffffff;
-                    box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-                    border-radius:10px;">
+                                                        height: 91vh; 
+                                                        margin-top:65px; 
+                                                        margin-left: calc(13.54vw + 15px); 
+                                                        display:flex;
+                                                        float:left;
+                                                        color:#666666!important; 
+                                                        box-sizing: border-box;
+                                                        padding:10px;
+                                                        background:#ffffff;
+                                                        box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+                                                        border-radius:10px;">
         <div id='calendar' style="height:100%; width:100%"></div>
     </div>
     {{-- <div id="external-events"
@@ -213,6 +253,10 @@
 
 
     <style>
+        .fc .fc-highlight {
+            background-color: #fbecdf !important;
+        }
+
         #external-events {
             box-sizing: border-box;
             margin-right: 24px;

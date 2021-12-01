@@ -31,8 +31,8 @@
         <img class="navLogo" src="{{ URL::asset('/image/logo.svg') }}">
         <span class="navWord">NAVIGATION</span>
         <ul>
-            <li class="list" data-menu="timetable">
-                <a href="#" title="Timetable" alt="Timetable">
+            <li class="list" data-menu="dashboard">
+                <a href="{{route ('dashboard')}}" title="Timetable" alt="Timetable">
                     <span class="icon">
                         <ion-icon name="today-outline"></ion-icon>
                     </span>
