@@ -40,6 +40,23 @@
             
         @endphp
 
+        <div style="
+                position: absolute;
+                color: #fb761a;
+                right: 2vw;
+                top: 4.7vw;
+                text-align: right;
+                padding: 0px 10px;
+                align-items: center;
+                border-radius: 100px;
+                height: 25px;
+                display: flex;
+                box-sizing: border-box;
+                background: #ffffff;">
+            {{ $userType }}
+
+        </div>
+
 
         <img class="navLogo" src="{{ URL::asset('/image/logo.svg') }}">
         <span class="navWord">NAVIGATION</span>
@@ -61,6 +78,8 @@
 
                 </a>
             </li>
+            @if(Auth::guard('web')->check())
+                
             <li class="list" data-menu="students">
                 <a href="#" title="Students" alt="Students">
                     <span class="icon">
@@ -70,6 +89,8 @@
 
                 </a>
             </li>
+
+            @endif
             <li class="list" data-menu="settings">
                 <a href="{{ route('settings') }}" data="Settings" alt="Settings">
                     <span class="icon">
@@ -84,7 +105,7 @@
 
 
     <div class="topMenu">
-        <div style="
+        {{-- <div style="
         position: absolute;
         color: #ffffff;
         right: 200px;
@@ -100,7 +121,7 @@
         box-sizing: border-box;">
             {{ $userType }}
 
-        </div>
+        </div> --}}
         <div class="profileContainer" tabindex="1">
             <div class="topMenuItem">
                 <div class="nameContainer">

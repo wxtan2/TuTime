@@ -226,12 +226,12 @@
             width: 7px;
             background: #ffffff;
             border-radius: 5px 0px 0px 5px;
-            transition: 0.3s;
+            transition: 0.15s;
         }
 
         .program-menu.active div {
             background: #F28F3B;
-            transition: 0.3s;
+            transition: 0.15s;
         }
 
         .containerSetting {
