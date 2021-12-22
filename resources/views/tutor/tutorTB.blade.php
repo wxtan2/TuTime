@@ -225,6 +225,7 @@
                     var dayOfWeek = getDayOfWeek.indexOf(day);
                     var start = info.event.start.toString().substring(16, 24);
                     var end = info.event.end.toString().substring(16, 24);
+                    var typeText;
 
                     $("#add-events").css("display", "none");
                     $("#update-events").css("display", "block");
@@ -236,6 +237,17 @@
                     $("#dayOfWeekUpdate").val(dayOfWeek);
                     $("#startTimeUpdate").val(start);
                     $("#endTimeUpdate").val(end);
+
+                    if (info.event.extendedProps.eventType == "event") {
+                        typeText = "Event";
+                        $("#titleUpdate").attr('placeholder', 'Title');
+                        $("#descriptionUpdate").attr('placeholder', 'Description');
+                    } else {
+                        typeText = "Class";
+                        $("#titleUpdate").attr('placeholder', 'Class Name');
+                        $("#descriptionUpdate").attr('placeholder', 'Subject');
+                    }
+                    $("#typeText").text(typeText);
                     // $("#backgroundColorUpdate").val(info.event.backgroundColor);
                     document.getElementById("backgroundColorUpdate").value = info.event.backgroundColor;
 
@@ -401,17 +413,17 @@
 
 
     <div style="width:calc(80% - 13.54vw); 
-                                height: 91vh; 
-                                margin-top:65px; 
-                                margin-left: calc(13.54vw + 15px); 
-                                display:flex;
-                                float:left;
-                                color:#666666!important; 
-                                box-sizing: border-box;
-                                padding:10px;
-                                background:#ffffff;
-                                box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-                                border-radius:10px;">
+                                    height: 91vh; 
+                                    margin-top:65px; 
+                                    margin-left: calc(13.54vw + 15px); 
+                                    display:flex;
+                                    float:left;
+                                    color:#666666!important; 
+                                    box-sizing: border-box;
+                                    padding:10px;
+                                    background:#ffffff;
+                                    box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+                                    border-radius:10px;">
         <div id='calendar' style="height:100%; width:100%"></div>
     </div>
     {{-- <div id="external-events"
@@ -468,30 +480,30 @@
             @csrf
             @if (Auth::guard('web')->check())
 
-            <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
-                <tr>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
+                    <tr>
 
-                    <td style="padding-right: 25px;">
-                        <label class="container">Event
-                            <input type="radio" id="eventAdd" name="eventType" value="event" checked>
+                        <td style="padding-right: 25px;">
+                            <label class="container">Event
+                                <input type="radio" id="eventAdd" name="eventType" value="event" checked>
 
-                            <span class="checkmark"></span>
-                        </label>
-                    </td>
-                    <td>
-                        <label class="container">Class
-                            <input type="radio" id="classAdd" name="eventType" value="classTutor">
+                                <span class="checkmark"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="container">Class
+                                <input type="radio" id="classAdd" name="eventType" value="classTutor">
 
-                            <span class="checkmark"></span>
-                        </label>
-                    </td>
+                                <span class="checkmark"></span>
+                            </label>
+                        </td>
 
-                </tr>
-            </table>
+                    </tr>
+                </table>
 
 
 
-                
+
             @endif
 
             @if (Auth::guard('students')->check())
@@ -520,7 +532,7 @@
 
     <div id='update-events' style="display: none;">
         <div style="position:relative;margin-bottom:20px;">
-            <div><span style="color:#000000">Edit Events</span></div>
+            <div><span style="color:#000000">Edit <span id="typeText"></span></span></div>
             <div class="deleteContainer">
                 <form id="deleteForm" action="{{ route('dashboard') }}" method="post">
                     @csrf
