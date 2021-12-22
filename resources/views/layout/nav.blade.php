@@ -17,10 +17,15 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js'></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    
 
 
     <title>TuTime</title>
@@ -70,12 +75,11 @@
                 </a>
             </li>
             <li class="list" data-menu="classes">
-                <a href="#" title="Classes" alt="Classes">
+                <a href="{{route('classes')}}" title="Classes" alt="Classes">
                     <span class="icon">
                         <ion-icon name="book-outline"></ion-icon>
                     </span>
                     <span class="title">Classes</span>
-
                 </a>
             </li>
             @if(Auth::guard('web')->check())

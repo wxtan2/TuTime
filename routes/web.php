@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\SettingController;
 
 use App\Http\Controllers\TutorDetailsController;
 use App\Http\Controllers\StudentDetailsController;
+use App\Http\Controllers\FullCalenderController;
+
 
 
 
@@ -46,18 +48,28 @@ Route::post('/register/student/details', [StudentDetailsController::class,'store
 Route::get('/settings', [SettingController::class,'index'])->name("settings");
 Route::post('/settings', [SettingController::class,'editDetails']);
 
-Route::get('/timetable', function () {
-  return view('tutor.tutorTB');
-});
+Route::get('dashboard', [FullCalenderController::class, 'index'])->name("dashboard");
+Route::post('dashboard', [FullCalenderController::class, 'ajax']);
+
+
+Route::get('/classes', function () {
+  return view('tutor.tutorClass');
+})->name("classes");
+
+
+
+// Route::get('/timetable', function () {
+//   return view('tutor.tutorTB');
+// });
 
 Route::get('/settings#Account', function () {
   return view('setting');
 })->name("settingsAcc");
 
 
- Route::get('/dashboard', function () {
-   return view('tutor.tutorTB');
-})->name("dashboard");
+//  Route::get('/dashboard', function () {
+//    return view('tutor.tutorTB');
+// })->name("dashboard");
 
 Route::get('/', function () {
     return view('auth.login');
