@@ -53,7 +53,7 @@ class FullCalenderController extends Controller
             //     'endTime' => 'required',
             //     'backgroundColor' => 'required',
             // ]);
-            if($request->eventType == 'event'){
+            if($request->eventTypeAdd == 'event'){
                 if($userCurrent == Auth::guard('web')){
                     DB::table('events')
                     -> insert([
@@ -80,7 +80,7 @@ class FullCalenderController extends Controller
                     ]);
                 }
             }
-            elseif($request->eventType == 'classTutor'){
+            elseif($request->eventTypeAdd == 'classTutor'){
                 DB::table('classes')
                 -> insert([
                     'className' => $request->title,
@@ -149,13 +149,13 @@ class FullCalenderController extends Controller
                 break;
   
            case 'delete':
-            if($request->eventType == 'event'){
+            if($request->eventTypeDel == 'event'){
                 DB::table('events')
                 -> where('id', $request->idDel)
                 -> delete();
   
             }
-            elseif($request->eventType == 'classTutor'){
+            elseif($request->eventTypeDel == 'classTutor'){
                 DB::table('classes')
                 -> where('id', $request->idDel)
                 -> delete();

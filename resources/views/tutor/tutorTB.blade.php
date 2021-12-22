@@ -171,8 +171,10 @@
                             startTime: "{!! $class->startTime !!}",
                             endTime: "{!! $class->endTime !!}",
                             backgroundColor : '{{ $class->backgroundColor }}',
+                            borderColor: '{{ $class->backgroundColor }}',
                             eventType:'classTutor',
                             ajax : true,
+                            // editable:false,
                             },
                         @endforeach
                     @endif
@@ -252,6 +254,7 @@
                     document.getElementById("backgroundColorUpdate").value = info.event.backgroundColor;
 
                     $("#eventType").val(info.event.extendedProps.eventType);
+                    $("#eventTypeDel").val(info.event.extendedProps.eventType);
                 },
 
                 eventDragStart: function(event, jsEvent, view) {
@@ -479,20 +482,19 @@
         <form action="{{ route('dashboard') }}" method="post">
             @csrf
             @if (Auth::guard('web')->check())
-
                 <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
                     <tr>
 
                         <td style="padding-right: 25px;">
                             <label class="container">Event
-                                <input type="radio" id="eventAdd" name="eventType" value="event" checked>
+                                <input type="radio" id="eventAdd" name="eventTypeAdd" value="event" checked>
 
                                 <span class="checkmark"></span>
                             </label>
                         </td>
                         <td>
                             <label class="container">Class
-                                <input type="radio" id="classAdd" name="eventType" value="classTutor">
+                                <input type="radio" id="classAdd" name="eventTypeAdd" value="classTutor">
 
                                 <span class="checkmark"></span>
                             </label>
@@ -500,10 +502,6 @@
 
                     </tr>
                 </table>
-
-
-
-
             @endif
 
             @if (Auth::guard('students')->check())
@@ -537,7 +535,7 @@
                 <form id="deleteForm" action="{{ route('dashboard') }}" method="post">
                     @csrf
                     <button id="deleteEvent" class="deleteButton" type="submit" name="deleteEvent" title="Delete"></button>
-                    <input type="hidden" id="eventType" name="eventType">
+                    <input type="hidden" id="eventTypeDel" name="eventTypeDel">
                     <input type="hidden" id="idDel" name="idDel">
                     <input type="hidden" id="type" name="type" value="delete">
 
