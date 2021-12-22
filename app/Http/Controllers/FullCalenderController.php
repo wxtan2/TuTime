@@ -53,31 +53,43 @@ class FullCalenderController extends Controller
             //     'endTime' => 'required',
             //     'backgroundColor' => 'required',
             // ]);
+            if($request->eventType == 'event'){
+                if($userCurrent == Auth::guard('web')){
+                    DB::table('events')
+                    -> insert([
+                        'title' => $request->title,
+                        'description' => $request->description,
+                        'dayOfWeek' =>$request->dayOfWeek,
+                        'startTime' => $request->startTime,
+                        'endTime' => $request->endTime,
+                        'backgroundColor' => $request->backgroundColor,
+                        'emailTutor' => $request->email
+                    ]);
 
-            // if(($request->email) == )
-            if($userCurrent == Auth::guard('web')){
-                DB::table('events')
-                -> insert([
-                    'title' => $request->title,
-                    'description' => $request->description,
-                    'dayOfWeek' =>$request->dayOfWeek,
-                    'startTime' => $request->startTime,
-                    'endTime' => $request->endTime,
-                    'backgroundColor' => $request->backgroundColor,
-                    'emailTutor' => $request->email
-                ]);
-
+                }
+                elseif($userCurrent == Auth::guard('students')){
+                    DB::table('events')
+                    -> insert([
+                        'title' => $request->title,
+                        'description' => $request->description,
+                        'dayOfWeek' => $request->dayOfWeek,
+                        'startTime' => $request->startTime,
+                        'endTime' => $request->endTime,
+                        'backgroundColor' => $request->backgroundColor,
+                        'emailStudent' => $request->email
+                    ]);
+                }
             }
-            elseif($userCurrent == Auth::guard('students')){
-                DB::table('events')
+            elseif($request->eventType == 'classTutor'){
+                DB::table('classes')
                 -> insert([
-                    'title' => $request->title,
-                    'description' => $request->description,
+                    'className' => $request->title,
+                    'subject' => $request->description,
                     'dayOfWeek' => $request->dayOfWeek,
                     'startTime' => $request->startTime,
                     'endTime' => $request->endTime,
                     'backgroundColor' => $request->backgroundColor,
-                    'emailStudent' => $request->email
+                    'emailTutor' => $request->email
                 ]);
             }
             
@@ -125,8 +137,8 @@ class FullCalenderController extends Controller
                     DB::table('classes')
                     -> where('id', $request->id)
                     -> update([
-                        'title' => $request->titleUpdate,
-                        'description' => $request->descriptionUpdate,
+                        'className' => $request->titleUpdate,
+                        'subject' => $request->descriptionUpdate,
                         'dayOfWeek' => $request->dayOfWeekUpdate,
                         'backgroundColor' => $request->backgroundColorUpdate,
                         'startTime' => $request->startTimeUpdate,
@@ -137,10 +149,19 @@ class FullCalenderController extends Controller
                 break;
   
            case 'delete':
-              DB::table('events')
-              -> where('id', $request->idDel)
-              -> delete();
+            if($request->eventType == 'event'){
+                DB::table('events')
+                -> where('id', $request->idDel)
+                -> delete();
+  
+            }
+            elseif($request->eventType == 'classTutor'){
+                DB::table('classes')
+                -> where('id', $request->idDel)
+                -> delete();
 
+            }
+             
             return redirect() -> route('dashboard');
              break;
              

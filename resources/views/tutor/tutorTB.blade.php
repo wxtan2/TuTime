@@ -73,14 +73,22 @@
                 allDaySlot: false,
                 events: SITEURL + "/fullcalender",
 
-                eventRender: function(info) {
-                    var tooltip = new Tooltip(info.el, {
-                        title: info.event.extendedProps.description,
-                        placement: 'top',
-                        trigger: 'hover',
-                        container: 'body'
-                    });
+                // eventDidMount: function(info) {
+                //     var tooltip = new Tooltip(info.el, {
+                //         title: info.event.extendedProps.description,
+                //         placement: 'top',
+                //         trigger: 'hover',
+                //         container: 'body'
+                //     });
+                //     info.el.style.borderRadius = '0px';
+                //     info.el.style.borderWidth = '4px';
+                // },
+                eventContent: function(arg) {
+                    // info.event.title
+                    // info.event.extendedProps.description
+                    '123asdf'
                 },
+
 
                 drop: function(info) {
                     // is the "remove after drop" checkbox checked?
@@ -158,9 +166,11 @@
                             {
                             id : '{!! $class->id !!}',
                             title : "{!! $class->className !!}",
+                            description : "{!! $class->subject !!}",
                             daysOfWeek: ['{!! $class->dayOfWeek !!}'],
                             startTime: "{!! $class->startTime !!}",
                             endTime: "{!! $class->endTime !!}",
+                            backgroundColor : '{{ $class->backgroundColor }}',
                             eventType:'classTutor',
                             ajax : true,
                             },
@@ -374,6 +384,14 @@
                     });
             });
 
+            $("#eventAdd").click(function() {
+                $("#title").attr('placeholder', 'Title')
+                $("#description").attr('placeholder', 'Description')
+            });
+            $("#classAdd").click(function() {
+                $("#title").attr('placeholder', 'Class Name')
+                $("#description").attr('placeholder', 'Subject')
+            });
 
 
         });
@@ -382,19 +400,18 @@
 
 
 
-    <div
-        style="width:calc(80% - 13.54vw); 
-                height: 91vh; 
-                margin-top:65px; 
-                margin-left: calc(13.54vw + 15px); 
-                display:flex;
-                float:left;
-                color:#666666!important; 
-                box-sizing: border-box;
-                padding:10px;
-                background:#ffffff;
-                box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-                border-radius:10px;">
+    <div style="width:calc(80% - 13.54vw); 
+                                height: 91vh; 
+                                margin-top:65px; 
+                                margin-left: calc(13.54vw + 15px); 
+                                display:flex;
+                                float:left;
+                                color:#666666!important; 
+                                box-sizing: border-box;
+                                padding:10px;
+                                background:#ffffff;
+                                box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+                                border-radius:10px;">
         <div id='calendar' style="height:100%; width:100%"></div>
     </div>
     {{-- <div id="external-events"
@@ -449,6 +466,37 @@
         <h4 style="color:#000000">Add Events</h4>
         <form action="{{ route('dashboard') }}" method="post">
             @csrf
+            @if (Auth::guard('web')->check())
+
+            <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
+                <tr>
+
+                    <td style="padding-right: 25px;">
+                        <label class="container">Event
+                            <input type="radio" id="eventAdd" name="eventType" value="event" checked>
+
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="container">Class
+                            <input type="radio" id="classAdd" name="eventType" value="classTutor">
+
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+
+                </tr>
+            </table>
+
+
+
+                
+            @endif
+
+            @if (Auth::guard('students')->check())
+                <input type="hidden" id="eventTypeAdd" name="eventType" value="event">
+            @endif
 
             <input type="text" id="title" name="title" placeholder="Title">
             <input type="text" id="description" name="description" placeholder="Description">
@@ -477,7 +525,7 @@
                 <form id="deleteForm" action="{{ route('dashboard') }}" method="post">
                     @csrf
                     <button id="deleteEvent" class="deleteButton" type="submit" name="deleteEvent" title="Delete"></button>
-
+                    <input type="hidden" id="eventType" name="eventType">
                     <input type="hidden" id="idDel" name="idDel">
                     <input type="hidden" id="type" name="type" value="delete">
 
@@ -706,6 +754,68 @@
             background-color: var(--fc-button-active-bg-color, #F28F3B);
             border-color: #F28F3B;
             border-color: var(--fc-button-active-border-color, #F28F3B);
+        }
+
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Create a custom radio button */
+
+        .checkmark {
+            position: absolute;
+            top: -3px;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            border: 1px solid #000;
+            background-color: transparent;
+            border-radius: 50%;
+        }
+
+        .container input:checked~.checkmark {
+            border: 1px solid #ff6600;
+        }
+
+
+        /* Create the indicator (the dot/circle - hidden when not checked) */
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+
+        /* Show the indicator (dot/circle) when checked */
+
+        .container input:checked~.checkmark:after {
+            display: block;
+        }
+
+
+        /* Style the indicator (dot/circle) */
+
+        .container .checkmark:after {
+            top: 5px;
+            left: 5px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ff6600;
         }
 
     </style>
