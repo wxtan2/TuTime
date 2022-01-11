@@ -12,23 +12,6 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <title>TuTime</title>
 </head>
-
-<body>
-    <div class="registerContent">
-        <div class="welcomeBox">
-            <div class="welcomeCenter">
-                <a href="{{'/'}}"><img src="{{URL::asset('/image/logo.svg')}}" title="TuTime" alt="TuTime"></a>
-
-                <div class="welcomeWord">Welcome Back</div>
-                <div>Already have an account? Log in to keep connect between tutor and student</div>
-                <a class="signButton" title="Sign In Now" alt="Sign In Now" href="{{ route('login') }}">SIGN IN</a>
-            </div>
-        </div>
-
-        @yield('content')
-
-    </div>
-</body>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2&family=Lato:wght@100;400&family=Sacramento&display=swap');
 html {
@@ -321,4 +304,21 @@ html {
     }
 }
     </style>
+<body>
+    <div class="registerContent">
+        <div class="welcomeBox">
+            <div class="welcomeCenter">
+                <a href="{{'/'}}"><img src="{{URL::asset('/image/logo.svg')}}" title="TuTime" alt="TuTime"></a>
+
+                <div class="welcomeWord">Welcome Back</div>
+                <div>Already have an account? Log in to keep connect between tutor and student</div>
+                <a class="signButton" title="Sign In Now" alt="Sign In Now" href="{{ route('login') }}">SIGN IN</a>
+            </div>
+        </div>
+
+        @yield('content')
+
+    </div>
+</body>
+
 </html>
