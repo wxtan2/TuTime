@@ -1,6 +1,8 @@
 @extends('layout.nav')
 
 @section('content')
+
+
     <style>
         hr {
             border-top: 1px solid #ccc;
@@ -228,33 +230,6 @@
         }
 
     </style>
-    <script>
-        $(document).ready(function() {
-            $(".navBar").find('[data-menu = classes]').addClass("active");
-            $(".navBar").find('[data-menu = class]').addClass("active");
-
-            $(".expandButton").click(function() {
-                if ($(this).parent().hasClass("active")) {
-                    $(this).parent().removeClass("active");
-                } else {
-                    $(this).parent().addClass("active");
-                }
-                $('textarea').each(function() {
-                    $(this).val($(this).val().trim());
-                });
-            })
-
-            $(".addContentButton").click(function() {
-                var csrfVar = $('meta[name="csrf-token"]').attr('content');
-                $(this).after(
-                    "<div class='contentClass'><div><form action='{{ route('classDetails') }}' method='post'><label for='titleNote'>Title: </label><input name='title' type='text'><br><br><label for='titleNote'>Note: </label><textarea name='note' rows='4'></textarea><input type='hidden' name='id' value='{{ $id }}'><input type='hidden' name='type' value='createNote'><input name='_token' value='" +
-                    csrfVar +
-                    "' type='hidden'><button class='saveNote' type='submit'>Save</button></form></div></div>"
-                );
-            })
-
-        })
-    </script>
 
     @php
     if (Auth::guard('students')->check()) {
@@ -379,5 +354,32 @@
     </div>
     </div>
 
+    <script>
+        $(document).ready(function() {
+            $(".navBar").find('[data-menu = classes]').addClass("active");
+            $(".navBar").find('[data-menu = class]').addClass("active");
+
+            $(".expandButton").click(function() {
+                if ($(this).parent().hasClass("active")) {
+                    $(this).parent().removeClass("active");
+                } else {
+                    $(this).parent().addClass("active");
+                }
+                $('textarea').each(function() {
+                    $(this).val($(this).val().trim());
+                });
+            })
+
+            $(".addContentButton").click(function() {
+                var csrfVar = $('meta[name="csrf-token"]').attr('content');
+                $(this).after(
+                    "<div class='contentClass'><div><form action='{{ route('classDetails') }}' method='post'><label for='titleNote'>Title: </label><input name='title' type='text'><br><br><label for='titleNote'>Note: </label><textarea name='note' rows='4'></textarea><input type='hidden' name='id' value='{{ $id }}'><input type='hidden' name='type' value='createNote'><input name='_token' value='" +
+                    csrfVar +
+                    "' type='hidden'><button class='saveNote' type='submit'>Save</button></form></div></div>"
+                );
+            })
+
+        })
+    </script>
 
 @endsection

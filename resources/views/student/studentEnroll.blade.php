@@ -1,22 +1,7 @@
 @extends('layout.nav')
 
 @section('content')
-    <script>
-        $(".enrollButton").click(function(event) {
-            event.preventDefault();
-            var form = $(this).parents(".enrollForm");
-            swal({
-                    title: "Enroll into this class?",
-                    icon: "info",
-                    buttons: true,
-                })
-                .then(function(willDelete) {
-                    if (willDelete) {
-                        $(form).submit();
-                    }
-                });
-        })
-    </script>
+   
     <style>
         .containerSetting {
             width: calc(100% - 13.54vw);
@@ -296,6 +281,21 @@
             @endif
         </div>
     </div>
-
+    <script>
+        $(".enrollButton").click(function(event) {
+            event.preventDefault();
+            var form = $(this).parents(".enrollForm");
+            swal({
+                    title: "Enroll into this class?",
+                    icon: "info",
+                    buttons: true,
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        $(form).submit();
+                    }
+                });
+        })
+    </script>
 
 @endsection

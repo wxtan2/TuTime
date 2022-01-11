@@ -2,28 +2,7 @@
 
 @section('content')
 
-    <script>
-        $(document).ready(function() {
-            var nowurl = window.location.hash;
-            if (window.location.hash) {
-                $(".sideMenu").find(".program-menu").removeClass("active");
-                $(".program-content:not(window.location.hash)").hide();
-                var obj2 = $(location.hash).attr("data-name");
-                $("#" + obj2).fadeIn(500);
-                $(location.hash).addClass("active");
-            } else {
-                $(".program-content:not(#details)").hide();
-            }
-            $(".program-menu").on("click", function() {
-                $(".sideMenu").find(".program-menu").removeClass("active");
-                $(this).addClass("active");
-                var obj = $(this).attr("data-name");
-                $(".program-content").hide();
-                $("#" + obj).fadeIn(500);
-            });
-        });
-    </script>
-
+  
 
     <style>
         .errorMessage {
@@ -386,5 +365,26 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            var nowurl = window.location.hash;
+            if (window.location.hash) {
+                $(".sideMenu").find(".program-menu").removeClass("active");
+                $(".program-content:not(window.location.hash)").hide();
+                var obj2 = $(location.hash).attr("data-name");
+                $("#" + obj2).fadeIn(500);
+                $(location.hash).addClass("active");
+            } else {
+                $(".program-content:not(#details)").hide();
+            }
+            $(".program-menu").on("click", function() {
+                $(".sideMenu").find(".program-menu").removeClass("active");
+                $(this).addClass("active");
+                var obj = $(this).attr("data-name");
+                $(".program-content").hide();
+                $("#" + obj).fadeIn(500);
+            });
+        });
+    </script>
 
 @endsection

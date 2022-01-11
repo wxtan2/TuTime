@@ -59,11 +59,7 @@
         }
 
     </style>
-    <script>
-        $('.submitLink').click(function() {
-            $(this).find('form').submit();
-        })
-    </script>
+    
 
 
     @php
@@ -123,5 +119,9 @@
             @endif
         </div>
     </div>
-
+    <script>
+        $('.submitLink').click(function() {
+            $(this).find('form').submit();
+        })
+    </script>
 @endsection
