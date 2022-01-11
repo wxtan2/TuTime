@@ -10,9 +10,10 @@ use App\Http\Controllers\Auth\SettingController;
 use App\Http\Controllers\TutorDetailsController;
 use App\Http\Controllers\StudentDetailsController;
 use App\Http\Controllers\FullCalenderController;
-
-
-
+use App\Http\Controllers\studentClassController;
+use App\Http\Controllers\studentEnrollController;
+use App\Http\Controllers\classDetailsController;
+use App\Http\Controllers\StudentClassDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +57,13 @@ Route::get('/classes', function () {
   return view('tutor.tutorClass');
 })->name("classes");
 
+Route::get('/class', [studentClassController::class, 'index'])->name("classStudent");
 
+Route::get('/enroll', [studentEnrollController::class, 'index'])->name("enrollStudent");
+Route::post('/enroll', [studentEnrollController::class, 'func']);
+
+
+// Route::post('class', [studentClassController::class, 'ajax']);
 
 // Route::get('/timetable', function () {
 //   return view('tutor.tutorTB');
@@ -66,10 +73,14 @@ Route::get('/settings#Account', function () {
   return view('setting');
 })->name("settingsAcc");
 
+Route::get('/classes/details',[classDetailsController::class, 'index'])->name("classDetails");
+Route::post('/classes/details',[classDetailsController::class, 'func']);
 
-//  Route::get('/dashboard', function () {
-//    return view('tutor.tutorTB');
-// })->name("dashboard");
+ Route::get('/student', function () {
+   return view('tutor.tutorStudent');
+})->name("student");
+
+Route::get('/student/details',[StudentClassDetailsController::class, 'index'])->name("studentDetails");
 
 Route::get('/', function () {
     return view('auth.login');

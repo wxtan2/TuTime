@@ -2,18 +2,6 @@
 
 @section('content')
 
-    {{-- @php
-    $username = 'Guest';
-    $userEmail = 'null';
-    if (Auth::guard('students')->check()) {
-        $username = Auth::guard('students')->user()->username;
-        $userEmail = Auth::guard('students')->user()->email;
-    } elseif (Auth::guard('web')->check()) {
-        $username = Auth::guard('web')->user()->username;
-        $userEmail = Auth::guard('web')->user()->email;
-    }
-    @endphp --}}
-
     <script>
         $(document).ready(function() {
 
@@ -29,40 +17,19 @@
             var calendarEl = document.getElementById('calendar');
             var checkbox = document.getElementById('drop-remove');
 
-            // initialize the external events
-            // -----------------------------------------------------------------
-
-            // $('#external-events .fc-event').each(function() {
-
-            //     store data so the calendar knows to render an event upon drop
-            //     $(this).data('event', {
-            //         title: $.trim($(this).text()), // use the element's text as the event title
-            //         stick: true // maintain when user navigates (see docs on the renderEvent method)
-            //     });
-
-            //     // make the event draggable using jQuery UI
-            //     $(this).draggable({
-            //         zIndex: 999,
-            //         revert: true, // will cause the event to go back to its
-            //         revertDuration: 0 //  original position after the drag
-            //     });
-
-            // });
-
 
             new Draggable(containerEl, {
                 itemSelector: '.fc-event',
-                eventData: function(eventEl) {
-                    return {
-                        title: eventEl.innerText
-                    };
-                }
+                // eventData: function(eventEl) {
+                //     return {
+                //         id: eventEl.data-event.id,
+                //         title: eventEl.innerText
+
+                //     };
+                // }
             });
 
 
-
-
-            // @php $events = DB::table('events')->get(); @endphp
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
 
@@ -71,6 +38,7 @@
                 droppable: true,
                 selectable: true,
                 allDaySlot: false,
+                dragRevertDuration: 50,
                 events: SITEURL + "/fullcalender",
 
                 // eventDidMount: function(info) {
@@ -83,37 +51,119 @@
                 //     info.el.style.borderRadius = '0px';
                 //     info.el.style.borderWidth = '4px';
                 // },
-                eventContent: function(arg) {
-                    // info.event.title
-                    // info.event.extendedProps.description
-                    '123asdf'
-                },
 
 
                 drop: function(info) {
-                    // is the "remove after drop" checkbox checked?
-                    if (checkbox.checked) {
-                        // if so, remove the element from the "Draggable Events" list
-                        info.draggedEl.parentNode.removeChild(info.draggedEl);
-                    }
+                    info.draggedEl.parentNode.removeChild(info.draggedEl);
+                    // alert(JSON.stringify(info, null, 4));
+
                 },
 
-                // eventDragStop: function(event, jsEvent, ui, view) {
+                eventReceive: function(info) {
+                    // alert(JSON.stringify(info, null, 4));
+                    var day = info.event.start.toString().substring(0, 3);
+                    var dayOfWeek = getDayOfWeek.indexOf(day);
+                    var start = info.event.start.toString().substring(16, 24);
 
-                //     if (isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
-                //         calendar.fullCalendar('removeEvents', event._id);
-                //         var el = $("<div class='fc-event'>").appendTo('#external-events-listing').text(event.title);
-                //         el.draggable({
-                //             zIndex: 999,
-                //             revertDuration: 0
-                //         });
-                //         el.data('event', {
-                //             title: event.title,
-                //             id: event.id,
-                //             stick: true
-                //         });
-                //     }
-                // },
+                    // calendar.addEvent(info.event),
+                    // alert(end);
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                'content')
+                        },
+                        url: SITEURL + "/dashboard",
+                        type: "POST",
+                        data: {
+                            id: info.event.id,
+                            dayOfWeek: dayOfWeek,
+                            startTime: start,
+                            eventType: info.event.extendedProps.eventType,
+                            type: 'updatefromSide',
+                        },
+
+                        success: function() {
+                            displayMessage("Event Updated Successfully");
+                        },
+                        failure: function() {
+                            displayMessage("Event Updated Fail");
+                        }
+                    });
+
+                },
+
+                eventDragStop: function(info) {
+                    // alert(JSON.stringify(info, null, 0));
+
+                    if (isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
+                        info.event.remove();
+                        if (info.event.extendedProps.eventType == "event") {
+                            var el = $('<div class="fc-event fc-h-event eventSide" style="background:' +
+                                info.event.backgroundColor +
+                                '!important;border:0px;" data-event="{"id": ' + info.event.id +
+                                ', "title": "' + info.event.title + '", "backgroundColor": "' + info
+                                .event.backgroundColor +
+                                '", "description": "' + info.event.description +
+                                '" , "borderColor":"' + info.event.backgroundColor +
+                                '", "eventType":"event"}"><div style="font-size:14px;">Title</div><div>' +
+                                info.event.title +
+                                '</div><img src="{{ URL::asset('/image/bookmarks.svg') }}" draggable="false"></div>'
+                            ).appendTo('#external-events-listing');
+
+                            el.data('event', {
+                                title: info.event.title,
+                                id: info.event.id,
+                                backgroundColor: info.event.backgroundColor,
+                                borderColor: info.event.backgroundColor,
+                                stick: true
+                            });
+                        } else {
+                            var el = $('<div class="fc-event fc-h-event eventSide" style="background:' +
+                                info.event.backgroundColor +
+                                '!important;border:0px; "><div style="font-size:14px;">Class Name</div><div>' +
+                                info.event.title +
+                                '</div><img src="{{ URL::asset('/image/class.svg') }}" draggable="false"></div>'
+                            ).appendTo('#external-events-listing');
+
+                            el.data('event', {
+                                title: info.event.title,
+                                id: info.event.id,
+                                backgroundColor: info.event.backgroundColor,
+                                borderColor: info.event.backgroundColor,
+                                stick: true
+                            });
+                        }
+
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content')
+                            },
+                            url: SITEURL + "/dashboard",
+                            type: "POST",
+                            data: {
+                                idMove: info.event.id,
+                                eventTypeMove: info.event.extendedProps.eventType,
+                                type: 'movetoside2',
+                            },
+                            success: function() {
+                                location.reload();
+                            }
+                        });
+
+
+
+                        // el.draggable({
+                        //     zIndex: 999,
+                        //     revertDuration: 0
+                        // });
+                        // el.data('event', {
+                        //     title: info.event.title,
+                        //     id: info.event.id,
+                        //     stick: true
+                        // });
+                    }
+                },
 
 
                 @php
@@ -140,6 +190,13 @@
                     ->whereNotNull('dayOfWeek')
                     ->where('emailTutor', $userCurrent->user()->email)
                     ->get();
+                
+                $classesEnrolled = DB::table('classes')
+                    ->join('enroll', 'classes.id', '=', 'enroll.idClass')
+                    ->join('users', 'classes.emailTutor', '=', 'users.email')
+                    ->where('enroll.emailStudent', $userCurrent->user()->email)
+                    ->get();
+                
                 @endphp
 
 
@@ -179,8 +236,54 @@
                         @endforeach
                     @endif
 
+                    @if (Auth::guard('students')->check())
+                        @foreach ($classesEnrolled as $classesEnrolled)
+                            {
+                            id : '{!! $classesEnrolled->id !!}',
+                            title : "{!! $classesEnrolled->className !!}",
+                            description : "{!! $classesEnrolled->subject !!}",
+                            daysOfWeek: ['{!! $classesEnrolled->dayOfWeek !!}'],
+                            startTime: "{!! $classesEnrolled->startTime !!}",
+                            endTime: "{!! $classesEnrolled->endTime !!}",
+                            backgroundColor : '{{ $classesEnrolled->backgroundColor }}',
+                            borderColor: '{{ $classesEnrolled->backgroundColor }}',
+                            eventType:'classStudent',
+                            tutor: '{{ $classesEnrolled->username }}',
+                            ajax : false,
+                            editable:false,
+                            },
+                        @endforeach
+                    @endif
+
                 ],
 
+                eventDidMount: function(arg) {
+
+                    var innerText
+
+                    if (arg.event.extendedProps.eventType == "classTutor" || arg.event.extendedProps
+                        .eventType == "classStudent") {
+                        $(arg.el).find(".fc-event-main").prepend(
+                            "<div class='eventImgContainer'> <img src='{{ URL::asset('/image/class.svg') }}' draggable='false'></div>"
+                        )
+
+                        if (arg.event.extendedProps.eventType == "classStudent") {
+                            console.log(arg.el)
+                            $(arg.el).find(".fc-event-title-container").append(
+                                "<div class='lectName' style='margin-top:15px'>Teacher: <br><b>" +
+                                arg.event.extendedProps.tutor + "</b></div>"
+                            );
+                        }
+
+                    } else {
+                        innerText = 'normal event'
+                    }
+
+
+                    // if (arg.event.icon == "class") {
+                    //     console.log(arg.event.icon);
+                    // }
+                },
 
                 select: function(info) {
 
@@ -211,55 +314,52 @@
                         });
 
                 },
-                // dayClick: function(date, jsEvent, view) {
-                //     //Change background color of day when it is clicked
-                //     $(this).css('background-color', '#bed7f3');
-                //     //Get the date that was clicked
-                //     var date_clicked = date.format();
-                //     //Redirect to the new event entry form
-                //     window.location.href = "{{ URL::to('events') }}" + "/" + date_clicked;
-                // },
 
                 eventClick: function(info) {
-                    // alert('Event: ' + info.event.title);
-                    var day = info.event.start.toString().substring(0, 3);
-                    // alert('selected ' + getDayOfWeek.indexOf(day));
-                    var dayOfWeek = getDayOfWeek.indexOf(day);
-                    var start = info.event.start.toString().substring(16, 24);
-                    var end = info.event.end.toString().substring(16, 24);
-                    var typeText;
+                    if (info.event.extendedProps.eventType != "classStudent") {
+                        // alert('Event: ' + info.event.title);
+                        var day = info.event.start.toString().substring(0, 3);
+                        // alert('selected ' + getDayOfWeek.indexOf(day));
+                        var dayOfWeek = getDayOfWeek.indexOf(day);
+                        var start = info.event.start.toString().substring(16, 24);
+                        // var end = info.event.end.toString().substring(16, 24);
+                        var typeText;
 
-                    $("#add-events").css("display", "none");
-                    $("#update-events").css("display", "block");
-                    $("#id").val(info.event.id);
-                    $("#idDel").val(info.event.id);
-                    $("#titleUpdate").val(info.event.title);
-                    $("#descriptionUpdate").val(info.event.extendedProps.description);
-                    $("#dayUpdate").val(day);
-                    $("#dayOfWeekUpdate").val(dayOfWeek);
-                    $("#startTimeUpdate").val(start);
-                    $("#endTimeUpdate").val(end);
+                        $("#add-events").css("display", "none");
+                        $("#update-events").css("display", "block");
+                        $("#id").val(info.event.id);
+                        $("#idDel").val(info.event.id);
+                        $("#idMove").val(info.event.id);
+                        $("#titleUpdate").val(info.event.title);
+                        $("#descriptionUpdate").val(info.event.extendedProps.description);
+                        $("#dayUpdate").val(day);
+                        $("#dayOfWeekUpdate").val(dayOfWeek);
+                        $("#startTimeUpdate").val(start);
+                        $("#endTimeUpdate").val(info.event.end.toString().substring(16, 24));
 
-                    if (info.event.extendedProps.eventType == "event") {
-                        typeText = "Event";
-                        $("#titleUpdate").attr('placeholder', 'Title');
-                        $("#descriptionUpdate").attr('placeholder', 'Description');
-                    } else {
-                        typeText = "Class";
-                        $("#titleUpdate").attr('placeholder', 'Class Name');
-                        $("#descriptionUpdate").attr('placeholder', 'Subject');
+                        if (info.event.extendedProps.eventType == "event") {
+                            typeText = "Event";
+                            $("#titleUpdate").attr('placeholder', 'Title');
+                            $("#descriptionUpdate").attr('placeholder', 'Description');
+                        } else {
+                            typeText = "Class";
+                            $("#titleUpdate").attr('placeholder', 'Class Name');
+                            $("#descriptionUpdate").attr('placeholder', 'Subject');
+                        }
+                        $("#typeText").text(typeText);
+                        // $("#backgroundColorUpdate").val(info.event.backgroundColor);
+                        document.getElementById("backgroundColorUpdate").value = info.event
+                            .backgroundColor;
+
+                        $("#eventType").val(info.event.extendedProps.eventType);
+                        $("#eventTypeDel").val(info.event.extendedProps.eventType);
+                        $("#eventTypeMove").val(info.event.extendedProps.eventType);
                     }
-                    $("#typeText").text(typeText);
-                    // $("#backgroundColorUpdate").val(info.event.backgroundColor);
-                    document.getElementById("backgroundColorUpdate").value = info.event.backgroundColor;
-
-                    $("#eventType").val(info.event.extendedProps.eventType);
-                    $("#eventTypeDel").val(info.event.extendedProps.eventType);
                 },
 
-                eventDragStart: function(event, jsEvent, view) {
-                    $(this).css('background-color', '#dc7543');
-                },
+                // eventDragStart: function(event, jsEvent, view) {
+                //     $(this).css('background-color', '#dc7543');
+                // },
 
 
                 eventDrop: function(info) {
@@ -358,23 +458,23 @@
 
             calendar.render();
 
-            // var isEventOverDiv = function(x, y) {
+            var isEventOverDiv = function(x, y) {
 
-            //     var external_events = $('#external-events');
-            //     var offset = external_events.offset();
-            //     offset.right = external_events.width() + offset.left;
-            //     offset.bottom = external_events.height() + offset.top;
+                var external_events = $('#external-events');
+                var offset = external_events.offset();
+                offset.right = external_events.width() + offset.left;
+                offset.bottom = external_events.height() + offset.top;
 
-            //     // Compare
-            //     if (x >= offset.left &&
-            //         y >= offset.top &&
-            //         x <= offset.right &&
-            //         y <= offset.bottom) {
-            //         return true;
-            //     }
-            //     return false;
+                // Compare
+                if (x >= offset.left &&
+                    y >= offset.top &&
+                    x <= offset.right &&
+                    y <= offset.bottom) {
+                    return true;
+                }
+                return false;
 
-            // }
+            }
 
             function displayMessage(message) {
                 toastr.success(message, 'Event');
@@ -415,18 +515,19 @@
 
 
 
-    <div style="width:calc(80% - 13.54vw); 
-                                    height: 91vh; 
-                                    margin-top:65px; 
-                                    margin-left: calc(13.54vw + 15px); 
-                                    display:flex;
-                                    float:left;
-                                    color:#666666!important; 
-                                    box-sizing: border-box;
-                                    padding:10px;
-                                    background:#ffffff;
-                                    box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-                                    border-radius:10px;">
+    <div
+        style="width:calc(80% - 13.54vw); 
+                                                                                                                            height: 91vh; 
+                                                                                                                            margin-top:65px; 
+                                                                                                                            margin-left: calc(13.54vw + 15px); 
+                                                                                                                            display:flex;
+                                                                                                                            float:left;
+                                                                                                                            color:#666666!important; 
+                                                                                                                            box-sizing: border-box;
+                                                                                                                            padding:10px;
+                                                                                                                            background:#ffffff;
+                                                                                                                            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+                                                                                                                            border-radius:10px;">
         <div id='calendar' style="height:100%; width:100%"></div>
     </div>
     {{-- <div id="external-events"
@@ -462,36 +563,83 @@
         </p>
     </div> --}}
 
+    @php
+
+    $eventsSide = DB::table('events')
+        ->whereNull('dayOfWeek')
+        ->where(function ($query) {
+            if (Auth::guard('students')->check()) {
+                $userCurrent = Auth::guard('students');
+            } elseif (Auth::guard('web')->check()) {
+                $userCurrent = Auth::guard('web');
+            }
+            $query->where('emailStudent', $userCurrent->user()->email)->orWhere('emailTutor', $userCurrent->user()->email);
+        })
+        ->get();
+
+    if (Auth::guard('students')->check()) {
+        $userCurrent = Auth::guard('students');
+    } elseif (Auth::guard('web')->check()) {
+        $classSide = DB::table('classes')
+            ->whereNull('dayOfWeek')
+            ->where(function ($query) {
+                if (Auth::guard('students')->check()) {
+                    $userCurrent = Auth::guard('students');
+                } elseif (Auth::guard('web')->check()) {
+                    $userCurrent = Auth::guard('web');
+                }
+                $query->where('emailTutor', $userCurrent->user()->email);
+            })
+            ->get();
+        $userCurrent = Auth::guard('web');
+    }
+
+    @endphp
+
     <div id='external-events'>
         <div id='external-events-listing'>
             <h4 style="color:#000000">Events</h4>
-            <div class='fc-event fc-h-event'>My Event 1</div>
-            <div class='fc-event fc-h-event'>My Event 2</div>
-            <div class='fc-event fc-h-event'>My Event 3</div>
-            <div class='fc-event fc-h-event'>My Event 4</div>
-            <div class='fc-event fc-h-event'>My Event 5</div>
+            @foreach ($eventsSide as $eventside)
+                <div class='fc-event fc-h-event eventSide'
+                    style="background: {!! $eventside->backgroundColor !!}!important;border:0px;"
+                    data-event='{"id": {!! $eventside->id !!} , "title": "{!! $eventside->title !!}" ,"description": "{!! $eventside->description !!}" , "backgroundColor": "{!! $eventside->backgroundColor !!}", "end": "{!! $eventside->endTime !!}", "borderColor":"{!! $eventside->backgroundColor !!}", "eventType":"event"}'>
+                    <div style="font-size:14px;">Title</div>
+                    <div>{!! $eventside->title !!}</div>
+                    <img src="{{ URL::asset('/image/bookmarks.svg') }}" draggable="false">
+                </div>
+            @endforeach
+            @if (Auth::guard('web')->check())
+                @foreach ($classSide as $classside)
+                    <div class='fc-event fc-h-event classSide'
+                        style="background: {!! $classside->backgroundColor !!}!important;border:0px;"
+                        data-event='{"id": {!! $classside->id !!} , "title": "{!! $classside->className !!}", "description": "{!! $classside->subject !!}", "backgroundColor": "{!! $classside->backgroundColor !!}", "borderColor":"{!! $classside->backgroundColor !!}", "eventType":"classTutor"}'>
+                        <div style="font-size:14px;">Class Name</div>
+                        <div>{!! $classside->className !!}</div>
+                        <img src="{{ URL::asset('/image/class.svg') }}" draggable="false">
+
+                    </div>
+
+                @endforeach
+            @endif
         </div>
-        <p>
-            <input type='checkbox' id='drop-remove' checked='checked' />
-            <label for='drop-remove'>remove after drop</label>
-        </p>
     </div>
 
     <div id='add-events' style="display: none;">
         <h4 style="color:#000000">Add Events</h4>
         <form action="{{ route('dashboard') }}" method="post">
             @csrf
-            @if (Auth::guard('web')->check())
-                <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
-                    <tr>
+            <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
+                <tr>
 
-                        <td style="padding-right: 25px;">
-                            <label class="container">Event
-                                <input type="radio" id="eventAdd" name="eventTypeAdd" value="event" checked>
+                    <td style="padding-right: 25px;">
+                        <label class="container">Event
+                            <input type="radio" id="eventAdd" name="eventTypeAdd" value="event" checked>
 
-                                <span class="checkmark"></span>
-                            </label>
-                        </td>
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                    @if (Auth::guard('web')->check())
+
                         <td>
                             <label class="container">Class
                                 <input type="radio" id="classAdd" name="eventTypeAdd" value="classTutor">
@@ -499,14 +647,10 @@
                                 <span class="checkmark"></span>
                             </label>
                         </td>
+                    @endif
 
-                    </tr>
-                </table>
-            @endif
-
-            @if (Auth::guard('students')->check())
-                <input type="hidden" id="eventTypeAdd" name="eventType" value="event">
-            @endif
+                </tr>
+            </table>
 
             <input type="text" id="title" name="title" placeholder="Title">
             <input type="text" id="description" name="description" placeholder="Description">
@@ -541,6 +685,16 @@
 
                 </form>
             </div>
+            <div class="moveContainer">
+                <form id="moveForm" action="{{ route('dashboard') }}" method="post">
+                    @csrf
+                    <button id="removeEvent" class="removeButton" type="submit" name="moveEvent"
+                        title="Move to side"></button>
+                    <input type="hidden" id="eventTypeMove" name="eventTypeMove">
+                    <input type="hidden" id="idMove" name="idMove">
+                    <input type="hidden" id="type" name="type" value="movetoside">
+                </form>
+            </div>
         </div>
         <form action="{{ route('dashboard') }}" method="post">
             @csrf
@@ -571,6 +725,29 @@
 
 
     <style>
+        .fc .fc-timegrid-slot {
+            height: 2em;
+            border-bottom: 0;
+        }
+
+        .eventImgContainer {
+            width: 35px;
+            height: 35px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .eventImgContainer img {
+            width: 35px !important;
+            right: 0px !important;
+            top: 0px !important;
+        }
+
+        .fc-timegrid-event .fc-event-main {
+            padding: 10px !important;
+        }
+
         .fc .fc-highlight {
             background-color: #fbecdf !important;
         }
@@ -581,13 +758,14 @@
             margin-top: 65px;
             float: right;
             width: calc(18.5% - 25px);
-            max-height: calc(50vh - 65px);
+            height: calc(50vh - 65px);
             overflow: auto;
             padding: 0 10px;
             text-align: left;
             background-color: #ffffff;
             border-radius: 10px;
-            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15)
+            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+            padding-bottom: 10px;
         }
 
         #add-events,
@@ -664,7 +842,8 @@
 
         }
 
-        #add-events .addButton:hover {
+        #add-events .addButton:hover,
+        #update-events .addButton:hover {
             background-color: #F28F3B;
             border: 1px solid #F28F3B;
             color: #ffffff;
@@ -673,16 +852,15 @@
 
         #external-events .fc-event,
         .fc-h-event {
-            height: 20px;
             margin: 5px 0;
             padding: 10px;
             align-items: center;
-            display: flex;
             cursor: pointer;
             border-radius: 5px;
             border: 1px solid #dc7543;
             background: #dc7543 !important;
             text-align: left;
+            position: relative;
         }
 
         .deleteButton {
@@ -709,6 +887,32 @@
             width: 40px;
             position: absolute;
             right: 0px;
+            top: 0px;
+        }
+
+        .removeButton {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #187BCD;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            z-index: 1;
+            background: url({{ URL::asset('/image/take-out.svg') }}) no-repeat;
+            background-size: 30px 30px;
+            background-position: center;
+        }
+
+        .removeButton:hover {
+            transition: 0.3s;
+            background-color: #187ccd2c;
+        }
+
+        .moveContainer {
+            width: 40px;
+            position: absolute;
+            right: 50px;
             top: 0px;
         }
 
@@ -826,6 +1030,13 @@
             height: 14px;
             border-radius: 50%;
             background: #ff6600;
+        }
+
+        .fc-event img {
+            width: 25px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
         }
 
     </style>

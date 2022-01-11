@@ -45,16 +45,14 @@ class FullCalenderController extends Controller
                 $userCurrent = Auth::guard('web');
             }
 
-            // $this->validate($request, [
-            //     'title' => 'required',
-            //     'description' => 'required',
-            //     'dayOfWeek' => 'required',
-            //     'startTime' => 'required',
-            //     'endTime' => 'required',
-            //     'backgroundColor' => 'required',
-            // ]);
+            
             if($request->eventTypeAdd == 'event'){
                 if($userCurrent == Auth::guard('web')){
+                    $this->validate($request, [
+                        'title' => 'required',
+                        'description' => 'required',
+                    ]);
+
                     DB::table('events')
                     -> insert([
                         'title' => $request->title,
@@ -68,6 +66,11 @@ class FullCalenderController extends Controller
 
                 }
                 elseif($userCurrent == Auth::guard('students')){
+                    $this->validate($request, [
+                        'title' => 'required',
+                        'description' => 'required',
+                    ]);
+
                     DB::table('events')
                     -> insert([
                         'title' => $request->title,
@@ -81,6 +84,11 @@ class FullCalenderController extends Controller
                 }
             }
             elseif($request->eventTypeAdd == 'classTutor'){
+                $this->validate($request, [
+                    'title' => 'required',
+                    'description' => 'required',
+                ]);
+
                 DB::table('classes')
                 -> insert([
                     'className' => $request->title,
@@ -100,6 +108,8 @@ class FullCalenderController extends Controller
            case 'update':
 
             if($request->eventType == 'event'){
+                
+
                 DB::table('events')
                 -> where('id', $request->id)
                 -> update([
@@ -122,6 +132,11 @@ class FullCalenderController extends Controller
             case 'updateDetails':
 
                 if($request->eventType == 'event'){
+                    $this->validate($request, [
+                        'titleUpdate' => 'required',
+                        'descriptionUpdate' => 'required',
+                    ]);
+
                     DB::table('events')
                     -> where('id', $request->id)
                     -> update([
@@ -134,6 +149,11 @@ class FullCalenderController extends Controller
                     ]);
                 }
                 elseif($request->eventType == 'classTutor'){
+                    $this->validate($request, [
+                        'titleUpdate' => 'required',
+                        'descriptionUpdate' => 'required',
+                    ]);
+
                     DB::table('classes')
                     -> where('id', $request->id)
                     -> update([
@@ -164,10 +184,82 @@ class FullCalenderController extends Controller
              
             return redirect() -> route('dashboard');
              break;
+
+            case 'movetoside':
+                if($request->eventTypeMove == 'event'){
+    
+                    DB::table('events')
+                    -> where('id', $request->idMove)
+                    -> update([
+                        'dayOfWeek' => NULL,
+                    ]);
+      
+                }
+
+                elseif($request->eventTypeMove == 'classTutor'){
+                    DB::table('classes')
+                    -> where('id', $request->idMove)
+                    -> update([
+                        'dayOfWeek' => NULL,
+                    ]);
+                }
+                return redirect() -> route('dashboard');
+                break;
+
+                case 'movetoside2':
+                    if($request->eventTypeMove == 'event'){
+        
+                        DB::table('events')
+                        -> where('id', $request->idMove)
+                        -> update([
+                            'dayOfWeek' => NULL,
+                        ]);
+          
+                    }
+    
+                    elseif($request->eventTypeMove == 'classTutor'){
+                        DB::table('classes')
+                        -> where('id', $request->idMove)
+                        -> update([
+                            'dayOfWeek' => NULL,
+                        ]);
+                    }
+                    break;
+
+                case 'updatefromSide':
+                    $endTime = strftime('%H:%M:%S', (strtotime($request->startTime) + 3600));
+
+                    if($request->eventType == 'event'){
+                    DB::table('events')
+                    -> where('id', $request->id)
+                    -> update([
+                        'dayOfWeek' => $request->dayOfWeek,
+                        'startTime' => $request->startTime,
+                        'endTime' => $endTime,
+                    ]);
+                    }
+
+                    elseif($request->eventType == 'classTutor'){
+                    DB::table('classes')
+                    -> where('id', $request->id)
+                    -> update([
+                        'dayOfWeek' => $request->dayOfWeek,
+                        'startTime' => $request->startTime,
+                        'endTime' => $endTime,
+                    ]);
+                }
+
+                break;
+
+
+
              
            default:
              # code...
              break;
+
         }
+
+       
     }
 }

@@ -20,12 +20,13 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
-    
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-    
+
 
 
     <title>TuTime</title>
@@ -57,7 +58,8 @@
                 height: 25px;
                 display: flex;
                 box-sizing: border-box;
-                background: #ffffff;">
+                background: #ffffff;
+                ">
             {{ $userType }}
 
         </div>
@@ -74,26 +76,44 @@
                     <span class="title">Timetable</span>
                 </a>
             </li>
-            <li class="list" data-menu="classes">
-                <a href="{{route('classes')}}" title="Classes" alt="Classes">
-                    <span class="icon">
-                        <ion-icon name="book-outline"></ion-icon>
-                    </span>
-                    <span class="title">Classes</span>
-                </a>
-            </li>
-            @if(Auth::guard('web')->check())
-                
-            <li class="list" data-menu="students">
-                <a href="#" title="Students" alt="Students">
-                    <span class="icon">
-                        <ion-icon name="school-outline"></ion-icon>
-                    </span>
-                    <span class="title">Students</span>
 
-                </a>
-            </li>
+            @if (Auth::guard('students')->check())
+                <li class="list" data-menu="class">
+                    <a href="{{ route('classStudent') }}" title="Class" alt="Class">
+                        <span class="icon">
+                            <ion-icon name="book-outline"></ion-icon>
+                        </span>
+                        <span class="title">Classes</span>
+                    </a>
+                </li>
+                <li class="list" data-menu="enroll">
+                    <a href="{{ route('enrollStudent') }}" title="Enroll" alt="Enroll">
+                        <span class="icon">
+                            <ion-icon name="add-circle-outline"></ion-icon>
+                        </span>
+                        <span class="title">Enroll</span>
+                    </a>
+                </li>
+            @endif
 
+
+            @if (Auth::guard('web')->check())
+                <li id="classes" class="list" data-menu="classes">
+                    <a href="{{ route('classes') }}" title="Classes" alt="Classes">
+                        <span class="icon">
+                            <ion-icon name="book-outline"></ion-icon>
+                        </span>
+                        <span class="title">Classes</span>
+                    </a>
+                </li>
+                <li id="student" class="list" data-menu="student">
+                    <a href="{{ route('student') }}" title="Student" alt="Student">
+                        <span class="icon">
+                            <ion-icon name="school-outline"></ion-icon>
+                        </span>
+                        <span class="title">Student</span>
+                    </a>
+                </li>
             @endif
             <li class="list" data-menu="settings">
                 <a href="{{ route('settings') }}" data="Settings" alt="Settings">
