@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/login.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/login.css') }}"> --}}
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <title>TuTime</title>
@@ -134,5 +134,254 @@
         </div>
     </div>
 </body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2&family=Lato:wght@100;400&family=Sacramento&display=swap');
+html {
+    background: url('../image/login.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Baloo Da 2', cursive;
+    font-size: 16px;
+}
 
+.welcomeCenter {
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.logoContainer {
+    position: absolute;
+    width: 90px;
+    top: 15px;
+    left: 26px;
+}
+
+.signCenter {
+    width: 72%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+}
+
+.registerContent {
+    width: 800px;
+    height: 530px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    transform: scale(100%) translate(-50%, -50%);
+}
+
+.welcomeBox {
+    width: 334px;
+    height: 100%;
+    background: rgba(242, 143, 59, 0.65);
+    color: #ffffff;
+    position: relative;
+    float: right;
+    border-radius: 0 15px 15px 0;
+}
+
+.registerBox {
+    width: 466px;
+    height: 100%;
+    position: relative;
+    background: #ffffff;
+    border-radius: 15px 0 0 15px;
+    float: left;
+}
+
+.welcomeWord {
+    font-size: 35px;
+    font-weight: 600;
+}
+
+.signInWord {
+    font-size: 40px;
+    font-weight: 600;
+    color: #F28F3B;
+    margin-bottom: 18px;
+}
+
+.signButton {
+    width: 105px;
+    height: 34px;
+    border-radius: 18px;
+    border: 1px solid #ffffff;
+    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    margin: auto;
+    margin-top: 25px;
+}
+
+.signButton {
+    transition: 0.2s;
+    width: 110px;
+    height: 34px;
+    border-radius: 18px;
+    border: 1px solid #ffffff;
+    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    margin: auto;
+    margin-top: 25px;
+}
+
+.signButton:hover {
+    transition: 0.2s;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    color: #F28F3B;
+}
+
+.submitButton {
+    transition: 0.2s;
+    width: 110px;
+    height: 34px;
+    border-radius: 18px;
+    background-color: #F28F3B;
+    border: 1px solid #F28F3B;
+    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #fff;
+    margin: auto;
+    margin-top: 33px;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    transition: 0.2s;
+    background-color: #F0A769;
+    border: 1px solid #F0A769;
+}
+
+.userSelect {
+    color: #cccccc;
+}
+
+.userSelect a {
+    color: #cccccc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.userSelect a:hover,
+.userSelect a.selected {
+    color: #F28F3B;
+}
+
+.errorMessage {
+    color: #ff0000;
+    font-size: 14px;
+}
+
+.errorBorder {
+    border: 1px solid #ff0000!important;
+}
+
+.textContainer {
+    position: relative;
+}
+
+.textContainer label {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: 13px;
+    left: 13px;
+    border: none;
+}
+
+.textContainer label img {
+    width: 20px;
+}
+
+.textContainer input {
+    width: 289px;
+    top: 2px;
+    right: 0px;
+    width: 100%;
+    height: 45px;
+    border: 1px solid #cccccc;
+    border-radius: 7px;
+    margin-top: 20px;
+    padding-left: 45px;
+    box-sizing: border-box;
+    outline: 0;
+}
+
+.textContainer input:focus {
+    border: 1px solid #F0A769;
+}
+
+.textContainer input:focus+label svg path {
+    fill: #F0A769;
+}
+
+@media screen and (min-width: 1400px) {
+    .registerContent {
+        transform-origin: top left;
+        transform: scale(125%) translate(-50%, -50%);
+    }
+}
+
+
+/* The container */
+
+.container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-weight: 600;
+}
+
+
+/* Hide the browser's default radio button */
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.container input:checked~.checkmark {
+    color: #F28F3B;
+}
+
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+@media screen and (min-width: 1400px) {
+    .registerContent {
+        transform-origin: top left;
+        transform: scale(125%) translate(-50%, -50%);
+    }
+}
+</style>
 </html>

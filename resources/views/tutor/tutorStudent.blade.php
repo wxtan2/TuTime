@@ -19,7 +19,7 @@
     <div class="containerSetting">
         <div class="mainContent">
             @if ($student->count() <= 0)
-                <div class="notFoundContainer"><img src="{{ URL::asset('/image/notfound.png') }}" style="width:60%;">
+                <div class="notFoundContainer"><img src="{{ URL::asset('/image/notfound.png') }}" style="width:30%;">
                     <div style="margin-bottom:15px;">
                         <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Student Found</h2>
                     </div>
