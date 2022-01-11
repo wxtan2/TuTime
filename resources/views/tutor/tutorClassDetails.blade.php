@@ -1,130 +1,6 @@
 @extends('layout.nav')
 
 @section('content')
-
-    @php
-    if (Auth::guard('students')->check()) {
-        $userCurrent = Auth::guard('students');
-    } elseif (Auth::guard('web')->check()) {
-        $userCurrent = Auth::guard('web');
-    }
-
-    $id = request()->get('id');
-    // $classes = DB::table('classes')
-    //     ->where('emailTutor', $userCurrent->user()->email)
-    //     ->whereNotNull('dayOfWeek')
-    //     ->get();
-
-    // $getDayofWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
-
-    // function secondsToTime($seconds)
-    // {
-    //     $dtF = new \DateTime('@0');
-    //     $dtT = new \DateTime("@$seconds");
-    //     return $dtF->diff($dtT)->format('%h h %i min');
-    // }
-
-    $classesStudent = DB::table('classes')
-        ->leftJoin('enroll', 'classes.id', '=', 'enroll.idClass')
-        ->leftJoin('students', 'enroll.emailStudent', '=', 'students.email')
-        ->whereNotNull('classes.dayOfWeek')
-        ->where('classes.id', $id)
-        ->whereNotNull('enroll.idClass')
-        ->select('classes.*', 'enroll.*', 'students.username', 'students.id as idStudent')
-        ->get();
-
-    $classesNote = DB::table('notes')
-        ->where('idClass', $id)
-        ->orderBy('id', 'DESC')
-        ->get();
-
-    $studentCount = $classesStudent->count();
-
-    @endphp
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <div class="containerSetting">
-        <div class="classBanner">
-            <div class="bannerTitle">
-                <h2 style="font-size: 28px;font-weight:600;margin-bottom:20px">{{ $classes->subject }}</h2>
-                <h1 style="font-size: 38px">{{ $classes->className }}</h1>
-                <div class="lectName">{{ $classes->username }}</div>
-            </div>
-
-        </div>
-        <div class="classContent">
-            <h2 style="font-size: 28px;font-weight:600;color:#808080">Content</h2>
-
-            @if (Auth::guard('web')->check())
-                <a class="addContentButton" href="#">
-                    <div style="margin-right: 15px;"></div>Add Note<div style="margin-left: 15px;"></div>
-                </a>
-            @endif
-
-            @if ($classesNote->count() <= 0)
-                <div class="notNoteFoundContainer" style="margin-top:25px;"><img
-                        src="{{ URL::asset('/image/not found.png') }}" draggable="false" style="width:40%;">
-                    <div style="margin-bottom:15px;">
-                        <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Notes Found</h2>
-                    </div>
-                    <div style="color:#808080;">Add your class notes now!</div>
-                </div>
-            @else
-                <div>
-                    @foreach ($classesNote as $classesNote)
-                        <div style="margin-top: 20px;">
-                            <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">{{ $classesNote->title }}</h2>
-                        </div>
-                        <div class="noteContent">{{ $classesNote->content }}</div>
-                        <hr>
-                    @endforeach
-                </div>
-            @endif
-            {{-- <div class="contentClass">
-                <div>
-                    <form>
-                        <label for="titleNote">Title: </label>
-                        <input name="title" type="text"><br><br>
-                        <label for="titleNote">Note: </label>
-                        <textarea name="note" rows="4"></textarea>
-                        <button class="saveNote" type="submit">Save</button>
-                    </form>
-                </div>
-            </div> --}}
-
-
-            {{-- <div style="color:#000000">11234</div> --}}
-        </div>
-        <div class="studentListContainer">
-            <h2 style="font-size: 24px;font-weight:600;color:#808080;margin-bottom:10px;text-align: center;">Students</h2>
-            @if ($classesStudent->count() <= 0)
-                <div class="notFoundContainer"><img src="{{ URL::asset('/image/nostudent.jpg') }}" draggable="false"
-                        style="width:70%;">
-                    <div style="margin-bottom:15px;">
-                        <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Student Found</h2>
-                    </div>
-                    <div style="color:#808080;">No student enroll this class yet</div>
-                </div>
-            @else
-                <div class="studentListTable">
-                    @foreach ($classesStudent as $classesStudent)
-                        <div class="tr">
-                            <a class="studentName" @if (Auth::guard('web')->check())
-                                href="/student/details?id={{ $classesStudent->idStudent }}"
-                    @endif
-                    title="">
-                    <div class="td">{{ ++$loop->index }}</div>
-                    <div class="td">{{ $classesStudent->username }}</div>
-                    </a>
-                </div>
-            @endforeach
-        </div>
-        <div class="countStudent">{{ $studentCount }} <span style="font-size: 24px;color:#808080">Student</span></div>
-        @endif
-        <a class="expandButton"><i class="material-icons"></i><a>
-    </div>
-    </div>
-
     <style>
         hr {
             border-top: 1px solid #ccc;
@@ -379,5 +255,129 @@
 
         })
     </script>
+
+    @php
+    if (Auth::guard('students')->check()) {
+        $userCurrent = Auth::guard('students');
+    } elseif (Auth::guard('web')->check()) {
+        $userCurrent = Auth::guard('web');
+    }
+
+    $id = request()->get('id');
+    // $classes = DB::table('classes')
+    //     ->where('emailTutor', $userCurrent->user()->email)
+    //     ->whereNotNull('dayOfWeek')
+    //     ->get();
+
+    // $getDayofWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
+
+    // function secondsToTime($seconds)
+    // {
+    //     $dtF = new \DateTime('@0');
+    //     $dtT = new \DateTime("@$seconds");
+    //     return $dtF->diff($dtT)->format('%h h %i min');
+    // }
+
+    $classesStudent = DB::table('classes')
+        ->leftJoin('enroll', 'classes.id', '=', 'enroll.idClass')
+        ->leftJoin('students', 'enroll.emailStudent', '=', 'students.email')
+        ->whereNotNull('classes.dayOfWeek')
+        ->where('classes.id', $id)
+        ->whereNotNull('enroll.idClass')
+        ->select('classes.*', 'enroll.*', 'students.username', 'students.id as idStudent')
+        ->get();
+
+    $classesNote = DB::table('notes')
+        ->where('idClass', $id)
+        ->orderBy('id', 'DESC')
+        ->get();
+
+    $studentCount = $classesStudent->count();
+
+    @endphp
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <div class="containerSetting">
+        <div class="classBanner">
+            <div class="bannerTitle">
+                <h2 style="font-size: 28px;font-weight:600;margin-bottom:20px">{{ $classes->subject }}</h2>
+                <h1 style="font-size: 38px">{{ $classes->className }}</h1>
+                <div class="lectName">{{ $classes->username }}</div>
+            </div>
+
+        </div>
+        <div class="classContent">
+            <h2 style="font-size: 28px;font-weight:600;color:#808080">Content</h2>
+
+            @if (Auth::guard('web')->check())
+                <a class="addContentButton" href="#">
+                    <div style="margin-right: 15px;"></div>Add Note<div style="margin-left: 15px;"></div>
+                </a>
+            @endif
+
+            @if ($classesNote->count() <= 0)
+                <div class="notNoteFoundContainer" style="margin-top:25px;"><img
+                        src="{{ URL::asset('/image/not found.png') }}" draggable="false" style="width:40%;">
+                    <div style="margin-bottom:15px;">
+                        <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Notes Found</h2>
+                    </div>
+                    <div style="color:#808080;">Add your class notes now!</div>
+                </div>
+            @else
+                <div>
+                    @foreach ($classesNote as $classesNote)
+                        <div style="margin-top: 20px;">
+                            <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">{{ $classesNote->title }}</h2>
+                        </div>
+                        <div class="noteContent">{{ $classesNote->content }}</div>
+                        <hr>
+                    @endforeach
+                </div>
+            @endif
+            {{-- <div class="contentClass">
+                <div>
+                    <form>
+                        <label for="titleNote">Title: </label>
+                        <input name="title" type="text"><br><br>
+                        <label for="titleNote">Note: </label>
+                        <textarea name="note" rows="4"></textarea>
+                        <button class="saveNote" type="submit">Save</button>
+                    </form>
+                </div>
+            </div> --}}
+
+
+            {{-- <div style="color:#000000">11234</div> --}}
+        </div>
+        <div class="studentListContainer">
+            <h2 style="font-size: 24px;font-weight:600;color:#808080;margin-bottom:10px;text-align: center;">Students</h2>
+            @if ($classesStudent->count() <= 0)
+                <div class="notFoundContainer"><img src="{{ URL::asset('/image/nostudent.jpg') }}" draggable="false"
+                        style="width:70%;">
+                    <div style="margin-bottom:15px;">
+                        <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Student Found</h2>
+                    </div>
+                    <div style="color:#808080;">No student enroll this class yet</div>
+                </div>
+            @else
+                <div class="studentListTable">
+                    @foreach ($classesStudent as $classesStudent)
+                        <div class="tr">
+                            <a class="studentName" @if (Auth::guard('web')->check())
+                                href="/student/details?id={{ $classesStudent->idStudent }}"
+                    @endif
+                    title="">
+                    <div class="td">{{ ++$loop->index }}</div>
+                    <div class="td">{{ $classesStudent->username }}</div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+        <div class="countStudent">{{ $studentCount }} <span style="font-size: 24px;color:#808080">Student</span></div>
+        @endif
+        <a class="expandButton"><i class="material-icons"></i><a>
+    </div>
+    </div>
+
 
 @endsection

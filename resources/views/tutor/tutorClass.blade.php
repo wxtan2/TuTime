@@ -2,78 +2,6 @@
 
 @section('content')
 
-    @php
-    $userCurrent = Auth::guard('web');
-    $classes = DB::table('classes')
-        ->leftJoin('enroll', 'classes.id', '=', 'enroll.idClass')
-        ->where('classes.emailTutor', $userCurrent->user()->email)
-        ->whereNotNull('classes.dayOfWeek')
-        ->selectRaw('classes.id, classes.className, classes.subject, classes.dayOfWeek, classes.startTime, classes.endTime, count(enroll.idClass) as numberEnroll')
-        ->groupBy('classes.id', 'classes.className', 'classes.subject', 'classes.dayOfWeek', 'classes.startTime', 'classes.endTime')
-        ->get();
-
-    //  $numberEnrolled = DB::table('enroll')
-    //     ->join('classes', 'enroll.idClass', '=', 'classes.id')
-    //     ->where('classes.emailTutor', $userCurrent->user()->email)
-    //     ->whereNotNull('classes.dayOfWeek')
-    //     ->slect();
-
-    $getDayofWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
-
-    function secondsToTime($seconds)
-    {
-        $dtF = new \DateTime('@0');
-        $dtT = new \DateTime("@$seconds");
-        return $dtF->diff($dtT)->format('%h h %i min');
-    }
-    @endphp
-    <div class="containerSetting">
-        <div class="mainContent">
-            @if ($classes->count() <= 0)
-                <div class="notFoundContainer"><img src="{{ URL::asset('/image/notfound.png') }}" style="width:60%;">
-                    <div style="margin-bottom:15px;">
-                        <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Class Found</h2>
-                    </div>
-                    <div><a class="notfoundLink" href="{{ route('dashboard') }}" style="color:#808080;">Add Class in Your
-                            Timetable</a></div>
-                </div>
-            @else
-                <table class="classTable">
-                    <tr style="color:#F28F3B;">
-                        <td>No</td>
-                        <td>Class Name</td>
-                        <td>Subject</td>
-                        <td>Day</td>
-                        <td>Start Time</td>
-                        <td>End Time</td>
-                        <td>Duration</td>
-                        <td style="text-align: center;">Students</td>
-                        <td></td>
-                    </tr>
-                    @foreach ($classes as $classes)
-                        <tr>
-                            <td>{{ ++$loop->index }}</td>
-                            <td>{{ $classes->className }}</td>
-                            <td>{{ $classes->subject }}</td>
-                            <td>{{ $day = $getDayofWeek[$classes->dayOfWeek] }}</td>
-                            <td>{{ $classes->startTime }}</td>
-                            <td>{{ $classes->endTime }}</td>
-                            <td>{{ secondsToTime(strtotime($classes->endTime) - strtotime($classes->startTime)) }}</td>
-                            <td class="numberEnroll">{{ $classes->numberEnroll }}</td>
-                            <td>
-                                <form action="/classes/details" method="get">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $classes->id }}">
-                                    <button type="submit" class="viewButton" value=""></button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
-            @endif
-        </div>
-    </div>
-
     <style>
         .numberEnroll {
             font-size: 32px;
@@ -179,5 +107,77 @@
         }
 
     </style>
+    @php
+    $userCurrent = Auth::guard('web');
+    $classes = DB::table('classes')
+        ->leftJoin('enroll', 'classes.id', '=', 'enroll.idClass')
+        ->where('classes.emailTutor', $userCurrent->user()->email)
+        ->whereNotNull('classes.dayOfWeek')
+        ->selectRaw('classes.id, classes.className, classes.subject, classes.dayOfWeek, classes.startTime, classes.endTime, count(enroll.idClass) as numberEnroll')
+        ->groupBy('classes.id', 'classes.className', 'classes.subject', 'classes.dayOfWeek', 'classes.startTime', 'classes.endTime')
+        ->get();
+
+    //  $numberEnrolled = DB::table('enroll')
+    //     ->join('classes', 'enroll.idClass', '=', 'classes.id')
+    //     ->where('classes.emailTutor', $userCurrent->user()->email)
+    //     ->whereNotNull('classes.dayOfWeek')
+    //     ->slect();
+
+    $getDayofWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
+
+    function secondsToTime($seconds)
+    {
+        $dtF = new \DateTime('@0');
+        $dtT = new \DateTime("@$seconds");
+        return $dtF->diff($dtT)->format('%h h %i min');
+    }
+    @endphp
+    <div class="containerSetting">
+        <div class="mainContent">
+            @if ($classes->count() <= 0)
+                <div class="notFoundContainer"><img src="{{ URL::asset('/image/notfound.png') }}" style="width:60%;">
+                    <div style="margin-bottom:15px;">
+                        <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Class Found</h2>
+                    </div>
+                    <div><a class="notfoundLink" href="{{ route('dashboard') }}" style="color:#808080;">Add Class in Your
+                            Timetable</a></div>
+                </div>
+            @else
+                <table class="classTable">
+                    <tr style="color:#F28F3B;">
+                        <td>No</td>
+                        <td>Class Name</td>
+                        <td>Subject</td>
+                        <td>Day</td>
+                        <td>Start Time</td>
+                        <td>End Time</td>
+                        <td>Duration</td>
+                        <td style="text-align: center;">Students</td>
+                        <td></td>
+                    </tr>
+                    @foreach ($classes as $classes)
+                        <tr>
+                            <td>{{ ++$loop->index }}</td>
+                            <td>{{ $classes->className }}</td>
+                            <td>{{ $classes->subject }}</td>
+                            <td>{{ $day = $getDayofWeek[$classes->dayOfWeek] }}</td>
+                            <td>{{ $classes->startTime }}</td>
+                            <td>{{ $classes->endTime }}</td>
+                            <td>{{ secondsToTime(strtotime($classes->endTime) - strtotime($classes->startTime)) }}</td>
+                            <td class="numberEnroll">{{ $classes->numberEnroll }}</td>
+                            <td>
+                                <form action="/classes/details" method="get">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $classes->id }}">
+                                    <button type="submit" class="viewButton" value=""></button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            @endif
+        </div>
+    </div>
+
 
 @endsection

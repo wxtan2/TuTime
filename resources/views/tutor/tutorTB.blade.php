@@ -2,6 +2,323 @@
 
 @section('content')
 
+
+    <style>
+        .fc .fc-timegrid-slot {
+            height: 2em;
+            border-bottom: 0;
+        }
+
+        .eventImgContainer {
+            width: 35px;
+            height: 35px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .eventImgContainer img {
+            width: 35px !important;
+            right: 0px !important;
+            top: 0px !important;
+        }
+
+        .fc-timegrid-event .fc-event-main {
+            padding: 10px !important;
+        }
+
+        .fc .fc-highlight {
+            background-color: #fbecdf !important;
+        }
+
+        #external-events {
+            box-sizing: border-box;
+            margin-right: 24px;
+            margin-top: 65px;
+            float: right;
+            width: calc(18.5% - 25px);
+            height: calc(50vh - 65px);
+            overflow: auto;
+            padding: 0 10px;
+            text-align: left;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+            padding-bottom: 10px;
+        }
+
+        #add-events,
+        #update-events {
+            box-sizing: border-box;
+            margin-right: 24px;
+            margin-top: 15px;
+            float: right;
+            width: calc(18.5% - 25px);
+            padding: 15px;
+            min-height: calc(50vh - 65px);
+            overflow: auto;
+            text-align: left;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+            color: #808080;
+        }
+
+        #add-events input,
+        #update-events input {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            border: 1px solid #808080;
+            outline-color: #dc7543;
+            border-radius: 5px;
+            box-sizing: border-box;
+
+        }
+
+        #add-events input:read-only,
+        #update-events input:read-only {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            border: 1px solid #808080;
+            background-color: #eeeeee;
+            outline: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+
+        }
+
+        #add-events input[type=color],
+        #update-events input[type=color] {
+            padding: 0px;
+            border: 0px;
+            height: 30px;
+            width: 45px;
+            margin-top: 10px;
+            margin-left: 20px;
+            background-color: transparent;
+            outline: none;
+            border-radius: 0px;
+            box-sizing: border-box;
+
+        }
+
+        #add-events .addButton,
+        #update-events .addButton {
+            background-color: transparent;
+            width: 100%;
+            height: 40px;
+            border-radius: 5px;
+            outline: 0;
+            border: 1px solid #F28F3B;
+            padding: 0 10px;
+            color: #F28F3B;
+            margin-top: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: 0.3s;
+
+        }
+
+        #add-events .addButton:hover,
+        #update-events .addButton:hover {
+            background-color: #F28F3B;
+            border: 1px solid #F28F3B;
+            color: #ffffff;
+            transition: 0.3s;
+        }
+
+        #external-events .fc-event,
+        .fc-h-event {
+            margin: 5px 0;
+            padding: 10px;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #dc7543;
+            background: #dc7543 !important;
+            text-align: left;
+            position: relative;
+        }
+
+        .deleteButton {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ff0000;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            z-index: 1;
+            background: url({{ URL::asset('/image/bin.svg') }}) no-repeat;
+            background-size: 30px 30px;
+            background-position: center;
+        }
+
+        .deleteButton:hover {
+            transition: 0.3s;
+            background-color: #ff00003b;
+        }
+
+
+        .deleteContainer {
+            width: 40px;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+        }
+
+        .removeButton {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #187BCD;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            z-index: 1;
+            background: url({{ URL::asset('/image/take-out.svg') }}) no-repeat;
+            background-size: 30px 30px;
+            background-position: center;
+        }
+
+        .removeButton:hover {
+            transition: 0.3s;
+            background-color: #187ccd2c;
+        }
+
+        .moveContainer {
+            width: 40px;
+            position: absolute;
+            right: 50px;
+            top: 0px;
+        }
+
+        #external-events h4 {
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 1em;
+        }
+
+        #external-events p {
+            margin: 1.5em 0;
+            font-size: 11px;
+            color: #666;
+        }
+
+        #external-events p input {
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .fc .fc-button-primary {
+            color: #fff;
+            color: var(--fc-button-text-color, #fff);
+            background-color: #dc7543;
+            background-color: var(--fc-button-bg-color, #dc7543);
+            border-color: #dc7543;
+            border-color: var(--fc-button-border-color, #dc7543);
+        }
+
+        .fc .fc-button-primary:hover {
+            color: #fff;
+            color: var(--fc-button-text-color, #fff);
+            background-color: #F28F3B;
+            background-color: var(--fc-button-hover-bg-color, #F28F3B);
+            border-color: #F28F3B;
+            border-color: var(--fc-button-hover-border-color, #F28F3B);
+        }
+
+        .fc .fc-button-primary:disabled {
+            color: #fff;
+            color: var(--fc-button-text-color, #fff);
+            background-color: #F28F3B;
+            background-color: var(--fc-button-bg-color, #F28F3B);
+            border-color: #F28F3B;
+            border-color: var(--fc-button-border-color, #F28F3B);
+        }
+
+        .fc .fc-button-primary:not(:disabled).fc-button-active,
+        .fc .fc-button-primary:not(:disabled):active {
+            color: #fff;
+            color: var(--fc-button-text-color, #fff);
+            background-color: #F28F3B;
+            background-color: var(--fc-button-active-bg-color, #F28F3B);
+            border-color: #F28F3B;
+            border-color: var(--fc-button-active-border-color, #F28F3B);
+        }
+
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Create a custom radio button */
+
+        .checkmark {
+            position: absolute;
+            top: -3px;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            border: 1px solid #000;
+            background-color: transparent;
+            border-radius: 50%;
+        }
+
+        .container input:checked~.checkmark {
+            border: 1px solid #ff6600;
+        }
+
+
+        /* Create the indicator (the dot/circle - hidden when not checked) */
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+
+        /* Show the indicator (dot/circle) when checked */
+
+        .container input:checked~.checkmark:after {
+            display: block;
+        }
+
+
+        /* Style the indicator (dot/circle) */
+
+        .container .checkmark:after {
+            top: 5px;
+            left: 5px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ff6600;
+        }
+
+        .fc-event img {
+            width: 25px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+    </style>
     <script>
         $(document).ready(function() {
 
@@ -517,17 +834,17 @@
 
     <div
         style="width:calc(80% - 13.54vw); 
-                                                                                                                            height: 91vh; 
-                                                                                                                            margin-top:65px; 
-                                                                                                                            margin-left: calc(13.54vw + 15px); 
-                                                                                                                            display:flex;
-                                                                                                                            float:left;
-                                                                                                                            color:#666666!important; 
-                                                                                                                            box-sizing: border-box;
-                                                                                                                            padding:10px;
-                                                                                                                            background:#ffffff;
-                                                                                                                            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-                                                                                                                            border-radius:10px;">
+                                                                                                                                height: 91vh; 
+                                                                                                                                margin-top:65px; 
+                                                                                                                                margin-left: calc(13.54vw + 15px); 
+                                                                                                                                display:flex;
+                                                                                                                                float:left;
+                                                                                                                                color:#666666!important; 
+                                                                                                                                box-sizing: border-box;
+                                                                                                                                padding:10px;
+                                                                                                                                background:#ffffff;
+                                                                                                                                box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+                                                                                                                                border-radius:10px;">
         <div id='calendar' style="height:100%; width:100%"></div>
     </div>
     {{-- <div id="external-events"
@@ -723,321 +1040,4 @@
 
     {{-- <div style='clear:both'></div> --}}
 
-
-    <style>
-        .fc .fc-timegrid-slot {
-            height: 2em;
-            border-bottom: 0;
-        }
-
-        .eventImgContainer {
-            width: 35px;
-            height: 35px;
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-        }
-
-        .eventImgContainer img {
-            width: 35px !important;
-            right: 0px !important;
-            top: 0px !important;
-        }
-
-        .fc-timegrid-event .fc-event-main {
-            padding: 10px !important;
-        }
-
-        .fc .fc-highlight {
-            background-color: #fbecdf !important;
-        }
-
-        #external-events {
-            box-sizing: border-box;
-            margin-right: 24px;
-            margin-top: 65px;
-            float: right;
-            width: calc(18.5% - 25px);
-            height: calc(50vh - 65px);
-            overflow: auto;
-            padding: 0 10px;
-            text-align: left;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-            padding-bottom: 10px;
-        }
-
-        #add-events,
-        #update-events {
-            box-sizing: border-box;
-            margin-right: 24px;
-            margin-top: 15px;
-            float: right;
-            width: calc(18.5% - 25px);
-            padding: 15px;
-            min-height: calc(50vh - 65px);
-            overflow: auto;
-            text-align: left;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-            color: #808080;
-        }
-
-        #add-events input,
-        #update-events input {
-            padding: 10px;
-            width: 100%;
-            margin-top: 10px;
-            border: 1px solid #808080;
-            outline-color: #dc7543;
-            border-radius: 5px;
-            box-sizing: border-box;
-
-        }
-
-        #add-events input:read-only,
-        #update-events input:read-only {
-            padding: 10px;
-            width: 100%;
-            margin-top: 10px;
-            border: 1px solid #808080;
-            background-color: #eeeeee;
-            outline: none;
-            border-radius: 5px;
-            box-sizing: border-box;
-
-        }
-
-        #add-events input[type=color],
-        #update-events input[type=color] {
-            padding: 0px;
-            border: 0px;
-            height: 30px;
-            width: 45px;
-            margin-top: 10px;
-            margin-left: 20px;
-            background-color: transparent;
-            outline: none;
-            border-radius: 0px;
-            box-sizing: border-box;
-
-        }
-
-        #add-events .addButton,
-        #update-events .addButton {
-            background-color: transparent;
-            width: 100%;
-            height: 40px;
-            border-radius: 5px;
-            outline: 0;
-            border: 1px solid #F28F3B;
-            padding: 0 10px;
-            color: #F28F3B;
-            margin-top: 20px;
-            box-sizing: border-box;
-            cursor: pointer;
-            transition: 0.3s;
-
-        }
-
-        #add-events .addButton:hover,
-        #update-events .addButton:hover {
-            background-color: #F28F3B;
-            border: 1px solid #F28F3B;
-            color: #ffffff;
-            transition: 0.3s;
-        }
-
-        #external-events .fc-event,
-        .fc-h-event {
-            margin: 5px 0;
-            padding: 10px;
-            align-items: center;
-            cursor: pointer;
-            border-radius: 5px;
-            border: 1px solid #dc7543;
-            background: #dc7543 !important;
-            text-align: left;
-            position: relative;
-        }
-
-        .deleteButton {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #ff0000;
-            box-sizing: border-box;
-            cursor: pointer;
-            transition: 0.3s;
-            border-radius: 5px;
-            z-index: 1;
-            background: url({{ URL::asset('/image/bin.svg') }}) no-repeat;
-            background-size: 30px 30px;
-            background-position: center;
-        }
-
-        .deleteButton:hover {
-            transition: 0.3s;
-            background-color: #ff00003b;
-        }
-
-
-        .deleteContainer {
-            width: 40px;
-            position: absolute;
-            right: 0px;
-            top: 0px;
-        }
-
-        .removeButton {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #187BCD;
-            box-sizing: border-box;
-            cursor: pointer;
-            transition: 0.3s;
-            border-radius: 5px;
-            z-index: 1;
-            background: url({{ URL::asset('/image/take-out.svg') }}) no-repeat;
-            background-size: 30px 30px;
-            background-position: center;
-        }
-
-        .removeButton:hover {
-            transition: 0.3s;
-            background-color: #187ccd2c;
-        }
-
-        .moveContainer {
-            width: 40px;
-            position: absolute;
-            right: 50px;
-            top: 0px;
-        }
-
-        #external-events h4 {
-            font-size: 16px;
-            margin-top: 0;
-            padding-top: 1em;
-        }
-
-        #external-events p {
-            margin: 1.5em 0;
-            font-size: 11px;
-            color: #666;
-        }
-
-        #external-events p input {
-            margin: 0;
-            vertical-align: middle;
-        }
-
-        .fc .fc-button-primary {
-            color: #fff;
-            color: var(--fc-button-text-color, #fff);
-            background-color: #dc7543;
-            background-color: var(--fc-button-bg-color, #dc7543);
-            border-color: #dc7543;
-            border-color: var(--fc-button-border-color, #dc7543);
-        }
-
-        .fc .fc-button-primary:hover {
-            color: #fff;
-            color: var(--fc-button-text-color, #fff);
-            background-color: #F28F3B;
-            background-color: var(--fc-button-hover-bg-color, #F28F3B);
-            border-color: #F28F3B;
-            border-color: var(--fc-button-hover-border-color, #F28F3B);
-        }
-
-        .fc .fc-button-primary:disabled {
-            color: #fff;
-            color: var(--fc-button-text-color, #fff);
-            background-color: #F28F3B;
-            background-color: var(--fc-button-bg-color, #F28F3B);
-            border-color: #F28F3B;
-            border-color: var(--fc-button-border-color, #F28F3B);
-        }
-
-        .fc .fc-button-primary:not(:disabled).fc-button-active,
-        .fc .fc-button-primary:not(:disabled):active {
-            color: #fff;
-            color: var(--fc-button-text-color, #fff);
-            background-color: #F28F3B;
-            background-color: var(--fc-button-active-bg-color, #F28F3B);
-            border-color: #F28F3B;
-            border-color: var(--fc-button-active-border-color, #F28F3B);
-        }
-
-        .container {
-            display: block;
-            position: relative;
-            padding-left: 35px;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        .container input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        /* Create a custom radio button */
-
-        .checkmark {
-            position: absolute;
-            top: -3px;
-            left: 0;
-            height: 24px;
-            width: 24px;
-            border: 1px solid #000;
-            background-color: transparent;
-            border-radius: 50%;
-        }
-
-        .container input:checked~.checkmark {
-            border: 1px solid #ff6600;
-        }
-
-
-        /* Create the indicator (the dot/circle - hidden when not checked) */
-
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-
-
-        /* Show the indicator (dot/circle) when checked */
-
-        .container input:checked~.checkmark:after {
-            display: block;
-        }
-
-
-        /* Style the indicator (dot/circle) */
-
-        .container .checkmark:after {
-            top: 5px;
-            left: 5px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #ff6600;
-        }
-
-        .fc-event img {
-            width: 25px;
-            position: absolute;
-            right: 10px;
-            top: 10px;
-        }
-
-    </style>
 @endsection

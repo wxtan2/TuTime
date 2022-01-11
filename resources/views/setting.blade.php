@@ -1,177 +1,7 @@
 @extends('layout.nav')
 
 @section('content')
-    @php
-    if (Auth::guard('students')->check()) {
-        $userCurrent = Auth::guard('students');
-    } elseif (Auth::guard('web')->check()) {
-        $userCurrent = Auth::guard('web');
-    }
-    @endphp
 
-    <div class="containerSetting">
-        <div class="sideMenu">
-            <div class="program-menu active" data-name="details" id="Details">
-                Details
-                <div></div>
-            </div>
-
-            <div class="program-menu" data-name="account" id="Account">
-                Account
-                <div></div>
-
-            </div>
-
-        </div>
-        <div class="mainContent">
-            <div class="program-content" id="details">
-                <form action="{{ route('settings') }}" method="post">
-                    @csrf
-
-                    <table class="contentTable" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td style="height: 100px; vertical-align: top;">
-                                <img src="{{ URL::asset('/image/Persona.svg') }}" draggable="false" style="width:130px;">
-                            </td>
-                            <td>
-                                <input class="@error('username') errorBorder @enderror" type="text" name="username"
-                                    value="{{ $userCurrent->user()->username }}">
-                                @error('username')
-                                    <div class="errorMessage">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                                <textarea placeholder="Self Description" rows="5"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Gender</td>
-                            <td>
-                                <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
-                                    <tr>
-
-                                        <td>
-                                            <label class="container">Male
-                                                <input type="radio" <?php if ($userCurrent->user()->gender == 'male') {
-    echo 'checked';
-} ?> value="male" name="gender">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="container">Female
-                                                <input type="radio" <?php if ($userCurrent->user()->gender == 'female') {
-    echo 'checked';
-} ?> value="female" name="gender">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </td>
-
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Mobile</td>
-                            <td><input type="text" class="@error('phone') errorBorder @enderror" name="phone"
-                                    value="{{ $userCurrent->user()->phone }}" style="margin-top: 10px;">
-                                @error('phone')
-                                    <div class="errorMessage">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </td>
-                        </tr>
-                        {{-- <tr>
-                            <td>Email</td>
-                            <td><input type="text" class="@error('email') errorBorder @enderror" name="email" value="{{ $userEmail }}">@error('email')
-                                <div class="errorMessage">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </td>
-                        </tr> --}}
-                        <tr>
-                            <td>Date of Birth</td>
-                            <td><input type="date" class="@error('dob') errorBorder @enderror" name="dob"
-                                    value="{{ $userCurrent->user()->dob }}">
-                                @error('dob')
-                                    <div class="errorMessage">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td style="text-align:right">
-                                <button type="submit" name="changeDetails" title="Save" alt="Save">Save</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-            <div class="program-content" id="account">
-                <form action="{{ route('settings') }}" method="post">
-                    @csrf
-
-                    <table class="contentTable" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td colspan="2" style="text-align:left">
-                                <h2 style="margin-bottom:0px; font-weight:700">Change Password</h2>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>Current Password</td>
-                            <td><input class="@error('password') errorBorder @enderror @if (session('status')) errorBorder @endif" type="password" name="password"
-                                    style="margin-top: 10px;">
-                                @if (session('status'))
-                                    <div class="errorMessage">
-                                        {{ session('status') }}
-                                    </div>
-                                @endif
-                                @error('password')
-                                    <div class="errorMessage">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>New Password</td>
-                            <td><input class="@error('newPassword') errorBorder @enderror" type="password"
-                                    name="newPassword">
-                                @error('newPassword')
-                                    <div class="errorMessage">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Confirm Password</td>
-                            <td><input class="@error('newPassword_confirmation') errorBorder @enderror" type="password"
-                                    name="newPassword_confirmation">
-                                @error('newPassword_confirmation')
-                                    <div class="errorMessage">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td style="text-align:right"><button type="submit" name="changePassword"
-                                    title="Save">Save</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </div>
-    </div>
     <script>
         $(document).ready(function() {
             var nowurl = window.location.hash;
@@ -383,5 +213,178 @@
         }
 
     </style>
+
+
+    @php
+    if (Auth::guard('students')->check()) {
+        $userCurrent = Auth::guard('students');
+    } elseif (Auth::guard('web')->check()) {
+        $userCurrent = Auth::guard('web');
+    }
+    @endphp
+
+    <div class="containerSetting">
+        <div class="sideMenu">
+            <div class="program-menu active" data-name="details" id="Details">
+                Details
+                <div></div>
+            </div>
+
+            <div class="program-menu" data-name="account" id="Account">
+                Account
+                <div></div>
+
+            </div>
+
+        </div>
+        <div class="mainContent">
+            <div class="program-content" id="details">
+                <form action="{{ route('settings') }}" method="post">
+                    @csrf
+
+                    <table class="contentTable" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="height: 100px; vertical-align: top;">
+                                <img src="{{ URL::asset('/image/Persona.svg') }}" draggable="false" style="width:130px;">
+                            </td>
+                            <td>
+                                <input class="@error('username') errorBorder @enderror" type="text" name="username"
+                                    value="{{ $userCurrent->user()->username }}">
+                                @error('username')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <textarea placeholder="Self Description" rows="5"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
+                                    <tr>
+
+                                        <td>
+                                            <label class="container">Male
+                                                <input type="radio" <?php if ($userCurrent->user()->gender == 'male') {
+    echo 'checked';
+} ?> value="male" name="gender">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="container">Female
+                                                <input type="radio" <?php if ($userCurrent->user()->gender == 'female') {
+    echo 'checked';
+} ?> value="female" name="gender">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mobile</td>
+                            <td><input type="text" class="@error('phone') errorBorder @enderror" name="phone"
+                                    value="{{ $userCurrent->user()->phone }}" style="margin-top: 10px;">
+                                @error('phone')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        {{-- <tr>
+                            <td>Email</td>
+                            <td><input type="text" class="@error('email') errorBorder @enderror" name="email" value="{{ $userEmail }}">@error('email')
+                                <div class="errorMessage">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </td>
+                        </tr> --}}
+                        <tr>
+                            <td>Date of Birth</td>
+                            <td><input type="date" class="@error('dob') errorBorder @enderror" name="dob"
+                                    value="{{ $userCurrent->user()->dob }}">
+                                @error('dob')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="text-align:right">
+                                <button type="submit" name="changeDetails" title="Save" alt="Save">Save</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="program-content" id="account">
+                <form action="{{ route('settings') }}" method="post">
+                    @csrf
+
+                    <table class="contentTable" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td colspan="2" style="text-align:left">
+                                <h2 style="margin-bottom:0px; font-weight:700">Change Password</h2>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>Current Password</td>
+                            <td><input class="@error('password') errorBorder @enderror @if (session('status')) errorBorder @endif"
+                                    type="password" name="password" style="margin-top: 10px;">
+                                @if (session('status'))
+                                    <div class="errorMessage">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
+                                @error('password')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>New Password</td>
+                            <td><input class="@error('newPassword') errorBorder @enderror" type="password"
+                                    name="newPassword">
+                                @error('newPassword')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Password</td>
+                            <td><input class="@error('newPassword_confirmation') errorBorder @enderror" type="password"
+                                    name="newPassword_confirmation">
+                                @error('newPassword_confirmation')
+                                    <div class="errorMessage">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="text-align:right"><button type="submit" name="changePassword"
+                                    title="Save">Save</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection

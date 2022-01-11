@@ -2,54 +2,6 @@
 
 @section('content')
 
-    @php
-    $id = request()->get('id');
-    $userCurrent = Auth::guard('students');
-    $student = DB::table('students')
-        ->where('id', $id)
-        ->first();
-
-    @endphp
-
-    <div class="containerSetting">
-        <div class="studentDetailsContent">
-                
-            <table class="studentDetailsTable">
-                <tr>
-                    <td style="vertical-align: top;padding:0px;">
-                        <img src="{{ URL::asset('/image/Persona.svg') }}" draggable="false" style="width:130px;">
-                    </td>
-                    <td >
-                        <h2 style="font-size: 28px; font-weight:600;">{{ $student->username }}</h2>
-                        
-                        <div></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Age</td>
-                    <td>{{ date('Y') - date('Y', strtotime($student->dob)) }}</td>
-                </tr>
-                <tr>
-                    <td>Gender</td>
-                    <td>{{ $student->gender }}</td>
-                </tr>
-                <tr>
-                    <td>Mobile</td>
-                    <td><a href="tel:{{ $student->phone }}">{{ $student->phone }}</a></td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td><a href="email:{{ $student->email }}">{{ $student->email }}</a></td>
-                </tr>
-                <tr>
-                    <td>Date if Birth</td>
-                    <td>{{ $student->dob }}</td>
-                </tr>
-            </table>
-            <hr>
-
-        </div>
-    </div>
 
     <style>
         hr {
@@ -83,24 +35,23 @@
             margin-top: 25px;
         }
 
-        .studentDetailsTable {
-        }
+        .studentDetailsTable {}
 
-        .studentDetailsTable td{
+        .studentDetailsTable td {
             padding: 12px 20px;
         }
 
-        .studentDetailsTable tr td:first-child{
+        .studentDetailsTable tr td:first-child {
             text-align: right
         }
-        
-        .studentDetailsTable a{
+
+        .studentDetailsTable a {
             text-decoration: none;
-            color:#808080;
+            color: #808080;
         }
 
-        .studentDetailsTable a:hover{
-            color:#E87247;
+        .studentDetailsTable a:hover {
+            color: #E87247;
         }
 
     </style>
@@ -110,5 +61,55 @@
 
         })
     </script>
+
+
+    @php
+    $id = request()->get('id');
+    $userCurrent = Auth::guard('students');
+    $student = DB::table('students')
+        ->where('id', $id)
+        ->first();
+
+    @endphp
+
+    <div class="containerSetting">
+        <div class="studentDetailsContent">
+
+            <table class="studentDetailsTable">
+                <tr>
+                    <td style="vertical-align: top;padding:0px;">
+                        <img src="{{ URL::asset('/image/Persona.svg') }}" draggable="false" style="width:130px;">
+                    </td>
+                    <td>
+                        <h2 style="font-size: 28px; font-weight:600;">{{ $student->username }}</h2>
+
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    <td>{{ date('Y') - date('Y', strtotime($student->dob)) }}</td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>{{ $student->gender }}</td>
+                </tr>
+                <tr>
+                    <td>Mobile</td>
+                    <td><a href="tel:{{ $student->phone }}">{{ $student->phone }}</a></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><a href="email:{{ $student->email }}">{{ $student->email }}</a></td>
+                </tr>
+                <tr>
+                    <td>Date if Birth</td>
+                    <td>{{ $student->dob }}</td>
+                </tr>
+            </table>
+            <hr>
+
+        </div>
+    </div>
 
 @endsection

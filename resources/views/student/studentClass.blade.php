@@ -2,77 +2,6 @@
 
 @section('content')
 
-    @php
-    $userCurrent = Auth::guard('students');
-
-    $classesEnrolled = DB::table('classes')
-        ->join('enroll', 'classes.id', '=', 'enroll.idClass')
-        ->join('users', 'classes.emailTutor', '=', 'users.email')
-        ->where('enroll.emailStudent', $userCurrent->user()->email)
-        ->whereNotNull('classes.dayOfWeek')
-        ->select('classes.*', 'users.username')
-        ->get();
-
-    $getDayofWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
-
-    function secondsToTime($seconds)
-    {
-        $dtF = new \DateTime('@0');
-        $dtT = new \DateTime("@$seconds");
-        return $dtF->diff($dtT)->format('%h h %i min');
-    }
-    @endphp
-    <div class="containerSetting">
-        <div class="mainContent">
-            @if ($classesEnrolled->count() <= 0)
-                <div class="notFoundContainer"><img src="{{ URL::asset('/image/notfound.png') }}" draggable="false"
-                        style="width:60%;">
-                    <div style="margin-bottom:15px;">
-                        <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Class Found</h2>
-                    </div>
-                    <div><a class="notfoundLink" href="{{ route('enrollStudent') }}" style="color:#808080;">Enroll
-                            Yourself in a Class</a></div>
-                </div>
-            @else
-                <table class="classTable">
-                    <tr style="color:#F28F3B;">
-                        <td>No</td>
-                        <td>Class Name</td>
-                        <td>Subject</td>
-                        <td>Day</td>
-                        <td>Start Time</td>
-                        <td>End Time</td>
-                        <td>Duration</td>
-                        <td>Teacher</td>
-                        <td></td>
-                    </tr>
-                    @foreach ($classesEnrolled as $classesEnrolled)
-                        <tr>
-                            <td>{{ ++$loop->index }}</td>
-                            <td>{{ $classesEnrolled->className }}</td>
-                            <td>{{ $classesEnrolled->subject }}</td>
-                            <td>{{ $day = $getDayofWeek[$classesEnrolled->dayOfWeek] }}</td>
-                            <td>{{ $classesEnrolled->startTime }}</td>
-                            <td>{{ $classesEnrolled->endTime }}</td>
-                            <td>{{ secondsToTime(strtotime($classesEnrolled->endTime) - strtotime($classesEnrolled->startTime)) }}
-                            </td>
-                            <td>{{ $classesEnrolled->username }}</td>
-
-                            <td>
-                                <form action="/classes/details" method="get">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $classesEnrolled->id }}">
-                                    <input type="submit" class="viewButton" value="">
-                                </form>
-
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
-            @endif
-        </div>
-    </div>
-
     <style>
         .containerSetting {
             width: calc(100% - 13.54vw);
@@ -171,5 +100,76 @@
         }
 
     </style>
+    @php
+    $userCurrent = Auth::guard('students');
+
+    $classesEnrolled = DB::table('classes')
+        ->join('enroll', 'classes.id', '=', 'enroll.idClass')
+        ->join('users', 'classes.emailTutor', '=', 'users.email')
+        ->where('enroll.emailStudent', $userCurrent->user()->email)
+        ->whereNotNull('classes.dayOfWeek')
+        ->select('classes.*', 'users.username')
+        ->get();
+
+    $getDayofWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday'];
+
+    function secondsToTime($seconds)
+    {
+        $dtF = new \DateTime('@0');
+        $dtT = new \DateTime("@$seconds");
+        return $dtF->diff($dtT)->format('%h h %i min');
+    }
+    @endphp
+    <div class="containerSetting">
+        <div class="mainContent">
+            @if ($classesEnrolled->count() <= 0)
+                <div class="notFoundContainer"><img src="{{ URL::asset('/image/notfound.png') }}" draggable="false"
+                        style="width:60%;">
+                    <div style="margin-bottom:15px;">
+                        <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Class Found</h2>
+                    </div>
+                    <div><a class="notfoundLink" href="{{ route('enrollStudent') }}" style="color:#808080;">Enroll
+                            Yourself in a Class</a></div>
+                </div>
+            @else
+                <table class="classTable">
+                    <tr style="color:#F28F3B;">
+                        <td>No</td>
+                        <td>Class Name</td>
+                        <td>Subject</td>
+                        <td>Day</td>
+                        <td>Start Time</td>
+                        <td>End Time</td>
+                        <td>Duration</td>
+                        <td>Teacher</td>
+                        <td></td>
+                    </tr>
+                    @foreach ($classesEnrolled as $classesEnrolled)
+                        <tr>
+                            <td>{{ ++$loop->index }}</td>
+                            <td>{{ $classesEnrolled->className }}</td>
+                            <td>{{ $classesEnrolled->subject }}</td>
+                            <td>{{ $day = $getDayofWeek[$classesEnrolled->dayOfWeek] }}</td>
+                            <td>{{ $classesEnrolled->startTime }}</td>
+                            <td>{{ $classesEnrolled->endTime }}</td>
+                            <td>{{ secondsToTime(strtotime($classesEnrolled->endTime) - strtotime($classesEnrolled->startTime)) }}
+                            </td>
+                            <td>{{ $classesEnrolled->username }}</td>
+
+                            <td>
+                                <form action="/classes/details" method="get">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $classesEnrolled->id }}">
+                                    <input type="submit" class="viewButton" value="">
+                                </form>
+
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            @endif
+        </div>
+    </div>
+
 
 @endsection
