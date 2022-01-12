@@ -384,7 +384,7 @@
                         <tr>
                             <td>Teaching Mode</td>
                             <td>
-                                <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
+                                <table cellpadding="0" cellspacing="0" border="0" style="margin:10px 0">
                                     <tr>
 
                                         <td>
@@ -400,7 +400,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <label class="container">facetoface
+                                            <label class="container" style="margin-left: 30px;">facetoface
                                                 <input type="radio" value="f2f" name="teachingmode">
                                                 <span class="checkmark"></span>
                                             </label>
@@ -429,8 +429,8 @@
                             <td>Recommended by</td>
                             <td><input type="text" name="recommendedby" value="recommended by"></td>
                         </tr>
+                        <button class="save" type="save" title="Save" alt="Save">save</button>
                     </table>
-                    <button class="save" type="save" title="Save" alt="Save">save</button>
 
                 </div>
             @endif
