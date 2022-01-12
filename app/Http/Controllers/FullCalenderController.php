@@ -20,7 +20,7 @@ class FullCalenderController extends Controller
     
     public function __construct()
     {
-        $this->$this->middleware('auth:web,students');
+        $this->middleware('auth:web,students');
     }
     
     public function index(Request $request)
