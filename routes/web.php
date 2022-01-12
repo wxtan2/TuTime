@@ -15,8 +15,6 @@ use App\Http\Controllers\studentEnrollController;
 use App\Http\Controllers\classDetailsController;
 use App\Http\Controllers\StudentClassDetailsController;
 
-use App\Http\Middleware;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -85,6 +83,6 @@ Route::post('/classes/details',[classDetailsController::class, 'func']);
 Route::get('/student/details',[StudentClassDetailsController::class, 'index'])->name("studentDetails");
 
 Route::get('/', function () {
-  return view('tutor.tutorTB')->middleware('auth:web,students');
-});
+  return view('tutor.tutorTB');
+})->middleware('auth:web,students');
 
