@@ -268,7 +268,7 @@ html {
                     src="{{ URL::asset('/image/logo-color.svg') }}" title="TuTime" alt="TuTime"></a>
 
             <div class="signCenter">
-                <div class="signInWord">Sign in to TuTime</div>
+                <div class="signInWord">Sign In</div>
                 <div class="formContainer">
 
                     <form action="{{ route('login') }}" method="post">

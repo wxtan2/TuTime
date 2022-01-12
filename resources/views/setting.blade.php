@@ -376,8 +376,8 @@
                 <div class="program-content" id="portfolio">
                     <table class="contentTable" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td colspan="2" style="text-align:center">
-                                <h2 style="margin-bottom:10px; font-weight:1200">PORTFOLIO</h2>
+                            <td colspan="2" style="text-align:left">
+                                <h2 style="margin-bottom:10px; font-weight:600">PORTFOLIO</h2>
                             </td>
                         </tr>
 
