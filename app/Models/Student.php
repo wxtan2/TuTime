@@ -13,6 +13,8 @@ class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $guard = 'students';
+
     /**
      * The attributes that are mass assignable.
      *
