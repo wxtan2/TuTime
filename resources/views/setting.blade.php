@@ -216,11 +216,11 @@
             </div>
 
             @if (Auth::guard('web')->check())
-            <div class="program-menu" data-name="portfolio" id="Portfolio">
-                Portfolio
-                <div></div>
+                <div class="program-menu" data-name="portfolio" id="Portfolio">
+                    Portfolio
+                    <div></div>
 
-            </div>
+                </div>
             @endif
 
         </div>
@@ -429,7 +429,11 @@
                             <td>Recommended by</td>
                             <td><input type="text" name="recommendedby" value="recommended by"></td>
                         </tr>
-                        <button class="save" type="save" title="Save" alt="Save">save</button>
+                        <tr>
+                            <td></td>
+                            <td style="text-align:right"><button type="submit" name="Save" title="Save">Save</button>
+                            </td>
+                        </tr>
                     </table>
 
                 </div>
