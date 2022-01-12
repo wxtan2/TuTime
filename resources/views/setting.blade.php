@@ -2,7 +2,7 @@
 
 @section('content')
 
-  
+
 
     <style>
         .errorMessage {
@@ -215,6 +215,14 @@
 
             </div>
 
+            @if (Auth::guard('web')->check())
+            <div class="program-menu" data-name="portfolio" id="Portfolio">
+                Portfolio
+                <div></div>
+
+            </div>
+            @endif
+
         </div>
         <div class="mainContent">
             <div class="program-content" id="details">
@@ -363,6 +371,75 @@
                     </table>
                 </form>
             </div>
+
+            @if (Auth::guard('web')->check())
+                <div class="program-content" id="portfolio">
+                    <table class="contentTable" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td colspan="2" style="text-align:center">
+                                <h2 style="margin-bottom:10px; font-weight:1200">PORTFOLIO</h2>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Teaching Mode</td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0" border="0" style="width: min-content;margin:10px 0">
+                                    <tr>
+
+                                        <td>
+                                            <label class="container">Blended Learning
+                                                <input type="radio" checked="checked" value="bl" name="teachingmode">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="container">Online
+                                                <input type="radio" value="online" name="teachingmode">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="container">facetoface
+                                                <input type="radio" value="f2f" name="teachingmode">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Motto</td>
+                            <td><input type="text" name="motto" value="motto" style="margin-top: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td>Teaching Experience</td>
+                            <td><input type="text" name="teachingexperience" value="expericene"></td>
+                        </tr>
+                        <tr>
+                            <td>Education Background</td>
+                            <td><input type="text" name="educationbackground" value="Education Backgroud"></td>
+                        </tr>
+                        <tr>
+                            <td>Tutoring Subject</td>
+                            <td><input type="text" name="tutoringsubject" value="Tutoring Subject"></td>
+                        </tr>
+                        <tr>
+                            <td>Recommended by</td>
+                            <td><input type="text" name="recommendedby" value="recommended by"></td>
+                        </tr>
+                    </table>
+                    <button class="save" type="save" title="Save" alt="Save">save</button>
+
+                </div>
+            @endif
+
+
+
+
+
+
         </div>
     </div>
     <script>
