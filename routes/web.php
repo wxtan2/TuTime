@@ -55,7 +55,7 @@ Route::post('dashboard', [FullCalenderController::class, 'ajax']);
 
 Route::get('/classes', function () {
   return view('tutor.tutorClass');
-})->name("classes");
+})->name("classes")->middleware('auth:web');;
 
 Route::get('/class', [studentClassController::class, 'index'])->name("classStudent");
 
@@ -78,7 +78,7 @@ Route::post('/classes/details',[classDetailsController::class, 'func']);
 
  Route::get('/student', function () {
    return view('tutor.tutorStudent');
-})->name("student");
+})->name("student")->middleware('auth:web');
 
 Route::get('/student/details',[StudentClassDetailsController::class, 'index'])->name("studentDetails");
 
