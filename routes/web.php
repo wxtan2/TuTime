@@ -15,6 +15,8 @@ use App\Http\Controllers\studentEnrollController;
 use App\Http\Controllers\classDetailsController;
 use App\Http\Controllers\StudentClassDetailsController;
 
+use App\Http\Middleware;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
