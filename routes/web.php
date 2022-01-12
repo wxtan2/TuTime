@@ -49,8 +49,8 @@ Route::post('/register/student/details', [StudentDetailsController::class,'store
 Route::get('/settings', [SettingController::class,'index'])->name("settings");
 Route::post('/settings', [SettingController::class,'editDetails']);
 
-Route::get('dashboard', [FullCalenderController::class, 'index'])->name("dashboard");
-Route::post('dashboard', [FullCalenderController::class, 'ajax']);
+Route::get('/', [FullCalenderController::class, 'index'])->name("dashboard");
+Route::post('/', [FullCalenderController::class, 'ajax']);
 
 
 Route::get('/classes', function () {
@@ -82,7 +82,7 @@ Route::post('/classes/details',[classDetailsController::class, 'func']);
 
 Route::get('/student/details',[StudentClassDetailsController::class, 'index'])->name("studentDetails");
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
 

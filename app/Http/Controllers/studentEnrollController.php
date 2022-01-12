@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class studentEnrollController extends Controller
 {   
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {   
         $classes = DB::table('classes')
