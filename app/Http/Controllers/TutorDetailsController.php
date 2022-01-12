@@ -9,11 +9,6 @@ use Carbon\Carbon;
 
 class TutorDetailsController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     
     public function index()
     {
@@ -38,7 +33,8 @@ class TutorDetailsController extends Controller
                 'dob' => Carbon::parse($request -> DOB)
                 ]);
 
-        // auth() -> attempt($request->only('email','password'));
+        auth() ->guard('web') -> attempt($request->only('email','password'));
+
         return redirect() -> route('dashboard');
 
     }
