@@ -100,10 +100,10 @@
                 </tr>
                 <tr>
                     <td>Email</td>
-                    <td><a href="email:{{ $student->email }}">{{ $student->email }}</a></td>
+                    <td><a href="email:{{ $student->email }}">{{ $studento->email }}</a></td>
                 </tr>
                 <tr>
-                    <td>Date if Birth</td>
+                    <td>Date of Birth</td>
                     <td>{{ $student->dob }}</td>
                 </tr>
             </table>
