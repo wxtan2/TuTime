@@ -28,7 +28,7 @@ class LoginController extends Controller
             if(!auth() -> attempt($request->only('email','password'))){
                 return back() -> with('status','Invalid login details, check your email and password (tutor)');
             }
-            return redirect() -> route('/');
+            return redirect() -> route('dashboard');
 
         }
         else{
@@ -36,7 +36,7 @@ class LoginController extends Controller
             if(!auth() ->guard('students') -> attempt($request->only('email','password'))){
                 return back() -> with('status','Invalid login details, check your email and password (student)');
             }
-            return redirect() -> route('/');
+            return redirect() -> route('dashboard');
         }
 
     }
