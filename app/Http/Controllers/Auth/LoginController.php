@@ -24,7 +24,6 @@ class LoginController extends Controller
         ]);
 
         if($request -> user == 'tutor'){
-            auth() ->guard('web') -> attempt($request->only('email','password'));
             if(!auth() -> attempt($request->only('email','password'))){
                 return back() -> with('status','Invalid login details, check your email and password (tutor)');
             }
@@ -32,7 +31,6 @@ class LoginController extends Controller
 
         }
         else{
-            auth() ->guard('students') -> attempt($request->only('email','password'));
             if(!auth() ->guard('students') -> attempt($request->only('email','password'))){
                 return back() -> with('status','Invalid login details, check your email and password (student)');
             }

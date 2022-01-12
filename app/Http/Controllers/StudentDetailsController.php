@@ -36,7 +36,6 @@ class StudentDetailsController extends Controller
                 'dob' => Carbon::parse($request -> DOB)
                 ]);
 
-        auth() ->guard('students') -> attempt($request->only('email','password'));
         return redirect() -> route('dashboard');
 
     }

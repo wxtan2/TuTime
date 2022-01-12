@@ -33,8 +33,6 @@ class TutorDetailsController extends Controller
                 'dob' => Carbon::parse($request -> DOB)
                 ]);
 
-        auth() ->guard('web') -> attempt($request->only('email','password'));
-
         return redirect() -> route('dashboard');
 
     }
