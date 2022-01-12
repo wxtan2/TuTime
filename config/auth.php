@@ -71,11 +71,6 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-
         'students' => [
             'driver' => 'eloquent',
             'model' => App\Models\Student::class,
@@ -105,12 +100,12 @@ return [
             'throttle' => 60,
         ],
 
-        'students' => [
-            'provider' => 'students',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
+        // 'students' => [
+        //     'provider' => 'students',
+        //     'table' => 'password_resets',
+        //     'expire' => 60,
+        //     'throttle' => 60,
+        // ],
     ],
 
     /*

@@ -37,7 +37,7 @@ class LoginController extends Controller
         else{
             if(auth() ->guard('students') -> attempt($request->only('email','password'))){
                 $user = auth()->user();
-                dd(auth()->user());
+                dd(auth()-> guard('students') -> user());
                 return redirect() -> route('dashboard');
             }
             else{
