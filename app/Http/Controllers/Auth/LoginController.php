@@ -24,17 +24,21 @@ class LoginController extends Controller
         ]);
 
         if($request -> user == 'tutor'){
-            if(!auth() -> attempt($request->only('email','password'))){
+            if(auth() ->guard('web') -> attempt($request->only('email','password'))){
+                return redirect() -> route('dashboard');
+            }
+            else{
                 return back() -> with('status','Invalid login details, check your email and password (tutor)');
             }
-            return redirect() -> route('dashboard');
 
         }
         else{
-            if(!auth() ->guard('students') -> attempt($request->only('email','password'))){
+            if(auth() ->guard('students') -> attempt($request->only('email','password'))){
+                return redirect() -> route('dashboard');
+            }
+            else{
                 return back() -> with('status','Invalid login details, check your email and password (student)');
             }
-            return redirect() -> route('dashboard');
         }
 
     }
