@@ -25,8 +25,6 @@ class LoginController extends Controller
 
         if($request -> user == 'tutor'){
             if(auth() ->guard('web') -> attempt($request->only('email','password'))){
-                $user = auth()->user();
-                dd(auth()->user());
                 return redirect() -> route('dashboard');
             }
             else{
@@ -36,8 +34,6 @@ class LoginController extends Controller
         }
         else{
             if(auth() ->guard('students') -> attempt($request->only('email','password'))){
-                $user = auth()->user();
-                dd(auth()-> guard('students') -> user());
                 return redirect() -> route('dashboard');
             }
             else{
