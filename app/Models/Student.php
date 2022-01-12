@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
-class Student extends \Illuminate\Foundation\Auth\User
+class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, AuthenticableTrait;
 
