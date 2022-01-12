@@ -10,10 +10,10 @@ class StudentClassDetailsController extends Controller
 {   
 
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth:web,students');
+    }
     
     
     public function index()

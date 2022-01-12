@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class classDetailsController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth:web');
+    }
     
     
     public function index(Request $request)

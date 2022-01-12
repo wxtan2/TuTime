@@ -83,6 +83,6 @@ Route::post('/classes/details',[classDetailsController::class, 'func']);
 Route::get('/student/details',[StudentClassDetailsController::class, 'index'])->name("studentDetails");
 
 Route::get('/', function () {
-  return view('auth.login');
+  return view('dashboard');
 });
 
