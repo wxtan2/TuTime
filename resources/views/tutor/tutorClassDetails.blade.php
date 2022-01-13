@@ -296,7 +296,13 @@
                     <div style="margin-bottom:15px;">
                         <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Notes Found</h2>
                     </div>
+                    @if (Auth::guard('web')->check())
                     <div style="color:#808080;">Add your class notes now!</div>
+                    @endif
+                    @if (Auth::guard('students')->check())
+                    <div style="color:#808080;">No notes added by your teacher yet</div>
+                    @endif
+
                 </div>
             @else
                 <div>
