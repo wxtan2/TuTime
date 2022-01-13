@@ -27,11 +27,11 @@ class RegisterTutorController extends Controller
             'password_confirmation' => 'required',
         ]);
 
-        $users = User::where('email', '=', $request->email)->first();
+        $user = User::where('email', '=', $request->email)->first();
 
-        if ($users === null) {
+        if ($user === null) {
             
-            User::create([
+            $user = User::create([
                 'email' => $request -> email,
                 'password' => Hash::make($request -> password),
                 'username' => "",
@@ -42,6 +42,8 @@ class RegisterTutorController extends Controller
     
             auth() -> attempt($request->only('email','password'));
     
+            $user->sendEmailVerificationNotification();
+
             return redirect() -> route('detailsTutor');
 
 

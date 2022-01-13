@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
 use App\Models\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -25,11 +24,11 @@ class RegisterStudentController extends Controller
             'password_confirmation' => 'required',
         ]);
 
-        $users = Student::where('email', '=', $request->email)->first();
+        $user = Student::where('email', '=', $request->email)->first();
 
-        if ($users === null) {
+        if ($user === null) {
 
-            Student::create([
+            $user = Student::create([
                 'email' => $request -> email,
                 'password' => Hash::make($request -> password),
                 'username' => "",
@@ -39,15 +38,9 @@ class RegisterStudentController extends Controller
             ]);
 
             auth() ->guard('students') -> attempt($request->only('email','password'));
-            
-            //$user  = $this->create($request->all());
 
-            //auth()->guard('students')->login($user);
+            $user -> sendEmailVerificationNotification();
 
-            //auth()->guard('students') -> attempt($request->only('email','password'));
-
-            //auth()->login($user);
-             // -> attempt($request->only('email','password'));
 
             return redirect() -> route('detailsStudent');
 

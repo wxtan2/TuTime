@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use  Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
+use AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -40,6 +41,6 @@ class LoginController extends Controller
                 return back() -> with('status','Invalid login details, check your email and password (student)');
             }
         }
-
     }
 }
+        

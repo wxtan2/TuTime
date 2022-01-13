@@ -36,7 +36,7 @@ class StudentDetailsController extends Controller
                 'dob' => Carbon::parse($request -> DOB)
                 ]);
 
-        return redirect() -> route('dashboard');
+                return redirect() -> route('dashboard');
 
     }
 }

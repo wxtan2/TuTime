@@ -26,6 +26,8 @@ use App\Http\Controllers\StudentClassDetailsController;
 |
 */
 
+Auth::routes(['verify' => true]);
+
 Route::get('/register', [RegisterTutorController::class,'index'])->name("registerTutor");
 Route::post('/register', [RegisterTutorController::class,'storeTutor']);
 
@@ -46,20 +48,20 @@ Route::post('/register/details', [TutorDetailsController::class,'storeTutorDetai
 Route::get('/register/student/details', [StudentDetailsController::class,'index'])->name("detailsStudent");
 Route::post('/register/student/details', [StudentDetailsController::class,'storeStudentDetails']);
 
-Route::get('/settings', [SettingController::class,'index'])->name("settings");
+Route::get('/settings', [SettingController::class,'index'])->name("settings")->middleware('verified');
 Route::post('/settings', [SettingController::class,'editDetails']);
 
-Route::get('dashboard', [FullCalenderController::class, 'index'])->name("dashboard");
+Route::get('dashboard', [FullCalenderController::class, 'index'])->name("dashboard")->middleware('verified');
 Route::post('dashboard', [FullCalenderController::class, 'ajax']);
 
 
 Route::get('/classes', function () {
   return view('tutor.tutorClass');
-})->name("classes")->middleware('auth:web');;
+})->name("classes")->middleware('auth:web')->middleware('verified');
 
-Route::get('/class', [studentClassController::class, 'index'])->name("classStudent");
+Route::get('/class', [studentClassController::class, 'index'])->name("classStudent")->middleware('verified');
 
-Route::get('/enroll', [studentEnrollController::class, 'index'])->name("enrollStudent");
+Route::get('/enroll', [studentEnrollController::class, 'index'])->name("enrollStudent")->middleware('verified');
 Route::post('/enroll', [studentEnrollController::class, 'func']);
 
 
@@ -71,18 +73,22 @@ Route::post('/enroll', [studentEnrollController::class, 'func']);
 
 Route::get('/settings#Account', function () {
   return view('setting');
-})->name("settingsAcc");
+})->name("settingsAcc")->middleware('verified');
 
-Route::get('/classes/details',[classDetailsController::class, 'index'])->name("classDetails");
+Route::get('/classes/details',[classDetailsController::class, 'index'])->name("classDetails")->middleware('verified');
 Route::post('/classes/details',[classDetailsController::class, 'func']);
 
  Route::get('/student', function () {
    return view('tutor.tutorStudent');
-})->name("student")->middleware('auth:web');
+})->name("student")->middleware('verified')->middleware('auth:web');
 
-Route::get('/student/details',[StudentClassDetailsController::class, 'index'])->name("studentDetails");
+Route::get('/student/details',[StudentClassDetailsController::class, 'index'])->name("studentDetails")->middleware('verified');
 
 Route::get('/', function () {
   return redirect()->route('dashboard');
-})->middleware('auth:web,students');
+})->middleware('verified')->middleware('auth:web,students');
 
+
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
