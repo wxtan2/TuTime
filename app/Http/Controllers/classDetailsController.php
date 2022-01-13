@@ -11,14 +11,14 @@ class classDetailsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:web');
+        $this->middleware('auth:web,students');
     }
     
     
     public function index(Request $request)
     {   
         
-        $userCurrent = Auth::guard('web');
+        // $userCurrent = Auth::guard('web');
 
         $classes = DB::table('classes')
         ->leftJoin('users', 'classes.emailTutor', '=', 'users.email')
