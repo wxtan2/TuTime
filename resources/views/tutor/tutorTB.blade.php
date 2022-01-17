@@ -316,6 +316,17 @@
             position: absolute;
             right: 10px;
             top: 10px;
+
+
+        }
+
+        .noEventSide {
+            text-align: center;
+            position: absolute;
+            width: calc(100% - 20px);
+            /* display: contents; */
+            top: 50%;
+            transform: translateY(-50%);
         }
 
     </style>
@@ -372,11 +383,15 @@
 
                 drop: function(info) {
                     info.draggedEl.parentNode.removeChild(info.draggedEl);
+                    $('.noEventSide').show();
+
                     // alert(JSON.stringify(info, null, 4));
 
                 },
 
                 eventReceive: function(info) {
+                    $('.noEventSide').show();
+
                     // alert(JSON.stringify(info, null, 4));
                     var day = info.event.start.toString().substring(0, 3);
                     var dayOfWeek = getDayOfWeek.indexOf(day);
@@ -870,17 +885,17 @@
 
     <div
         style="width:calc(80% - 13.54vw); 
-                                                                                                                                                            height: 91vh; 
-                                                                                                                                                            margin-top:65px; 
-                                                                                                                                                            margin-left: calc(13.54vw + 15px); 
-                                                                                                                                                            display:flex;
-                                                                                                                                                            float:left;
-                                                                                                                                                            color:#666666!important; 
-                                                                                                                                                            box-sizing: border-box;
-                                                                                                                                                            padding:10px;
-                                                                                                                                                            background:#ffffff;
-                                                                                                                                                            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-                                                                                                                                                            border-radius:10px;">
+                                                                                                                                                                height: 91vh; 
+                                                                                                                                                                margin-top:65px; 
+                                                                                                                                                                margin-left: calc(13.54vw + 15px); 
+                                                                                                                                                                display:flex;
+                                                                                                                                                                float:left;
+                                                                                                                                                                color:#666666!important; 
+                                                                                                                                                                box-sizing: border-box;
+                                                                                                                                                                padding:10px;
+                                                                                                                                                                background:#ffffff;
+                                                                                                                                                                box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+                                                                                                                                                                border-radius:10px;">
         <div id='calendar' style="height:100%; width:100%"></div>
     </div>
     {{-- <div id="external-events"
@@ -949,7 +964,7 @@
 
     @endphp
 
-    <div id='external-events'>
+    <div id='external-events' style="position:relative">
         <div id='external-events-listing'>
             <h4 style="color:#000000">Events</h4>
 

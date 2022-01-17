@@ -37,7 +37,7 @@ class VerificationController extends Controller
     {
         $this->middleware('auth:web,students')->except('emailConfirmation');
 
-        // $this->middleware(['auth'])
+        $this->middleware(['auth']);
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
