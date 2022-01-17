@@ -101,6 +101,41 @@ class SettingController extends Controller
 
             return redirect() -> route('settings');
         }
+
+        if ($request->has('portfolioUpdate')) {
+            // dd($userCurrent -> user() -> password);
+
+
+            $validator = Validator::make($request->all(), [
+                'password' => 'required',
+                'newPassword' => 'required|confirmed|min:8',
+                'newPassword_confirmation' => 'required',
+            ]);
+    
+            if ($validator->fails()) {
+                return redirect() -> route('settingsAcc')
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+
+            if (Hash::check($request->password, $userCurrent->user()->password)) {
+                if($userCurrent == Auth::guard('web')){
+                    User::where('email', $userCurrent->user()->email)
+                        ->update(['password' => Hash::make($request -> newPassword)
+                        ]);
+                }
+                elseif($userCurrent == Auth::guard('students')){
+                    Student::where('email', $userCurrent->user()->email)
+                        ->update(['password' => Hash::make($request -> newPassword)
+                        ]);
+                }
+            }
+            else{
+                return redirect() -> route('settingsAcc') -> with('status','The password is incorrect');
+            }
+
+            return redirect() -> route('settings');
+        }
     }
 
 }

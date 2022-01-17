@@ -228,7 +228,8 @@ html {
         <div class="registerBox" >
             <div class="signCenter" style="text-align: center">
                 <img src="{{URL::asset('/image/emailverification.png')}}" style="width:25%" title="TuTime" alt="TuTime">
-                <div class="signInWord" style="margin-bottom: 20px;">Verify Your Email</div>
+                <div class="signInWord" style="margin-bottom: 0px;">Verify Your Email</div>
+                <div style="color:#FF0000;margin-bottom: 10px;text-decoration:underline">DO NOT CLOSE THIS WINDOWS WHEN VERIFY YOUR EMAIL</div>
                 <div class="formContainer">
                     <div class="card-body">
                         @if (session('resent'))

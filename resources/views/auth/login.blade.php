@@ -280,7 +280,9 @@ html {
                                     <td>
                                         <label class="container">
                                             <input type="radio" checked="checked" value="tutor" name="user"
-                                                {{ old('user') == 'tutor' ? 'checked' : '' }}>
+                                            @if (session('statusTutor'))
+                                            checked
+                                            @endif>
                                             <span class="checkmark">Tutor</span>
                                         </label>
                                     </td>
@@ -289,7 +291,9 @@ html {
                                     <td>
                                         <label class="container">
                                             <input type="radio" value="student" name="user"
-                                                {{ old('user') == 'student' ? 'checked' : '' }}>
+                                            @if (session('statusStudent'))
+                                            checked
+                                            @endif>
                                             <span class="checkmark">Student</span>
                                         </label>
                                     </td>
@@ -348,9 +352,15 @@ html {
                             </div>
                         @enderror
 
-                        @if (session('status'))
+                        @if (session('statusTutor'))
                             <div class="errorMessage" style="margin-top:15px">
-                                {{ session('status') }}
+                                {{ session('statusTutor') }}
+                            </div>
+                        @endif
+
+                        @if (session('statusStudent'))
+                            <div class="errorMessage" style="margin-top:15px">
+                                {{ session('statusStudent') }}
                             </div>
                         @endif
 

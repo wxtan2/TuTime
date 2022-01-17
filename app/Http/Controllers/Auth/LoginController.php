@@ -29,7 +29,7 @@ class LoginController extends Controller
                 return redirect() -> route('dashboard');
             }
             else{
-                return back() -> with('status','Invalid login details, check your email and password (tutor)');
+                return back() -> with('statusTutor','Invalid login details, check your email and password (tutor)');
             }
 
         }
@@ -38,7 +38,7 @@ class LoginController extends Controller
                 return redirect() -> route('dashboard');
             }
             else{
-                return back() -> with('status','Invalid login details, check your email and password (student)');
+                return back() -> with('statusStudent','Invalid login details, check your email and password (student)');
             }
         }
     }

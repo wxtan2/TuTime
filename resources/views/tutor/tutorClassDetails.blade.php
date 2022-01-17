@@ -90,6 +90,7 @@
 
         .contentClass {
             color: #808080;
+            display: none;
         }
 
         .contentClass input,
@@ -99,6 +100,7 @@
             width: 100%;
             box-sizing: border-box;
         }
+
 
         .saveNote {
             display: flex;
@@ -121,6 +123,30 @@
             color: #E87247;
             border: 1px solid #E87247;
             background: #e8724733;
+            border-radius: 5px;
+        }
+
+        .closeNote {
+            display: flex;
+            width: 150px;
+            box-sizing: border-box;
+            padding: 10px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 15px;
+            color: #ff0000;
+            border: 1px solid #ff0000;
+            background: transparent;
+            border-radius: 5px;
+        }
+
+        .closeNote:hover {
+            color: #ff0000;
+            border: 1px solid #ff0000;
+            background: #ff000030;
             border-radius: 5px;
         }
 
@@ -215,7 +241,7 @@
         .noteContent {
             line-height: 2;
             color: #808080;
-            white-space: pre-wrap;
+            /* white-space: pre-wrap; */
             margin: 20px 0;
             text-align: justify;
         }
@@ -227,6 +253,11 @@
             position: absolute;
             bottom: 20px;
             right: 20px;
+        }
+
+        .titleInput::placeholder {
+            color: red;
+            opacity: 1;
         }
 
     </style>
@@ -285,10 +316,32 @@
             <h2 style="font-size: 28px;font-weight:600;color:#808080">Content</h2>
 
             @if (Auth::guard('web')->check())
-                <a class="addContentButton" href="#">
+                <a class="addContentButton" href="#" onclick="CKEDITOR.replace('note');">
                     <div style="margin-right: 15px;"></div>Add Note<div style="margin-left: 15px;"></div>
                 </a>
             @endif
+            <div class='contentClass'>
+                <div>
+                    <form action='{{ route('classDetails') }}' method='post'>
+                        @csrf
+                        <label for='titleNote'>Title: </label>
+                        <input class="titleInput" name='title' type='text'><br><br><label for='titleNote'>Note: </label>
+                        <textarea style="display:none" name='note' id='note' rows='10' cols='80'></textarea>
+                        <input type='hidden' name='id' value='{{ $id }}'><input type='hidden' name='type'
+                            value='createNote'>
+                        {{-- <input name='_token' value='" +csrfVar +"' type='hidden'> --}}
+                        <div style="    display: flex;
+                                float: right;
+                                margin: 5px 0px 40px;
+                                width: 100%;
+                                justify-content: flex-end;"><button class='closeNote' type='reset'>Cancel</button><button
+                                class='saveNote' type='submit'>Save</button></div>
+                    </form>
+                </div>
+                {{-- <script>
+                    CKEDITOR.replace('note');
+                </script> --}}
+            </div>
 
             @if ($classesNote->count() <= 0)
                 <div class="notNoteFoundContainer" style="margin-top:25px;"><img
@@ -297,10 +350,10 @@
                         <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Notes Found</h2>
                     </div>
                     @if (Auth::guard('web')->check())
-                    <div style="color:#808080;">Add your class notes now!</div>
+                        <div style="color:#808080;">Add your class notes now!</div>
                     @endif
                     @if (Auth::guard('students')->check())
-                    <div style="color:#808080;">No notes added by your teacher yet</div>
+                        <div style="color:#808080;">No notes added by your teacher yet</div>
                     @endif
 
                 </div>
@@ -310,7 +363,7 @@
                         <div style="margin-top: 20px;">
                             <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">{{ $classesNote->title }}</h2>
                         </div>
-                        <div class="noteContent">{{ $classesNote->content }}</div>
+                        <div class="noteContent">@php echo $classesNote->content @endphp</div>
                         <hr>
                     @endforeach
                 </div>
@@ -331,7 +384,8 @@
             {{-- <div style="color:#000000">11234</div> --}}
         </div>
         <div class="studentListContainer">
-            <h2 style="font-size: 24px;font-weight:600;color:#808080;margin-bottom:10px;text-align: center;">Students</h2>
+            <h2 style="font-size: 24px;font-weight:600;color:#808080;margin-bottom:10px;text-align: center;">Students
+            </h2>
             @if ($classesStudent->count() <= 0)
                 <div class="notFoundContainer"><img src="{{ URL::asset('/image/nostudent.jpg') }}" draggable="false"
                         style="width:70%;">
@@ -354,7 +408,8 @@
                 </div>
             @endforeach
         </div>
-        <div class="countStudent">{{ $studentCount }} <span style="font-size: 24px;color:#808080">Student</span></div>
+        <div class="countStudent">{{ $studentCount }} <span style="font-size: 24px;color:#808080">Student</span>
+        </div>
         @endif
         <a class="expandButton"><i class="material-icons"></i><a>
     </div>
@@ -377,13 +432,37 @@
             })
 
             $(".addContentButton").click(function() {
-                var csrfVar = $('meta[name="csrf-token"]').attr('content');
-                $(this).after(
-                    "<div class='contentClass'><div><form action='{{ route('classDetails') }}' method='post'><label for='titleNote'>Title: </label><input name='title' type='text'><br><br><label for='titleNote'>Note: </label><textarea name='note' rows='4'></textarea><input type='hidden' name='id' value='{{ $id }}'><input type='hidden' name='type' value='createNote'><input name='_token' value='" +
-                    csrfVar +
-                    "' type='hidden'><button class='saveNote' type='submit'>Save</button></form></div></div>"
-                );
+
+                $(".contentClass").show();
             })
+
+            $(".closeNote").click(function() {
+                $('.titleInput').css('border', '1px solid #808080');
+                $('.titleInput').attr('placeholder', '');
+                $(".contentClass").hide();
+            })
+
+            $(".saveNote").click(function(event) {
+                $('.titleInput').css('border', '1px solid #808080');
+                $('.titleInput').attr('placeholder', '');
+                $("#cke_note").css('border', '1px solid #d1d1d1');
+
+                event.preventDefault();
+                if ($(this).parents('.contentClass').find('.titleInput').val() == '' ) {
+                    $('.titleInput').css('border', '1px solid #ff0000');
+                    $('.titleInput').attr('placeholder', 'Please Enter the title');
+                }
+
+                // else if (CKEDITOR.instances['#note'].getData() == "") {
+                //     $("#cke_note").css('border', '1px solid #ff0000');
+                // }
+                else{
+                    $(this).parents('form').submit();
+                }
+            })
+
+
+
 
         })
     </script>

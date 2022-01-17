@@ -414,6 +414,8 @@
 
                     if (isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
                         info.event.remove();
+                        $('.noEventSide').hide();
+
                         if (info.event.extendedProps.eventType == "event") {
                             var el = $('<div class="fc-event fc-h-event eventSide" style="background:' +
                                 info.event.backgroundColor +
@@ -826,6 +828,40 @@
             });
 
 
+            $("#addEventButtonTB").click(function(e) {
+                e.preventDefault();
+
+                $(this).parents('#add-events').find('#title').css('border', '1px solid #808080');
+                $(this).parents('#add-events').find('#description').css('border', '1px solid #808080');
+
+                if ($(this).parents('#add-events').find('#title').val() == '') {
+                    $(this).parents('#add-events').find('#title').css('border', '1px solid #ff0000');
+                } else if ($(this).parents('#add-events').find('#description').val() == '') {
+                    $(this).parents('#add-events').find('#description').css('border', '1px solid #ff0000');
+                } else {
+                    $(this).parents('form').submit();
+                }
+            })
+
+            $("#updateEventButtonTB").click(function(e) {
+                e.preventDefault();
+
+                $(this).parents('#update-events').find('#titleUpdate').css('border', '1px solid #808080');
+                $(this).parents('#update-events').find('#descriptionUpdate').css('border',
+                    '1px solid #808080');
+
+                if ($(this).parents('#update-events').find('#titleUpdate').val() == '') {
+                    $(this).parents('#update-events').find('#titleUpdate').css('border',
+                        '1px solid #ff0000');
+                } else if ($(this).parents('#update-events').find('#descriptionUpdate').val() == '') {
+                    $(this).parents('#update-events').find('#descriptionUpdate').css('border',
+                        '1px solid #ff0000');
+                } else {
+                    $(this).parents('form').submit();
+                }
+            })
+
+
         });
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -834,17 +870,17 @@
 
     <div
         style="width:calc(80% - 13.54vw); 
-                                                                                                                                height: 91vh; 
-                                                                                                                                margin-top:65px; 
-                                                                                                                                margin-left: calc(13.54vw + 15px); 
-                                                                                                                                display:flex;
-                                                                                                                                float:left;
-                                                                                                                                color:#666666!important; 
-                                                                                                                                box-sizing: border-box;
-                                                                                                                                padding:10px;
-                                                                                                                                background:#ffffff;
-                                                                                                                                box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
-                                                                                                                                border-radius:10px;">
+                                                                                                                                                            height: 91vh; 
+                                                                                                                                                            margin-top:65px; 
+                                                                                                                                                            margin-left: calc(13.54vw + 15px); 
+                                                                                                                                                            display:flex;
+                                                                                                                                                            float:left;
+                                                                                                                                                            color:#666666!important; 
+                                                                                                                                                            box-sizing: border-box;
+                                                                                                                                                            padding:10px;
+                                                                                                                                                            background:#ffffff;
+                                                                                                                                                            box-shadow: 0px 4px 35px rgba(154, 161, 171, 0.15);
+                                                                                                                                                            border-radius:10px;">
         <div id='calendar' style="height:100%; width:100%"></div>
     </div>
     {{-- <div id="external-events"
@@ -916,6 +952,30 @@
     <div id='external-events'>
         <div id='external-events-listing'>
             <h4 style="color:#000000">Events</h4>
+
+            @if (Auth::guard('web')->check())
+                @if ($eventsSide->count() <= 0 && $classSide->count() <= 0)
+                    <div class="noEventSide" style="text-align:center">
+                        <div><img src="{{ URL::asset('/image/drag.png') }}" draggable="false"
+                                style="width:35%;margin-top:5px;"></div>
+                        <div style="color:#F28F3B; font-size:24px;font-weight:600;margin:10px 0;">Drag Here</div>
+                        <div style="color: #808080">If you want don't want show in calander</div>
+                    </div>
+                @endif
+
+            @elseif(Auth::guard('students')->check())
+                @if ($eventsSide->count())
+                    <div class="noEventSide" style="text-align:center">
+                        <div><img src="{{ URL::asset('/image/drag.png') }}" draggable="false"
+                                style="width:35%;margin-top:5px;"></div>
+                        <div style="color:#F28F3B; font-size:24px;font-weight:600;margin:10px 0;">Drag Here</div>
+                        <div style="color: #808080">If you want don't want show in calander</div>
+                    </div>
+                @endif
+            @endif
+
+
+
             @foreach ($eventsSide as $eventside)
                 <div class='fc-event fc-h-event eventSide'
                     style="background: {!! $eventside->backgroundColor !!}!important;border:0px;"
@@ -984,7 +1044,7 @@
             <input type="hidden" id="dayOfWeek" name="dayOfWeek">
 
 
-            <button class="addButton" type="submit" name="addEvent" title="Save">Save</button>
+            <button id="addEventButtonTB" class="addButton" type="submit" name="addEvent" title="Save">Save</button>
 
         </form>
     </div>
@@ -1033,7 +1093,7 @@
 
 
 
-            <button class="addButton" type="submit" name="addEvent" title="Save">Save</button>
+            <button id="updateEventButtonTB" class="addButton" type="submit" name="addEvent" title="Save">Save</button>
 
         </form>
     </div>
