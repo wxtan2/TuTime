@@ -58,6 +58,8 @@
             border-right: 1px solid #cccccc;
             float: left;
             padding-top: 10px;
+            height: 100vh;
+
         }
 
         .mainContent {
@@ -191,6 +193,14 @@
             background: #ff6600;
         }
 
+        #portfolioContent h1,
+        #portfolioContent h2,
+        #portfolioContent h3,
+        #portfolioContent h4,
+        #portfolioContent h5 {
+            color: #F28F3B;
+        }
+
     </style>
 
 
@@ -242,7 +252,8 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                                <textarea placeholder="Self Description" rows="5"></textarea>
+                                <textarea placeholder="Self Description" rows="5" name="description"
+                                    style="resize: none">{{ $userCurrent->user()->description }}</textarea>
                             </td>
                         </tr>
                         <tr>
@@ -374,67 +385,78 @@
 
             @if (Auth::guard('web')->check())
                 <div class="program-content" id="portfolio">
-                    <table class="contentTable" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td colspan="2" style="text-align:left">
-                                <h2 style="margin-bottom:10px; font-weight:600">PORTFOLIO</h2>
-                            </td>
-                        </tr>
+                    <form action="{{ route('settings') }}" method="post">
+                        @csrf
+                        <table class="contentTable" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td colspan="2" style="text-align:left">
+                                    <h2 style="margin-bottom:10px; font-weight:600">Portfolio</h2>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>Teaching Mode</td>
-                            <td>
-                                <table cellpadding="0" cellspacing="0" border="0" style="margin:10px 0">
-                                    <tr>
 
-                                        <td>
-                                            <label class="container">Blended Learning
-                                                <input type="radio" checked="checked" value="bl" name="teachingmode">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="container">Online
-                                                <input type="radio" value="online" name="teachingmode">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="container" style="margin-left: 30px;">facetoface
-                                                <input type="radio" value="f2f" name="teachingmode">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Motto</td>
-                            <td><input type="text" name="motto" value="motto" style="margin-top: 10px;"></td>
-                        </tr>
-                        <tr>
-                            <td>Teaching Experience</td>
-                            <td><input type="text" name="teachingexperience" value="expericene"></td>
-                        </tr>
-                        <tr>
-                            <td>Education Background</td>
-                            <td><input type="text" name="educationbackground" value="Education Backgroud"></td>
-                        </tr>
-                        <tr>
-                            <td>Tutoring Subject</td>
-                            <td><input type="text" name="tutoringsubject" value="Tutoring Subject"></td>
-                        </tr>
-                        <tr>
-                            <td>Recommended by</td>
-                            <td><input type="text" name="recommendedby" value="recommended by"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td style="text-align:right"><button type="submit" name="Save" title="Save">Save</button>
-                            </td>
-                        </tr>
-                    </table>
+                            {{-- <tr>
+                                <td>Teaching Mode</td>
+                                <td>
+                                    <table cellpadding="0" cellspacing="0" border="0" style="margin:10px 0">
+                                        <tr>
+
+                                            <td>
+                                                <label class="container">Blended Learning
+                                                    <input type="radio" checked="checked" value="bl" name="teachingmode">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="container">Online
+                                                    <input type="radio" value="online" name="teachingmode">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="container" style="margin-left: 30px;">facetoface
+                                                    <input type="radio" value="f2f" name="teachingmode">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr> --}}
+
+                            <tr>
+                                <td colspan="2" style="text-align: left">
+                                    <div id="portfolioContent" style="line-height: 1.5; display:none">@php echo $userCurrent->user()->portfolio @endphp</div>
+                                    <textarea name='portfolioArea' id='portfolioArea' rows='500' cols='80'></textarea>
+                                </td>
+                            </tr>
+
+                            {{-- <tr>
+                                <td colspan="2" style="text-align: left">
+                                    <label for='experience'>Teaching Experience</label>
+                                    <textarea name='experience' id='experience' rows='5' cols='80'></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: left;padding-top: 20px;">
+                                    <label for='education'>Education</label>
+                                    <textarea name='education' id='education' rows='5' cols='80'></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: left;padding-top: 20px;padding-top: 20px;">
+                                    <label for='subject'>Tutoring Subject</label>
+                                    <textarea name='subject' id='subject' rows='5' cols='80'></textarea>
+                                </td>
+                            </tr> --}}
+
+                            <tr>
+                                <td></td>
+                                <td style="text-align:right"><button type="submit" name="portfolioUpdate"
+                                        title="Save">Save</button>
+                                </td>
+                            </tr>
+                        </table>
 
                 </div>
             @endif
@@ -465,6 +487,18 @@
                 $(".program-content").hide();
                 $("#" + obj).fadeIn(500);
             });
+
+            var contentText = $('#portfolioContent').html();
+            CKEDITOR.replace('portfolioArea');
+            CKEDITOR.instances['portfolioArea'].setData(contentText);
+
+            // CKEDITOR.replace('education');
+
+            // CKEDITOR.replace('subject');
+
+
+
+
         });
     </script>
 

@@ -90,6 +90,14 @@
                     <td>Age</td>
                     <td>{{ date('Y') - date('Y', strtotime($student->dob)) }}</td>
                 </tr>
+
+                @if($student->description !== null)
+                <tr>
+                    <td>Description</td>
+                    <td>{{ $student->description }}</td>
+                </tr>
+                @endif
+
                 <tr>
                     <td>Gender</td>
                     <td>{{ $student->gender }}</td>

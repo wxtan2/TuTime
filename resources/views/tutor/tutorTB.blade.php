@@ -974,12 +974,12 @@
                         <div><img src="{{ URL::asset('/image/drag.png') }}" draggable="false"
                                 style="width:35%;margin-top:5px;"></div>
                         <div style="color:#F28F3B; font-size:24px;font-weight:600;margin:10px 0;">Drag Here</div>
-                        <div style="color: #808080">If you want don't want show in calander</div>
+                        <div style="color: #808080">If you want don't to show in calander</div>
                     </div>
                 @endif
 
             @elseif(Auth::guard('students')->check())
-                @if ($eventsSide->count())
+                @if ($eventsSide->count() <= 0 )
                     <div class="noEventSide" style="text-align:center">
                         <div><img src="{{ URL::asset('/image/drag.png') }}" draggable="false"
                                 style="width:35%;margin-top:5px;"></div>

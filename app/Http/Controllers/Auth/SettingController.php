@@ -52,7 +52,8 @@ class SettingController extends Controller
                     ->update(['username' => $request -> username,
                     'gender' => $request -> gender,
                     'phone' => $request -> phone,
-                    'dob' => Carbon::parse($request -> dob)
+                    'dob' => Carbon::parse($request -> dob),
+                    'description' => $request -> description
                     ]);
             }
             elseif($userCurrent == Auth::guard('students')){
@@ -60,7 +61,8 @@ class SettingController extends Controller
                 ->update(['username' => $request -> username,
                 'gender' => $request -> gender,
                 'phone' => $request -> phone,
-                'dob' => Carbon::parse($request -> dob)
+                'dob' => Carbon::parse($request -> dob),
+                'description' => $request -> description
                 ]);
             }
             
@@ -105,34 +107,35 @@ class SettingController extends Controller
         if ($request->has('portfolioUpdate')) {
             // dd($userCurrent -> user() -> password);
 
-
-            $validator = Validator::make($request->all(), [
-                'password' => 'required',
-                'newPassword' => 'required|confirmed|min:8',
-                'newPassword_confirmation' => 'required',
-            ]);
+            User::where('email', $userCurrent->user()->email)
+                        ->update(['portfolio' => $request -> portfolioArea]);
+            // $validator = Validator::make($request->all(), [
+            //     'password' => 'required',
+            //     'newPassword' => 'required|confirmed|min:8',
+            //     'newPassword_confirmation' => 'required',
+            // ]);
     
-            if ($validator->fails()) {
-                return redirect() -> route('settingsAcc')
-                            ->withErrors($validator)
-                            ->withInput();
-            }
+            // if ($validator->fails()) {
+            //     return redirect() -> route('settingsAcc')
+            //                 ->withErrors($validator)
+            //                 ->withInput();
+            // }
 
-            if (Hash::check($request->password, $userCurrent->user()->password)) {
-                if($userCurrent == Auth::guard('web')){
-                    User::where('email', $userCurrent->user()->email)
-                        ->update(['password' => Hash::make($request -> newPassword)
-                        ]);
-                }
-                elseif($userCurrent == Auth::guard('students')){
-                    Student::where('email', $userCurrent->user()->email)
-                        ->update(['password' => Hash::make($request -> newPassword)
-                        ]);
-                }
-            }
-            else{
-                return redirect() -> route('settingsAcc') -> with('status','The password is incorrect');
-            }
+            // if (Hash::check($request->password, $userCurrent->user()->password)) {
+            //     if($userCurrent == Auth::guard('web')){
+            //         User::where('email', $userCurrent->user()->email)
+            //             ->update(['password' => Hash::make($request -> newPassword)
+            //             ]);
+            //     }
+            //     elseif($userCurrent == Auth::guard('students')){
+            //         Student::where('email', $userCurrent->user()->email)
+            //             ->update(['password' => Hash::make($request -> newPassword)
+            //             ]);
+            //     }
+            // }
+            // else{
+            //     return redirect() -> route('settingsAcc') -> with('status','The password is incorrect');
+            // }
 
             return redirect() -> route('settings');
         }

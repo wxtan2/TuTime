@@ -14,7 +14,8 @@
             margin-top: 45px;
             box-sizing: border-box;
             position: relative;
-            height: calc(100vh - 45px);
+            /* height: calc(100vh - 45px); */
+            padding-bottom: 40px;
         }
 
         #classes {
@@ -101,8 +102,17 @@
             box-sizing: border-box;
         }
 
+        .noteContentFull input,
+        textarea {
+            color: #808080;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-        .saveNote {
+
+        .saveNote,
+        .saveNoteEdit {
             display: flex;
             width: 150px;
             box-sizing: border-box;
@@ -119,14 +129,16 @@
             border-radius: 5px;
         }
 
-        .saveNote:hover {
+        .saveNote:hover,
+        .saveNoteEdit:hover {
             color: #E87247;
             border: 1px solid #E87247;
             background: #e8724733;
             border-radius: 5px;
         }
 
-        .closeNote {
+        .closeNote,
+        .closeNoteEdit {
             display: flex;
             width: 150px;
             box-sizing: border-box;
@@ -143,7 +155,8 @@
             border-radius: 5px;
         }
 
-        .closeNote:hover {
+        .closeNote:hover,
+        .closeNoteEdit:hover {
             color: #ff0000;
             border: 1px solid #ff0000;
             background: #ff000030;
@@ -242,7 +255,6 @@
             line-height: 2;
             color: #808080;
             /* white-space: pre-wrap; */
-            margin: 20px 0;
             text-align: justify;
         }
 
@@ -260,7 +272,98 @@
             opacity: 1;
         }
 
+
+        .noteContentFull {
+            padding: 20px;
+            position: relative;
+        }
+
+
+
+        .noteContentFull:hover .buttonContainer {
+            transition: 0.2s;
+            opacity: 1;
+        }
+
+        .editing:hover .buttonContainer {
+            transition: 0.2s;
+            opacity: 0;
+        }
+
+        .buttonContainer {
+            opacity: 0;
+            display: flex;
+            column-gap: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: 0.2s;
+        }
+
+        .buttonContainer2 {
+            display: flex;
+            float: right;
+            margin: 5px 0px 40px;
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+
+
+
+
+        .deleteNo {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ff0000;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            z-index: 1;
+            background: url('{{ URL::asset('/image/bin.svg') }}') no-repeat;
+            background-size: 20px 20px;
+            background-position: center;
+        }
+
+        .editNo {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #808080;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            z-index: 1;
+            background: url('{{ URL::asset('/image/edit.svg') }}') no-repeat;
+            background-size: 20px 20px;
+            background-position: center;
+        }
+
+        .deleteNo:hover {
+            background-color: #ff00003b;
+            transition: 0.3s;
+        }
+
+        .editNo:hover {
+            background-color: #e0e0e0;
+            transition: 0.3s;
+        }
+
+        .editing {
+            margin-bottom: 78px;
+            background: #f9f9f9;
+        }
+
     </style>
+    @if (Auth::guard('web')->check())
+        <style>
+            .noteContentFull:hover {
+                background: #f9f9f9;
+            }
+
+        </style>
+    @endif
 
     @php
     if (Auth::guard('students')->check()) {
@@ -320,7 +423,7 @@
                     <div style="margin-right: 15px;"></div>Add Note<div style="margin-left: 15px;"></div>
                 </a>
             @endif
-            <div class='contentClass'>
+            <div class='contentClass' style="margin-bottom: 75px;">
                 <div>
                     <form action='{{ route('classDetails') }}' method='post'>
                         @csrf
@@ -330,12 +433,15 @@
                         <input type='hidden' name='id' value='{{ $id }}'><input type='hidden' name='type'
                             value='createNote'>
                         {{-- <input name='_token' value='" +csrfVar +"' type='hidden'> --}}
-                        <div style="    display: flex;
-                                float: right;
-                                margin: 5px 0px 40px;
-                                width: 100%;
-                                justify-content: flex-end;"><button class='closeNote' type='reset'>Cancel</button><button
-                                class='saveNote' type='submit'>Save</button></div>
+                        <div
+                            style="    display: flex;
+                                                                                                                float: right;
+                                                                                                                margin: 5px 0px 40px;
+                                                                                                                width: 100%;
+                                                                                                                justify-content: flex-end;">
+                            <button class='closeNote' type='reset'>Cancel</button>
+                            <button class='saveNote' type='submit'>Save</button>
+                        </div>
                     </form>
                 </div>
                 {{-- <script>
@@ -344,8 +450,8 @@
             </div>
 
             @if ($classesNote->count() <= 0)
-                <div class="notNoteFoundContainer" style="margin-top:25px;"><img
-                        src="{{ URL::asset('/image/not found.png') }}" draggable="false" style="width:40%;">
+                <div class="notNoteFoundContainer" style="margin-top:25px;">
+                    <img src="{{ URL::asset('/image/not found.png') }}" draggable="false" style="width:40%;">
                     <div style="margin-bottom:15px;">
                         <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">No Notes Found</h2>
                     </div>
@@ -360,10 +466,46 @@
             @else
                 <div>
                     @foreach ($classesNote as $classesNote)
-                        <div style="margin-top: 20px;">
-                            <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">{{ $classesNote->title }}</h2>
+                        <div class="noteContentFull">
+                            @if (Auth::guard('web')->check())
+
+                                <form class="editNoteForm" action="{{ route('classDetails') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="type" value="editNote">
+                                    <input type="hidden" name="noteIdEdit" value="{{ $classesNote->id }}">
+                            @endif
+                            <div class="titleNote">
+                                <h2 style="font-size:28px;color:#F28F3B;font-weight:600;">{{ $classesNote->title }}
+                                </h2>
+                            </div>
+                            <div class="noteContent">@php echo $classesNote->content @endphp</div>
+                            
+                            @if (Auth::guard('web')->check())
+
+                                <div>
+                                    <textarea id="note{{ $classesNote->id }}" style="display:none;"
+                                        class="noteEditClass" name='noteEdit' rows='10' cols='80'></textarea>
+                                </div>
+                                </form>
+                            @endif
+
+                            @if (Auth::guard('web')->check())
+                                <div class='buttonContainer'>
+                                    <div>
+                                        <form class="deleteNoteForm" action="{{ route('classDetails') }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="type" value="deleteNote">
+                                            <input type="hidden" name="noteIdDelete" value="{{ $classesNote->id }}">
+                                            <button class="deleteNo" type="submit"></button>
+                                        </form>
+                                    </div>
+                                    <div>
+                                        <button class="editNo" type="submit"></button>
+                                    </div>
+
+                                </div>
+                            @endif
                         </div>
-                        <div class="noteContent">@php echo $classesNote->content @endphp</div>
                         <hr>
                     @endforeach
                 </div>
@@ -448,7 +590,7 @@
                 $("#cke_note").css('border', '1px solid #d1d1d1');
 
                 event.preventDefault();
-                if ($(this).parents('.contentClass').find('.titleInput').val() == '' ) {
+                if ($(this).parents('.contentClass').find('.titleInput').val() == '') {
                     $('.titleInput').css('border', '1px solid #ff0000');
                     $('.titleInput').attr('placeholder', 'Please Enter the title');
                 }
@@ -456,10 +598,120 @@
                 // else if (CKEDITOR.instances['#note'].getData() == "") {
                 //     $("#cke_note").css('border', '1px solid #ff0000');
                 // }
-                else{
+                else {
                     $(this).parents('form').submit();
                 }
             })
+
+
+            $(".deleteNo").click(function(event) {
+                event.preventDefault();
+                var form = $(this).parents(".deleteNoteForm");
+                swal({
+                        title: "Delete this note?",
+                        icon: "warning",
+                        buttons: true,
+                    })
+                    .then(function(willDelete) {
+                        if (willDelete) {
+                            $(form).submit();
+                        }
+                    });
+            })
+
+
+            $(".editNo").click(function(event) {
+                // var form = $(this).parents(".editNoteForm");
+                var self = this;
+
+                swal({
+                        title: "Edit this note?",
+                        icon: "info",
+                        buttons: true,
+                    })
+                    .then(function(willDelete) {
+                        if (willDelete) {
+                            var noteEdit = $(self).parents('.noteContentFull').find('.noteEditClass')
+                                .attr('id');
+
+                            var titleText = $.trim($(self).parents('.noteContentFull').find('h2')
+                                .html());
+                            var contentText = $(self).parents('.noteContentFull').find('.noteContent')
+                                .html();
+
+                            $(self).parents('.noteContentFull').find('.noteContent').hide();
+                            $(self).parents('.noteContentFull').find('.titleNote').hide();
+
+                            CKEDITOR.replace(noteEdit);
+                            CKEDITOR.instances[noteEdit].setData(contentText);
+
+                            $(self).parents('.noteContentFull').addClass('editing');
+                            $(self).parents('.noteContentFull').find('.editNoteForm').append(
+                                '<div class="buttonContainer2"><button class = "closeNoteEdit" type ="reset"> Cancel </button> <button class ="saveNoteEdit" type = "submit"> Save </button> </div>'
+                            );
+                            $(self).parents('.noteContentFull').find('.editNoteForm').prepend(
+                                '<div class="titleEdit"><label for="titleNote" style="color:#808080">Title: </label><input class="titleInput" name="title" type="text" value="' +
+                                titleText +
+                                '"><br><br><label for="titleNote" style="color:#808080">Note: </label></div>'
+                            );
+                        }
+                    });
+            })
+
+
+            $(".noteContentFull").on("click", ".closeNoteEdit", function() {
+                var self = this;
+                swal({
+                        title: "Cancel editing this note?",
+                        icon: "warning",
+                        buttons: true,
+                    })
+                    .then(function(willDelete) {
+                        if (willDelete) {
+                            var noteEdit = $(self).parents('.noteContentFull').find('.noteEditClass')
+                                .attr('id');
+
+                            $(self).parents('.noteContentFull').find('.noteContent').show();
+                            $(self).parents('.noteContentFull').find('.titleNote').show();
+                            $(self).parents('.noteContentFull').removeClass('editing');
+
+                            $(".buttonContainer2").remove();
+                            $(".titleEdit").remove();
+
+                            CKEDITOR.instances[noteEdit].destroy();
+
+                            $('#' + noteEdit + '').hide();
+
+                            console.log(contentText);
+                        }
+                    });
+            });
+
+            // $(".closeNoteEdit").on("click", function (){
+            //     console.log('123');
+            //     var self = this;
+            //     swal({
+            //             title: "Cancel editing this note?",
+            //             icon: "warning",
+            //             buttons: true,
+            //         })
+            //         .then(function(willDelete) {
+            //             if (willDelete) {
+            //                 var noteEdit = $(self).parents('.noteContentFull').find('.noteEditClass').attr('id');
+
+            //                 $(self).parents('.noteContentFull').find('.noteContent').show();
+            //                 $(self).parents('.noteContentFull').find('.titleNote').show();
+
+            //                 CKEDITOR.replace(noteEdit);
+
+            //                 ('noteEdit').ckeditorInstance.destroy();
+
+            //                 $(self).parents('.noteContentFull').removeClass('editing');
+
+            //                 console.log(contentText);
+            //             }
+            //         });
+            // })
 
 
 

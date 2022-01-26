@@ -46,11 +46,30 @@ class classDetailsController extends Controller
 
             return redirect()->back();
         }
-        // $request->session()->put('id', $request -> id);
-        // $id = $request->session()->get('id');
         
-        // dd($id);
+        else if($request -> type == "deleteNote"){
 
-        // return view('tutor.tutorClassDetails');
+            DB::table('notes')
+            ->where('id', '=', $request -> noteIdDelete)
+            ->delete();
+            
+            return redirect()->back();
+        }
+
+
+        else if($request -> type == "editNote"){
+
+            DB::table('notes')
+            ->where('id', '=', $request -> noteIdEdit)
+            ->update(['title' => $request -> title,
+                'content' => $request -> noteEdit
+                ]);
+            
+            return redirect()->back();
+        }
+
+
+        
+
     }
 }
