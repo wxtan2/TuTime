@@ -368,7 +368,7 @@
                             </div>
                         @endif
                         {{-- <div style="margin-top:10px"><a style="color:#F28F3B" href="#">Forgot Password?</a></div> --}}
-                        <button type="submit" class="submitButton" title="Submit" alt="Submit" style="margin-top:40px;">LOGIN</button>
+                        <button type="submit" class="submitButton" title="Submit" alt="Submit" style="margin-top:40px;">SIGN IN</button>
                     </form>
                     {{-- <div class="userContent" id="content-2">
                         <div class="textContainer">
